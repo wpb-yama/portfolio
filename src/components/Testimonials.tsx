@@ -179,7 +179,7 @@ function MarqueeRow({
           ? -posRef.current * totalWidth
           : -(1 - posRef.current) * totalWidth;
 
-      if (el) el.style.transform = `translateX(${tx}px)`;;
+      if (el) el.style.transform = `translateX(${translateX}px)`;
 
       rafRef.current = requestAnimationFrame(tick);
     }
