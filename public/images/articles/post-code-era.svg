@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="340" height="360" viewBox="0 0 340 360">
+  <rect width="340" height="360" fill="#111111"/>
+
+  <!-- Subtle grid -->
+  <defs>
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#ffffff" stroke-width="0.15" stroke-opacity="0.08"/>
+    </pattern>
+  </defs>
+  <rect width="340" height="360" fill="url(#grid)"/>
+
+  <!-- Terminal window -->
+  <rect x="30" y="40" width="280" height="200" rx="10" fill="#1a1a1a" stroke="#333" stroke-width="1"/>
+
+  <!-- Traffic lights -->
+  <circle cx="52" cy="58" r="5" fill="#FF5F57"/>
+  <circle cx="68" cy="58" r="5" fill="#FFBD2E"/>
+  <circle cx="84" cy="58" r="5" fill="#28C840"/>
+
+  <!-- Window title -->
+  <text x="170" y="62" font-family="monospace" font-size="10" fill="#555" text-anchor="middle">claude — product-team.ts</text>
+
+  <!-- Divider -->
+  <line x1="30" y1="72" x2="310" y2="72" stroke="#333" stroke-width="1"/>
+
+  <!-- Code lines -->
+  <!-- Line 1 -->
+  <text x="48" y="95" font-family="monospace" font-size="10.5" fill="#555">1</text>
+  <text x="68" y="95" font-family="monospace" font-size="10.5" fill="#C678DD">const</text>
+  <text x="103" y="95" font-family="monospace" font-size="10.5" fill="#E06C75"> team</text>
+  <text x="130" y="95" font-family="monospace" font-size="10.5" fill="#ABB2BF"> = {</text>
+
+  <!-- Line 2 -->
+  <text x="48" y="113" font-family="monospace" font-size="10.5" fill="#555">2</text>
+  <text x="68" y="113" font-family="monospace" font-size="10.5" fill="#E5C07B">  visionary</text>
+  <text x="140" y="113" font-family="monospace" font-size="10.5" fill="#ABB2BF">:</text>
+  <text x="148" y="113" font-family="monospace" font-size="10.5" fill="#98C379"> "PM"</text>
+  <text x="182" y="113" font-family="monospace" font-size="10.5" fill="#ABB2BF">,</text>
+
+  <!-- Line 3 -->
+  <text x="48" y="131" font-family="monospace" font-size="10.5" fill="#555">3</text>
+  <text x="68" y="131" font-family="monospace" font-size="10.5" fill="#E5C07B">  designer</text>
+  <text x="134" y="131" font-family="monospace" font-size="10.5" fill="#ABB2BF">:</text>
+  <text x="142" y="131" font-family="monospace" font-size="10.5" fill="#98C379"> "taste"</text>
+  <text x="192" y="131" font-family="monospace" font-size="10.5" fill="#ABB2BF">,</text>
+
+  <!-- Line 4 -->
+  <text x="48" y="149" font-family="monospace" font-size="10.5" fill="#555">4</text>
+  <text x="68" y="149" font-family="monospace" font-size="10.5" fill="#E5C07B">  architect</text>
+  <text x="140" y="149" font-family="monospace" font-size="10.5" fill="#ABB2BF">:</text>
+  <text x="148" y="149" font-family="monospace" font-size="10.5" fill="#98C379"> "system"</text>
+  <text x="205" y="149" font-family="monospace" font-size="10.5" fill="#ABB2BF">,</text>
+
+  <!-- Line 5 -->
+  <text x="48" y="167" font-family="monospace" font-size="10.5" fill="#555">5</text>
+  <text x="68" y="167" font-family="monospace" font-size="10.5" fill="#E5C07B">  ai</text>
+  <text x="86" y="167" font-family="monospace" font-size="10.5" fill="#ABB2BF">:</text>
+  <text x="94" y="167" font-family="monospace" font-size="10.5" fill="#61AFEF"> claude</text>
+  <text x="136" y="167" font-family="monospace" font-size="10.5" fill="#555">, // ∞ output</text>
+
+  <!-- Line 6 -->
+  <text x="48" y="185" font-family="monospace" font-size="10.5" fill="#555">6</text>
+  <text x="68" y="185" font-family="monospace" font-size="10.5" fill="#ABB2BF">}</text>
+
+  <!-- Line 7 — blank -->
+  <text x="48" y="203" font-family="monospace" font-size="10.5" fill="#555">7</text>
+
+  <!-- Cursor blink -->
+  <rect x="68" y="192" width="7" height="13" rx="1" fill="#61AFEF" opacity="0.8"/>
+
+  <!-- Bottom label -->
+  <text x="170" y="282" font-family="system-ui, sans-serif" font-size="11" fill="#444" text-anchor="middle" letter-spacing="0.08em" text-transform="uppercase">THE POST-CODE ERA</text>
+  <text x="170" y="300" font-family="system-ui, sans-serif" font-size="10" fill="#333" text-anchor="middle">Strategy is the new bottleneck</text>
+
+  <!-- Decorative line -->
+  <line x1="120" y1="314" x2="220" y2="314" stroke="#333" stroke-width="1"/>
+
+  <!-- AI chip icon area -->
+  <rect x="152" y="326" width="36" height="16" rx="3" fill="#1e1e1e" stroke="#444" stroke-width="1"/>
+  <text x="170" y="338" font-family="monospace" font-size="9" fill="#61AFEF" text-anchor="middle">AI ✦</text>
+</svg>

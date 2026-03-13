@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Will Booth — Hero</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #F7F7F7;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ─── Card ─────────────────────────────────────────────── */
+    .hero-card {
+      position: relative;
+      width: 760px;
+      height: 420px;
+      background: #F7F7F7;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 64px;
+      overflow: visible;
+    }
+
+    /* ─── Headline row ──────────────────────────────────────── */
+    .headline-row {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 2px;
+      line-height: 1;
+    }
+
+    .headline-name {
+      font-size: 52px;
+      font-weight: 700;
+      letter-spacing: -1px;
+      color: #1c1c1c;
+      position: relative;
+      overflow: hidden;
+      display: inline-block;
+    }
+
+    /* Shimmer pseudo-element */
+    .headline-name::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -120%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(
+        105deg,
+        transparent 20%,
+        rgba(255,255,255,0.72) 50%,
+        transparent 80%
+      );
+      transform: skewX(-15deg);
+      pointer-events: none;
+      opacity: 0;
+    }
+
+    .headline-name.shimmer::after {
+      animation: shimmerSweep 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+
+    @keyframes shimmerSweep {
+      0%   { left: -120%; opacity: 1; }
+      100% { left: 160%;  opacity: 1; }
+    }
+
+    /* ─── Sticker ───────────────────────────────────────────── */
+    .sticker {
+      width: 72px;
+      height: 72px;
+      object-fit: contain;
+      flex-shrink: 0;
+      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      cursor: default;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .sticker:hover {
+      transform: rotate(15deg);
+    }
+
+    /* ─── Sublines ──────────────────────────────────────────── */
+    .subline {
+      font-size: 49px;
+      font-weight: 400;
+      letter-spacing: -0.5px;
+      color: #1c1c1c;
+      line-height: 1.15;
+    }
+
+    /* ─── Ghost slot ────────────────────────────────────────── */
+    .ghost-slot {
+      display: inline-block;
+      vertical-align: middle;
+      border: 1.5px dashed rgba(59, 91, 219, 0.35);
+      border-radius: 8px;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .ghost-slot.near {
+      border-color: rgba(59, 91, 219, 0.82);
+      box-shadow: 0 0 16px rgba(59, 91, 219, 0.22);
+    }
+
+    .ghost-slot.filled {
+      border-color: transparent;
+      box-shadow: none;
+    }
+
+    /* ─── Drag piece ────────────────────────────────────────── */
+    .drag-piece {
+      position: absolute;
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 49px;
+      font-weight: 400;
+      letter-spacing: -0.5px;
+      color: #1c1c1c;
+      white-space: nowrap;
+      border: 1.5px solid #3b5bdb;
+      border-radius: 8px;
+      background: rgba(59, 91, 219, 0.05);
+      cursor: grab;
+      user-select: none;
+      touch-action: none;
+      z-index: 10;
+    }
+
+    .drag-piece:active { cursor: grabbing; }
+
+    /* Corner handle dots */
+    .drag-piece .c-dot {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: #fff;
+      border: 1.5px solid #3b5bdb;
+      border-radius: 2px;
+    }
+    .drag-piece .c-dot.tl { top: -5px; left: -5px; }
+    .drag-piece .c-dot.tr { top: -5px; right: -5px; }
+    .drag-piece .c-dot.bl { bottom: -5px; left: -5px; }
+    .drag-piece .c-dot.br { bottom: -5px; right: -5px; }
+
+    /* ─── Drag hint ─────────────────────────────────────────── */
+    .drag-hint {
+      position: absolute;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #3b5bdb;
+      pointer-events: none;
+      animation: hintBob 1.4s ease-in-out infinite;
+      white-space: nowrap;
+      z-index: 11;
+    }
+
+    @keyframes hintBob {
+      0%, 100% { transform: translateY(0px);  opacity: 1;   }
+      50%       { transform: translateY(-6px); opacity: 0.5; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="hero-card" id="heroCard">
+
+  <!-- Line 1: Name + sticker -->
+  <div class="headline-row">
+    <span class="headline-name" id="headlineName">Will Booth</span>
+    <img class="sticker" src="sticker-will.png" alt="" draggable="false" />
+  </div>
+
+  <!-- Line 2 -->
+  <div class="subline">Leading with AI.</div>
+
+  <!-- Line 3: ghost slot -->
+  <div class="subline">
+    <span class="ghost-slot" id="ghostSlot">&nbsp;</span>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  const card      = document.getElementById('heroCard');
+  const ghost     = document.getElementById('ghostSlot');
+  const headline  = document.getElementById('headlineName');
+
+  /* ── Build draggable piece ─────────────────────────────── */
+  const piece = document.createElement('div');
+  piece.className = 'drag-piece';
+  piece.innerHTML =
+    'Building products people love.' +
+    '<span class="c-dot tl"></span>' +
+    '<span class="c-dot tr"></span>' +
+    '<span class="c-dot bl"></span>' +
+    '<span class="c-dot br"></span>';
+  card.appendChild(piece);
+
+  /* ── Build drag hint ───────────────────────────────────── */
+  const hint = document.createElement('div');
+  hint.className = 'drag-hint';
+  hint.textContent = '⟵ drag me';
+  card.appendChild(hint);
+
+  /* ── Size ghost slot to match piece text ───────────────── */
+  function syncGhostSize() {
+    // Measure piece ignoring position
+    const pw = piece.offsetWidth;
+    const ph = piece.offsetHeight;
+    ghost.style.width  = pw + 'px';
+    ghost.style.height = ph + 'px';
+  }
+
+  /* ── Get snap coords (card-relative) ──────────────────── */
+  function snapCoords() {
+    const cRect = card.getBoundingClientRect();
+    const gRect = ghost.getBoundingClientRect();
+    return {
+      x: gRect.left - cRect.left,
+      y: gRect.top  - cRect.top,
+    };
+  }
+
+  /* ── Initial placement ─────────────────────────────────── */
+  function placeInitial() {
+    syncGhostSize();
+    const sc = snapCoords();
+    piece.style.left = (sc.x + 120) + 'px';
+    piece.style.top  = (sc.y + 85)  + 'px';
+    // Hint below-left of piece
+    hint.style.left = (sc.x + 120 - 4) + 'px';
+    hint.style.top  = (sc.y + 85 + piece.offsetHeight + 10) + 'px';
+  }
+
+  requestAnimationFrame(placeInitial);
+
+  /* ── Spring animation ──────────────────────────────────── */
+  let rafId  = null;
+  let vx = 0, vy = 0;
+  const K = 0.20;   // stiffness
+  const D = 0.74;   // damping
+
+  function springTo(targetX, targetY, onDone) {
+    if (rafId) cancelAnimationFrame(rafId);
+    vx = 0; vy = 0;
+    let cx = parseFloat(piece.style.left);
+    let cy = parseFloat(piece.style.top);
+
+    function tick() {
+      const dx = targetX - cx;
+      const dy = targetY - cy;
+      vx = (vx + dx * K) * D;
+      vy = (vy + dy * K) * D;
+      cx += vx;
+      cy += vy;
+      piece.style.left = cx + 'px';
+      piece.style.top  = cy + 'px';
+
+      if (Math.abs(dx) < 0.4 && Math.abs(dy) < 0.4 &&
+          Math.abs(vx) < 0.08 && Math.abs(vy) < 0.08) {
+        piece.style.left = targetX + 'px';
+        piece.style.top  = targetY + 'px';
+        if (onDone) onDone();
+        return;
+      }
+      rafId = requestAnimationFrame(tick);
+    }
+    rafId = requestAnimationFrame(tick);
+  }
+
+  /* ── On snap complete ──────────────────────────────────── */
+  function onSnapped() {
+    // Hide ghost border
+    ghost.classList.add('filled');
+    // Hide hint
+    hint.style.display = 'none';
+    // Strip drag styling from piece
+    piece.style.border     = 'none';
+    piece.style.background = 'none';
+    piece.style.cursor     = 'default';
+    piece.style.padding    = '2px 0';
+    piece.querySelectorAll('.c-dot').forEach(el => el.remove());
+    // Shimmer headline
+    headline.classList.add('shimmer');
+    headline.addEventListener('animationend', () => {
+      headline.classList.remove('shimmer');
+    }, { once: true });
+  }
+
+  /* ── Drag state ────────────────────────────────────────── */
+  let dragging = false;
+  let ox = 0, oy = 0;
+  let snapped = false;
+
+  function distToSnap(px, py) {
+    const sc = snapCoords();
+    return Math.hypot(px - sc.x, py - sc.y);
+  }
+
+  /* ── Pointer events ────────────────────────────────────── */
+  piece.addEventListener('pointerdown', (e) => {
+    if (snapped) return;
+    if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+    dragging = true;
+    const cRect = card.getBoundingClientRect();
+    ox = e.clientX - cRect.left - parseFloat(piece.style.left);
+    oy = e.clientY - cRect.top  - parseFloat(piece.style.top);
+    piece.setPointerCapture(e.pointerId);
+    piece.style.cursor = 'grabbing';
+    e.preventDefault();
+  });
+
+  piece.addEventListener('pointermove', (e) => {
+    if (!dragging) return;
+    const cRect = card.getBoundingClientRect();
+    const nx = e.clientX - cRect.left - ox;
+    const ny = e.clientY - cRect.top  - oy;
+    piece.style.left = nx + 'px';
+    piece.style.top  = ny + 'px';
+
+    if (distToSnap(nx, ny) < 80) {
+      ghost.classList.add('near');
+    } else {
+      ghost.classList.remove('near');
+    }
+  });
+
+  piece.addEventListener('pointerup', (e) => {
+    if (!dragging) return;
+    dragging = false;
+    piece.style.cursor = 'grab';
+    ghost.classList.remove('near');
+
+    const px = parseFloat(piece.style.left);
+    const py = parseFloat(piece.style.top);
+
+    if (distToSnap(px, py) < 80) {
+      const sc = snapCoords();
+      snapped = true;
+      springTo(sc.x, sc.y, onSnapped);
+    }
+  });
+
+})();
+</script>
+
+</body>
+</html>

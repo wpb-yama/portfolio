@@ -1,0 +1,56 @@
+{
+  "cricket-odds-ai": [
+    "A bottom-up TensorFlow model trained on 1M+ individual deliveries predicts ball outcomes rather than match winners.",
+    "The neural network outputs probabilities for 9 outcomes per ball (0–6, Wide, Wicket) using match state and player history as inputs.",
+    "A Monte Carlo MatchSimulator replays games thousands of times to produce a statistical distribution of likely outcomes.",
+    "The model outperformed professional bookmaker odds on 1,126 historical matches — bookmakers were less predictive than a zero-information baseline."
+  ],
+  "art-of-the-kill": [
+    "Volume of shipped features is a vanity metric — the best PMs are defined by what they have the courage to kill.",
+    "Every feature must fight to exist; complexity is the silent killer of great UX.",
+    "\"It's on the roadmap\" and \"Leadership asked for it\" are echoes, not reasons — a roadmap is a hypothesis, not a mandate.",
+    "If you can't describe the human moment of relief or efficiency a feature creates, it doesn't have a soul."
+  ],
+  "gacha-trap": [
+    "Whales — just 1–2% of players — generate 50–70% of Gacha game revenue, making psychological manipulation highly profitable.",
+    "Gacha mechanics mirror gambling so closely that Belgium, the Netherlands, and Japan have banned certain implementations.",
+    "Sunk cost fallacy, artificial difficulty walls, and FOMO-driven social proof are the core psychological levers developers pull.",
+    "The Pity System offers protection but doubles as an incentive to keep spending just a little more to reach the guaranteed reward."
+  ],
+  "stop-being-helpful": [
+    "The most valuable employees aren't the most obedient — they're the ones who convince their managers to do things differently.",
+    "\"Yes-Boss\" employees are reliable but fragile; the team's success depends entirely on the manager never being wrong.",
+    "The top tier — \"Jedis\" — pushes back on bad plans, proposes smarter alternatives, and takes initiative beyond their brief.",
+    "Hierarchy is recursively flawed: domain expertise doesn't respect org-chart levels, and ego-driven deference costs companies dearly."
+  ],
+  "acquire-churn-repeat": [
+    "Treating customer acquisition as your only growth lever is a structural flaw, not just a strategic preference.",
+    "Rising CAC means many brands lose money on the first transaction — without a second sale, every win is a deficit.",
+    "LTV, Repeat Purchase Rate, and LTV:CAC ratio are the metrics that matter; new customer count is a vanity metric.",
+    "Neglecting existing customers kills your referral engine and forces you back into the expensive ad market."
+  ],
+  "post-code-era": [
+    "AI handles syntax; humans still own strategy, architecture, and judgment.",
+    "The old 1 PM + 1 Designer + 5–8 Engineers squad ratio no longer makes sense.",
+    "The new gold standard is a three-person team: Visionary PM, High-Taste Designer, Technical Architect.",
+    "Strategy and the ability to say 'No' are now the scarcest resources — not engineering capacity."
+  ],
+  "pickem": [
+    "Led a 6-month end-to-end redesign of a B2B sportsbook platform used by 12 operators across Europe and LATAM.",
+    "Discovery included 12 operator interviews, uncovering 3 critical usability gaps in the existing product.",
+    "Delivered across 3 phased releases in 2-week sprints, collaborating with an engineering team of 8.",
+    "Reduced operator onboarding time by 40% and improved NPS from 31 to 58 post-launch."
+  ],
+  "reveals": [
+    "Conceived and delivered a free-to-play daily engagement product for sportsbooks built on Gacha mechanics and an AI personalisation loop — in under six months.",
+    "The insight came from outside iGaming: mobile gaming had cracked habit formation, and those mechanics had never been applied to sports betting.",
+    "A Gemini Pro agent dynamically selects which players each user sees, balancing engagement likelihood against operator-defined KPIs and financial guardrails.",
+    "First customer going live. Targets: 20–30% DAU uplift and 15–25% reduction in first-session churn within 90 days."
+  ],
+  "predict-6": [
+    "A free-to-play weekly score predictor — the first white-label equivalent of Sky Super 6 and BetVictor's 6 Goals.",
+    "Built to acquire the hesitant majority: users interested in sport but not yet ready to deposit real money.",
+    "The upsell funnel is placed after submission, not before — converting free players into real-money accumulators without breaking the zero-friction promise.",
+    "A £250,000 jackpot underwritten by an insurance broker makes the product revenue-neutral as an acquisition tool."
+  ]
+}
