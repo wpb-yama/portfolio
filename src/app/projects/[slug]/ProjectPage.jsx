@@ -335,13 +335,13 @@ export default function ProjectPage() {
                   </div>
                 )}
                 {section.videos?.length > 0 && (
-                  <div style={{ display: 'flex', justifyContent: 'center', gap: 24, marginTop: 16 }}>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 24, marginTop: 16 }}>
                     {section.videos.map((src, vi) => (
                       <video
                         key={vi}
                         src={src}
                         autoPlay loop muted playsInline
-                        style={{ width: 250, flexShrink: 0, borderRadius: 10, display: 'block' }}
+                        style={{ flex: '1 1 140px', maxWidth: 250, minWidth: 0, borderRadius: 10, display: 'block' }}
                       />
                     ))}
                   </div>
@@ -369,14 +369,14 @@ export default function ProjectPage() {
                   </div>
                 )}
                 {section.images?.length > 0 && (
-                  <div style={{ display: 'flex', gap: 12, marginTop: 16, justifyContent: 'center' }}>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginTop: 16, justifyContent: 'center' }}>
                     {section.images.map((src, ii) => (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
                         key={ii}
                         src={src}
                         alt=""
-                        style={{ width: 128, flexShrink: 0, borderRadius: 10, display: 'block', objectFit: 'cover' }}
+                        style={{ flex: '1 1 80px', maxWidth: 128, minWidth: 0, borderRadius: 10, display: 'block', objectFit: 'cover' }}
                       />
                     ))}
                   </div>

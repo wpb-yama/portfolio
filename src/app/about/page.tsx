@@ -60,8 +60,8 @@ export default function AboutPage() {
           <div style={{ flexShrink: 0 }}>
             <div
               onClick={() => setShowSticker(s => !s)}
+              className="w-28 h-28 md:w-[200px] md:h-[200px]"
               style={{
-                width: 200, height: 200,
                 borderRadius: "50%",
                 overflow: "hidden",
                 border: "3px solid #1a1a1a",
@@ -98,8 +98,8 @@ export default function AboutPage() {
             <h2 className="text-2xl font-bold text-[#1C1C1C] tracking-tight">About Me</h2>
           </div>
 
-          {/* Two-column: bio text + fun facts card */}
-          <div className="flex gap-10 items-start mt-6">
+          {/* Bio + fun facts: stacked on mobile, side-by-side on desktop */}
+          <div className="flex flex-col md:flex-row gap-10 items-start mt-6">
             {/* Left: bio */}
             <div className="flex-1 min-w-0">
               <p className="text-[15px] text-[#555] leading-[1.8] mb-5">
@@ -117,7 +117,7 @@ export default function AboutPage() {
             </div>
 
             {/* Right: fun facts card */}
-            <div style={{ maxWidth: 380, flexShrink: 0, background: "white", border: "0.5px solid #EBEBEB", borderRadius: 16, padding: "1.5rem" }}>
+            <div className="w-full md:w-auto md:flex-shrink-0" style={{ maxWidth: 380, background: "white", border: "0.5px solid #EBEBEB", borderRadius: 16, padding: "1.5rem" }}>
               <p style={{ fontSize: 11, fontWeight: 500, letterSpacing: "0.1em", textTransform: "uppercase", color: "#888", marginBottom: "1.25rem", marginTop: 0 }}>
                 Fun facts
               </p>

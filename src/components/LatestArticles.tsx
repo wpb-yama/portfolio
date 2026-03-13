@@ -119,20 +119,15 @@ export default function LatestArticles() {
           </Link>
         </div>
 
-        {/* Grid */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-            gap: 12,
-          }}
-        >
+        {/* Grid / Carousel */}
+        <div className="flex overflow-x-auto snap-x snap-mandatory gap-3 pb-2 md:grid md:grid-cols-3 md:overflow-x-visible md:pb-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
           {recent.map((article) => {
             const s = categoryStyles[article.category] ?? fallback;
             return (
               <Link
                 key={article.slug}
                 href={`/articles/${article.slug}`}
+                className="flex-shrink-0 w-[80vw] md:w-auto snap-start"
                 style={{ textDecoration: "none" }}
               >
                 <div

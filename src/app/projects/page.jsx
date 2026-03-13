@@ -20,13 +20,12 @@ function ProjectCard({ project }) {
 
   return (
     <div
-      className="group bg-white rounded-[20px] border border-[#EBEBEB] overflow-hidden cursor-pointer transition-all duration-200 hover:-translate-y-[3px] hover:shadow-xl flex flex-col"
-      style={{ aspectRatio: '1 / 1' }}
+      className="group bg-white rounded-[20px] border border-[#EBEBEB] overflow-hidden cursor-pointer transition-all duration-200 hover:-translate-y-[3px] hover:shadow-xl flex flex-col md:aspect-square"
       onClick={() => router.push(`/projects/${project.slug}`)}
     >
       {/* Visual block — full-width, fills top */}
       <div
-        className="flex-1 relative overflow-hidden"
+        className="h-48 md:h-auto md:flex-1 relative overflow-hidden"
         style={{ background: project.gradient }}
       >
         {project.cardImage && (
@@ -70,7 +69,7 @@ export default function ProjectsPage() {
               <p className="text-[11px] tracking-widest text-[#AAA] uppercase mb-2">
                 Selected Work
               </p>
-              <h1 className={`text-5xl text-[#1C1C1C]`}>
+              <h1 className="text-3xl md:text-5xl text-[#1C1C1C]">
                 Projects
               </h1>
             </div>
@@ -79,15 +78,8 @@ export default function ProjectsPage() {
           <div className="h-[2px] bg-[#1C1C1C] w-full mb-8" />
         </div>
 
-        {/* 3-column grid */}
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: 14,
-            paddingBottom: 80,
-          }}
-        >
+        {/* Grid — 1 col on mobile, 3 on desktop */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-[14px] pb-20">
 
           {projects.map((project) => (
             <ProjectCard key={project.slug} project={project} />

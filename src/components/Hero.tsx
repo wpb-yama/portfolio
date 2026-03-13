@@ -1,8 +1,17 @@
 "use client";
-import { useEffect, useRef } from "react";
-import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 
 export default function Hero() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    setIsMobile(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
   const cardRef     = useRef<HTMLDivElement>(null);
   const ghostRef    = useRef<HTMLSpanElement>(null);
   const pieceRef    = useRef<HTMLDivElement>(null);
@@ -10,6 +19,7 @@ export default function Hero() {
   const headlineRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
+    if (isMobile) return;
     const card    = cardRef.current;
     const ghost   = ghostRef.current;
     const piece   = pieceRef.current;
@@ -144,6 +154,44 @@ export default function Hero() {
       piece.removeEventListener("pointerup", onPointerUp);
     };
   }, []);
+
+  const sharedStyles = `
+        .hero-sticker {
+          transition: transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        .hero-sticker:hover { transform: rotate(15deg); }
+      `;
+
+  if (isMobile) {
+    return (
+      <>
+        <style>{sharedStyles}</style>
+        <section className="flex items-center py-10 px-6">
+          <div className="w-full">
+            <div className="flex items-center gap-3 leading-none mb-1">
+              <span style={{ fontSize: 36, fontWeight: 700, letterSpacing: -1, color: "#1c1c1c" }}>
+                Will Booth
+              </span>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/sticker-will.png"
+                alt=""
+                draggable={false}
+                className="hero-sticker"
+                style={{ width: 72, height: 72, objectFit: "contain", flexShrink: 0 }}
+              />
+            </div>
+            <div style={{ fontSize: 26, fontWeight: 400, letterSpacing: -0.5, color: "#1c1c1c", lineHeight: 1.25 }}>
+              Leading with AI.
+            </div>
+            <div style={{ fontSize: 26, fontWeight: 400, letterSpacing: -0.5, color: "#1c1c1c", lineHeight: 1.25 }}>
+              Building products people love.
+            </div>
+          </div>
+        </section>
+      </>
+    );
+  }
 
   return (
     <>

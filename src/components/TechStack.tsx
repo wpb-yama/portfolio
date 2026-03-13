@@ -89,23 +89,40 @@ function Pill({ label, icon, color }: { label: string; icon: string; color: stri
 export default function TechStack() {
   return (
     <section className="py-16 bg-white">
+      <style>{`
+        @keyframes marquee-left {
+          0%   { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        @keyframes marquee-right {
+          0%   { transform: translateX(-50%); }
+          100% { transform: translateX(0); }
+        }
+        .track-left  { animation: marquee-left  35s linear infinite; }
+        .track-right { animation: marquee-right 40s linear infinite; }
+      `}</style>
+
       <div className="max-w-5xl mx-auto px-6">
         <div className="flex items-center gap-2 mb-8">
           <Wrench size={20} strokeWidth={1.8} className="text-[#1C1C1C]" />
           <h2 className="text-2xl font-bold text-[#1C1C1C] tracking-tight">Tech Stack</h2>
         </div>
+      </div>
 
-        {/* Row 1 */}
-        <div style={{ display: "flex", flexWrap: "nowrap", justifyContent: "center", gap: 10, marginBottom: 10 }}>
-          {row1.map((p) => (
-            <Pill key={p.label} {...p} />
+      {/* Row 1 — right to left */}
+      <div style={{ overflow: "hidden", marginBottom: 10 }}>
+        <div className="track-left" style={{ display: "flex", gap: 10, width: "max-content" }}>
+          {[...row1, ...row1].map((p, i) => (
+            <Pill key={i} {...p} />
           ))}
         </div>
+      </div>
 
-        {/* Row 2 */}
-        <div style={{ display: "flex", flexWrap: "nowrap", justifyContent: "center", gap: 10 }}>
-          {row2.map((p) => (
-            <Pill key={p.label} {...p} />
+      {/* Row 2 — left to right */}
+      <div style={{ overflow: "hidden" }}>
+        <div className="track-right" style={{ display: "flex", gap: 10, width: "max-content" }}>
+          {[...row2, ...row2].map((p, i) => (
+            <Pill key={i} {...p} />
           ))}
         </div>
       </div>

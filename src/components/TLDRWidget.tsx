@@ -95,7 +95,8 @@ export default function TLDRWidget({ bullets }: { bullets: string[] }) {
               className="flex-shrink-0 bg-[#1C1C1C] text-white text-[11px] rounded-full px-3 py-1.5
                          hover:bg-neutral-700 transition-colors duration-150 whitespace-nowrap"
             >
-              ✦ Generate TL;DR
+              <span className="hidden sm:inline">✦ Generate TL;DR</span>
+              <span className="sm:hidden">✦</span>
             </button>
           )}
         </div>

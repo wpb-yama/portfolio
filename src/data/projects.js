@@ -316,8 +316,8 @@ const projects = [
       },
     ],
 
-    role: 'Product Manager & Technical Lead',
-    roleDescription: 'Led product and technical delivery of the SIGAP compliance integration, bridging data engineers, compliance specialists, and the SPA regulatory requirements.',
+    role: 'Product Manager',
+    roleDescription: 'Led product and technical delivery of the SIGAP compliance integration.',
 
     durationMonths: 4,
     durationDescription: 'Sprint-to-compliance delivery against a non-negotiable government deadline.',
