@@ -54,7 +54,7 @@ function PhotoRow({ items, direction }: { items: Item[]; direction: Direction })
           ? -posRef.current * totalWidth
           : -(1 - posRef.current) * totalWidth;
 
-      el.style.transform = `translateX(${tx}px)`;
+      if (el) el.style.transform = `translateX(${tx}px)`;;
       rafRef.current = requestAnimationFrame(tick);
     }
 
