@@ -3,13 +3,20 @@
 import { useState, useEffect } from "react";
 import { User } from "lucide-react";
 import SpotifyWidget from "@/components/SpotifyWidget";
-import TechStack from "@/components/TechStack";
 import AboutCarousel from "@/components/AboutCarousel";
 
 const phrases = [
   "Hey, I'm Will.",
   "Bonjour, je suis Will.",
   "やあ、ウィルです。",
+];
+
+const funFacts = [
+  { label: "Miles hitchhiked",  value: "3,000", bg: "#EEEDFE", color: "#3C3489" },
+  { label: "Escape rooms",       value: "35+",   bg: "#E1F5EE", color: "#085041" },
+  { label: "Board games won",   value: "∞",     bg: "#FAECE7", color: "#712B13" },
+  { label: "Countries visited", value: "40",    bg: "#E6F1FB", color: "#0C447C" },
+  { label: "Music (2024)",       value: "60d+",  bg: "#FAEEDA", color: "#633806" },
 ];
 
 export default function AboutPage() {
@@ -36,7 +43,6 @@ export default function AboutPage() {
         <div className="max-w-5xl mx-auto px-6 flex flex-row items-center justify-between">
           {/* Left: text */}
           <div className="flex flex-col justify-center">
-            {/* Line 1: cycling phrase */}
             <div
               style={{
                 fontSize: 38, fontWeight: 400, letterSpacing: -0.5,
@@ -57,7 +63,7 @@ export default function AboutPage() {
           </div>
 
           {/* Right: circular profile photo */}
-          <div style={{ flexShrink: 0 }}>
+          <div style={{ flexShrink: 0, marginRight: "7rem", marginTop: "3rem" }}>
             <div
               onClick={() => setShowSticker(s => !s)}
               className="w-28 h-28 md:w-[200px] md:h-[200px]"
@@ -98,52 +104,19 @@ export default function AboutPage() {
             <h2 className="text-2xl font-bold text-[#1C1C1C] tracking-tight">About Me</h2>
           </div>
 
-          {/* Bio + fun facts: stacked on mobile, side-by-side on desktop */}
-          <div className="flex flex-col md:flex-row gap-10 items-start mt-6">
-            {/* Left: bio */}
-            <div className="flex-1 min-w-0">
-              <p className="text-[15px] text-[#555] leading-[1.8] mb-5">
-                Product Manager specialising in iGaming, with a background in financial services — advising Ultra High Net Worth Individuals at banks and law firms before moving into tech.
-              </p>
-              <p className="text-[15px] text-[#555] leading-[1.8] mb-5">
-                For the past 8+ years I&apos;ve led product lifecycles across Sportsbooks, Casinos and platforms, from early-stage startups to products used by millions.
-              </p>
-              <p className="text-[15px] text-[#555] leading-[1.8] mb-5">
-                I specialise in using AI to personalise user journeys, building agentic systems that keep teams efficient, and shipping API-driven products built to scale. My work is focused on driving acquisition, boosting engagement and growing GGR.
-              </p>
-              <p className="text-[15px] text-[#555] leading-[1.8]">
-                Outside of work you&apos;ll find me at a board game table, on the golf course, out hiking, or studying Japanese.
-              </p>
-            </div>
-
-            {/* Right: fun facts card */}
-            <div className="w-full md:w-auto md:flex-shrink-0" style={{ maxWidth: 380, background: "white", border: "0.5px solid #EBEBEB", borderRadius: 16, padding: "1.5rem" }}>
-              <p style={{ fontSize: 11, fontWeight: 500, letterSpacing: "0.1em", textTransform: "uppercase", color: "#888", marginBottom: "1.25rem", marginTop: 0 }}>
-                Fun facts
-              </p>
-              {[
-                { label: "Miles hitchhiked",     value: "3,000", bg: "#EEEDFE", color: "#3C3489" },
-                { label: "Escape rooms",          value: "35+",   bg: "#E1F5EE", color: "#085041" },
-                { label: "Board games won",      value: "∞",     bg: "#FAECE7", color: "#712B13" },
-                { label: "Countries visited",    value: "40",    bg: "#E6F1FB", color: "#0C447C" },
-                { label: "Music (2024)",          value: "60d+",  bg: "#FAEEDA", color: "#633806" },
-              ].map((row, i, arr) => (
-                <div
-                  key={row.label}
-                  style={{
-                    display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16,
-                    padding: "0.75rem 0",
-                    borderTop: "0.5px solid #EBEBEB",
-                    borderBottom: i === arr.length - 1 ? "0.5px solid #EBEBEB" : undefined,
-                  }}
-                >
-                  <span style={{ fontSize: 14, color: "#555" }}>{row.label}</span>
-                  <span style={{ fontSize: 15, fontWeight: 500, padding: "3px 12px", borderRadius: 6, background: row.bg, color: row.color }}>
-                    {row.value}
-                  </span>
-                </div>
-              ))}
-            </div>
+          <div className="mt-6">
+            <p className="text-[15px] text-[#555] leading-[1.8] mb-5">
+              Product Manager specialising in iGaming, with a background in financial services — advising Ultra High Net Worth Individuals at banks and law firms before moving into tech.
+            </p>
+            <p className="text-[15px] text-[#555] leading-[1.8] mb-5">
+              For the past 8+ years I&apos;ve led product lifecycles across Sportsbooks, Casinos and platforms, from early-stage startups to products used by millions.
+            </p>
+            <p className="text-[15px] text-[#555] leading-[1.8] mb-5">
+              I specialise in using AI to personalise user journeys, building agentic systems that keep teams efficient, and shipping API-driven products built to scale. My work is focused on driving acquisition, boosting engagement and growing GGR.
+            </p>
+            <p className="text-[15px] text-[#555] leading-[1.8]">
+              Outside of work you&apos;ll find me at a board game table, on the golf course, out hiking, or studying Japanese.
+            </p>
           </div>
         </div>
       </section>
@@ -153,14 +126,38 @@ export default function AboutPage() {
         <AboutCarousel row={1} />
       </div>
 
-      {/* ── Tech stack ─────────────────────────────────────────────────────── */}
-      <TechStack />
+      {/* ── Fun Facts (horizontal widget) ──────────────────────────────────── */}
+      <div className="max-w-5xl mx-auto px-6 py-10">
+        <p style={{ fontSize: 11, fontWeight: 500, letterSpacing: "0.1em", textTransform: "uppercase", color: "#888", marginBottom: "1.25rem" }}>
+          Fun facts
+        </p>
+        <div style={{ display: "flex", gap: 0, flexWrap: "wrap", border: "0.5px solid #EBEBEB", borderRadius: 16, overflow: "hidden" }}>
+          {funFacts.map((fact, i) => (
+            <div
+              key={fact.label}
+              style={{
+                flex: "1 1 0",
+                minWidth: 120,
+                padding: "1.25rem 1.5rem",
+                display: "flex",
+                flexDirection: "column",
+                gap: 6,
+                borderLeft: i > 0 ? "0.5px solid #EBEBEB" : undefined,
+              }}
+            >
+              <span style={{ fontSize: 26, fontWeight: 600, color: fact.color }}>
+                {fact.value}
+              </span>
+              <span style={{ fontSize: 13, color: "#888" }}>{fact.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
 
       {/* ── About carousel row 2 ───────────────────────────────────────────── */}
       <div className="py-16">
         <AboutCarousel row={2} />
       </div>
-
 
       {/* ── Spotify widget ─────────────────────────────────────────────────── */}
       <div className="max-w-5xl mx-auto px-6 pb-8">

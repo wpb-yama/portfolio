@@ -18,10 +18,10 @@ import {
 
 const navLinks = [
   { href: "/", label: "Homepage", icon: Home },
-  { href: "/about", label: "About", icon: User },
   { href: "/projects", label: "Projects", icon: FolderOpen },
-  { href: "/articles", label: "Articles", icon: FileText },
   { href: "/lab", label: "Lab", icon: FlaskConical },
+  { href: "/articles", label: "Articles", icon: FileText },
+  { href: "/about", label: "About", icon: User },
 ];
 
 function NavLink({
