@@ -181,7 +181,7 @@ export default function Navbar() {
       {/* ── Mobile drawer ── */}
       <div
         ref={drawerRef}
-        className={`lg:hidden fixed top-0 left-0 h-screen w-64 bg-[#FFFFFF] z-50 transform transition-transform duration-300 ease-in-out ${
+        className={`lg:hidden fixed top-0 left-0 h-dvh w-64 bg-[#FFFFFF] z-50 transform transition-transform duration-300 ease-in-out overflow-y-auto ${
           mobileOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >

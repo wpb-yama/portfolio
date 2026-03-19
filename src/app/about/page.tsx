@@ -40,9 +40,9 @@ export default function AboutPage() {
 
       {/* ── Hero ────────────────────────────────────────────────────────────── */}
       <section className="py-10">
-        <div className="max-w-5xl mx-auto px-6 flex flex-row items-center justify-between">
+        <div className="max-w-5xl mx-auto px-6 flex flex-col-reverse md:flex-row items-center md:justify-between gap-6 md:gap-0">
           {/* Left: text */}
-          <div className="flex flex-col justify-center">
+          <div className="flex flex-col justify-center w-full md:w-auto">
             <div
               style={{
                 fontSize: 38, fontWeight: 400, letterSpacing: -0.5,
@@ -63,10 +63,10 @@ export default function AboutPage() {
           </div>
 
           {/* Right: circular profile photo */}
-          <div style={{ flexShrink: 0, marginRight: "7rem", marginTop: "3rem" }}>
+          <div className="flex justify-center md:block md:mr-28" style={{ flexShrink: 0, marginTop: "3rem" }}>
             <div
               onClick={() => setShowSticker(s => !s)}
-              className="w-28 h-28 md:w-[200px] md:h-[200px]"
+              className="w-[168px] h-[168px] md:w-[200px] md:h-[200px]"
               style={{
                 borderRadius: "50%",
                 overflow: "hidden",
