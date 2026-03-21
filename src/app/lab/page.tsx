@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const labItems = [
   {
@@ -16,49 +16,71 @@ const labItems = [
 
 type LabItem = (typeof labItems)[number];
 
+const DiagonalArrow = ({ className = "" }) => (
+  <svg
+    width="12" height="12" viewBox="0 0 24 24"
+    fill="none" stroke="currentColor" strokeWidth="2"
+    className={className}
+  >
+    <polyline points="7,17 17,7" />
+    <polyline points="7,7 17,7 17,17" />
+  </svg>
+);
+
 function LabCard({ item }: { item: LabItem }) {
+  const router = useRouter();
+
   return (
-    <Link
-      href={`/lab/${item.slug}`}
-      className="group block bg-white border border-[#EBEBEB] rounded-2xl p-6 hover:-translate-y-[2px] hover:shadow-md transition-all duration-200"
+    <div
+      className="group bg-white rounded-[20px] border border-[#EBEBEB] overflow-hidden cursor-pointer transition-all duration-200 hover:-translate-y-[3px] hover:shadow-xl flex flex-col md:aspect-square"
+      onClick={() => router.push(`/lab/${item.slug}`)}
     >
-      <p className="text-[10px] font-semibold uppercase tracking-widest text-[#AAA] mb-2">
-        {item.tag}
-      </p>
-      <h2 className="text-[1.1rem] leading-snug text-[#1C1C1C] mb-2">
-        {item.title}
-      </h2>
-      <p className="text-[13px] text-[#888] leading-relaxed mb-4">
-        {item.description}
-      </p>
-      <div className="flex items-center justify-end">
-        <span className="text-[12px] font-medium text-[#1C1C1C] opacity-0 translate-x-[-4px] group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200">
-          View →
-        </span>
+      {/* Visual block */}
+      <div className="h-48 md:h-auto md:flex-1 relative overflow-hidden">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={item.image} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
       </div>
-    </Link>
+
+      {/* Text content */}
+      <div className="p-6 flex-shrink-0">
+        <p className="text-[10px] font-semibold tracking-[0.1em] uppercase mb-1.5 text-[#AAA]">
+          {item.tag}
+        </p>
+        <h2 className="text-[1.15rem] leading-[1.25] mb-1.5 text-[#1C1C1C]">
+          {item.title}
+        </h2>
+        <div className="flex items-center justify-between mt-3">
+          <span className="text-[11px] text-[#AAA]">Concept</span>
+          <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-[#F5F5F5] border border-[#EBEBEB] transition-all duration-200 group-hover:bg-[#1C1C1C] group-hover:border-[#1C1C1C] group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+            <DiagonalArrow className="text-[#999] group-hover:text-white" />
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
 export default function LabPage() {
   return (
     <div className="min-h-screen bg-white">
-      <div className="max-w-3xl mx-auto px-6 py-16">
+      <div className="max-w-5xl mx-auto px-6">
 
         {/* Header */}
-        <div className="flex items-end justify-between mb-3">
-          <div>
-            <p className="text-[11px] tracking-widest text-[#AAA] uppercase mb-2">
-              Experiments &amp; Concepts
-            </p>
-            <h1 className="text-3xl md:text-5xl text-[#1C1C1C]">Lab</h1>
+        <div style={{ paddingTop: 64 }}>
+          <div className="flex items-end justify-between mb-3">
+            <div>
+              <p className="text-[11px] tracking-widest text-[#AAA] uppercase mb-2">
+                Experiments &amp; Concepts
+              </p>
+              <h1 className="text-3xl md:text-5xl text-[#1C1C1C]">Lab</h1>
+            </div>
+            <p className="text-[12px] text-[#888] pb-1">{labItems.length} experiment</p>
           </div>
-          <p className="text-[12px] text-[#888] pb-1">{labItems.length} experiment</p>
+          <div className="h-[2px] bg-[#1C1C1C] w-full mb-8" />
         </div>
-        <div className="h-[2px] bg-[#1C1C1C] w-full mb-8" />
 
-        {/* Lab list */}
-        <div className="flex flex-col gap-4">
+        {/* Lab grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-[14px] pb-20">
           {labItems.map((item) => (
             <LabCard key={item.slug} item={item} />
           ))}

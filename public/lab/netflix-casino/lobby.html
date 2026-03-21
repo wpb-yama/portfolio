@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Netflix Casino</title>
+  <style>
+    /* ── Belloa Dark Tokens ───────────────────────────────────────────── */
+    :root {
+      --surface-page:    #111113;
+      --surface-layer1:  #18191b;
+      --surface-layer2:  #272a2d;
+      --surface-accent:  #2d0000;
+      --surface-overlay: rgba(0,0,0,0.66);
+      --content-primary:   #edeef0;
+      --content-secondary: #b0b4ba;
+      --content-subtle:    #777b84;
+      --accent:          #e50914;
+      --accent-hover:    #f40612;
+      --accent-deep:     #8b0000;
+      --border-default:  #363a3f;
+      --border-subtle:   rgba(255,255,255,0.07);
+      --red:             #ec5d5e;
+      --green:           #33b074;
+      --yellow:          #ffff57;
+      --nav-height: 64px;
+    }
+
+    /* ── Reset ────────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--surface-page);
+      color: var(--content-primary);
+      font-family: "Segoe UI", Arial, sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+    button { cursor: pointer; border: none; background: none; font-family: inherit; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ── Nav ──────────────────────────────────────────────────────────── */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--nav-height);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      z-index: 100;
+      transition: background 0.3s ease, backdrop-filter 0.3s ease;
+    }
+    .nav.scrolled {
+      background: rgba(17,17,19,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .nav-gradient {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 120px;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.7), transparent);
+      pointer-events: none;
+      z-index: 99;
+    }
+    .nav-logo {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: var(--accent);
+    }
+    .nav-logo span { color: var(--content-primary); }
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--content-secondary);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--content-primary); }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .nav-search {
+      background: none;
+      border: none;
+      color: var(--content-secondary);
+      cursor: pointer;
+      padding: 4px;
+      transition: color 0.2s;
+    }
+    .nav-search:hover { color: var(--content-primary); }
+    .nav-avatar {
+      width: 32px; height: 32px;
+      border-radius: 6px;
+      background: linear-gradient(135deg, var(--accent-deep), var(--accent-hover));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* ── Hero ─────────────────────────────────────────────────────────── */
+    .hero {
+      position: relative;
+      height: 75vh;
+      min-height: 500px;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      will-change: transform;
+      overflow: hidden;
+    }
+    /* Ken Burns layer -- separate from parallax so transforms don't conflict */
+    .hero-bg-visual {
+      position: absolute;
+      inset: 0;
+      background: #0d1520;
+      transform-origin: center center;
+      overflow: hidden;
+    }
+    /* Full-bleed background image */
+    .hero-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      z-index: 0;
+    }
+    /* Per-game colour tint overlay on top of the photo */
+    .hero-tint {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+    @keyframes kb1 { 0%{transform:scale(1) translate(0,0)}    100%{transform:scale(1.02) translate(-0.4%,-0.3%)} }
+    @keyframes kb2 { 0%{transform:scale(1) translate(0,0)}    100%{transform:scale(1.02) translate(0.4%,-0.2%)}  }
+    @keyframes kb3 { 0%{transform:scale(1) translate(0,0)}    100%{transform:scale(1.02) translate(-0.3%,0.3%)}  }
+    @keyframes kb4 { 0%{transform:scale(1) translate(0,0)}    100%{transform:scale(1.02) translate(0.3%,0.2%)}   }
+    .hero-bg-visual.kb1 { animation: kb1 7s ease-out forwards; }
+    .hero-bg-visual.kb2 { animation: kb2 7s ease-out forwards; }
+    .hero-bg-visual.kb3 { animation: kb3 7s ease-out forwards; }
+    .hero-bg-visual.kb4 { animation: kb4 7s ease-out forwards; }
+    @keyframes spinWheel { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    /* Hero game visual -- inside hero-bg-visual so it scales with Ken Burns */
+    .hero-grid { display: none; }
+    .hero-tile {
+      width: 56px; height: 56px;
+      border-radius: 10px;
+      background: var(--surface-layer2);
+      border: 1.5px solid var(--border-default);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      transition: all 0.3s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    }
+    .hero-tile.gem {
+      background: linear-gradient(135deg, #2d0000, #8b0000);
+      border-color: var(--accent);
+      box-shadow: 0 0 18px rgba(229,9,20,0.35), 0 2px 8px rgba(0,0,0,0.4);
+    }
+    .hero-tile.mine {
+      background: linear-gradient(135deg, #3b1219, #500f1c);
+      border-color: var(--red);
+      box-shadow: 0 0 14px rgba(236,93,94,0.3), 0 2px 8px rgba(0,0,0,0.4);
+    }
+
+    /* Fade overlays */
+    .hero-fade-bottom {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 75%;
+      background: linear-gradient(to top, var(--surface-page) 0%, rgba(17,17,19,0.6) 50%, transparent 100%);
+      z-index: 10;
+    }
+    .hero-fade-left {
+      position: absolute;
+      top: 0; bottom: 0; left: 0;
+      width: 55%;
+      background: linear-gradient(to right, rgba(17,17,19,0.5) 0%, transparent 100%);
+      z-index: 10;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 20;
+      padding: 0 64px 72px 88px;
+      max-width: 640px;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 4px;
+      margin-bottom: 14px;
+    }
+    .hero-title {
+      font-size: clamp(42px, 7vw, 72px);
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -1.5px;
+      margin-bottom: 16px;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+    }
+    .hero-title span { color: inherit; }
+    .hero-desc {
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--content-secondary);
+      margin-bottom: 28px;
+      max-width: 420px;
+      text-shadow: 0 1px 8px rgba(0,0,0,0.6);
+    }
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: 20px;
+      margin-bottom: 12px;
+    }
+    .hero-multiplier {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--green);
+    }
+    .hero-difficulty {
+      font-size: 12px;
+      color: var(--content-subtle);
+      border: 1px solid var(--border-default);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+    .hero-buttons {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .btn-play {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--content-primary);
+      color: #111113;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 12px 28px;
+      border-radius: 6px;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-play:hover { background: rgba(237,238,240,0.85); transform: scale(1.02); }
+    .btn-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.14);
+      color: var(--content-primary);
+      font-size: 15px;
+      font-weight: 600;
+      padding: 12px 28px;
+      border-radius: 6px;
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,0.12);
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-info:hover { background: rgba(255,255,255,0.22); transform: scale(1.02); }
+
+    /* ── Hero progress timer (story-style) ──────────────────────────── */
+    .hero-progress {
+      position: absolute;
+      top: 20px;
+      left: 88px; right: 64px;
+      display: flex;
+      gap: 6px;
+      z-index: 20;
+    }
+    .progress-seg {
+      flex: 1;
+      height: 3px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 2px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .progress-seg:hover { background: rgba(255,255,255,0.35); }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: rgba(255,255,255,0.9);
+      border-radius: 2px;
+    }
+    .progress-seg.done .progress-fill   { width: 100%; transition: none; }
+    .progress-seg.active .progress-fill { animation: fillProgress 7s linear forwards; }
+    @keyframes fillProgress { from { width: 0%; } to { width: 100%; } }
+
+    /* ── Content rows ─────────────────────────────────────────────────── */
+    .rows {
+      padding: 40px 0 80px 88px;
+      margin-top: 0;
+      position: relative;
+      z-index: 2;
+      overflow-x: clip;
+    }
+    .row {
+      margin-bottom: 36px;
+      position: relative;
+    }
+    .row-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 64px 0 0;
+      margin-bottom: 14px;
+    }
+    .row-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--content-primary);
+      letter-spacing: -0.2px;
+    }
+    .row-see-all {
+      font-size: 12px;
+      color: var(--accent);
+      font-weight: 600;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .row:hover .row-see-all { opacity: 1; }
+
+    /* Carousel */
+    .row-outer {
+      position: relative;
+    }
+    .row-track {
+      display: flex;
+      gap: 10px;
+      padding: 20px 64px 20px 12px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      cursor: grab;
+    }
+    .row-track:active { cursor: grabbing; }
+    .row-track::-webkit-scrollbar { display: none; }
+
+    /* Arrow buttons */
+    .row-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 40px; height: 72px;
+      background: rgba(17,17,19,0.85);
+      border: 1px solid var(--border-subtle);
+      color: var(--content-primary);
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      opacity: 0;
+      transition: opacity 0.2s, background 0.2s;
+      backdrop-filter: blur(4px);
+    }
+    .row-arrow:hover { background: rgba(17,17,19,0.98); }
+    .row-outer:hover .row-arrow { opacity: 1; }
+    .row-arrow.left { left: 0; border-radius: 0 6px 6px 0; }
+    .row-arrow.right { right: 0; border-radius: 6px 0 0 6px; }
+    @media (max-width: 768px) {
+      .row-arrow { display: none; }
+      .row-track { scroll-snap-type: x mandatory; }
+    }
+
+    /* ── Game card ────────────────────────────────────────────────────── */
+    .card {
+      flex: 0 0 auto;
+      width: 155px;
+      aspect-ratio: 155 / 220;
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.25s cubic-bezier(.25,.46,.45,.94), box-shadow 0.25s;
+      scroll-snap-align: start;
+      border: 1px solid var(--border-subtle);
+    }
+    .card:hover {
+      transform: scale(1.07) translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+      z-index: 5;
+    }
+    .card-thumb {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center top;
+    }
+    .card-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .card-thumb::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        transparent 35%,
+        rgba(0,0,0,0.2) 55%,
+        rgba(0,0,0,0.85) 100%
+      );
+    }
+    .card-hover-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      opacity: 0;
+      transition: opacity 0.2s;
+      z-index: 3;
+    }
+    .card:hover .card-hover-overlay { opacity: 1; }
+    .card-play-btn {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: var(--content-primary);
+      color: #111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 700;
+      transition: transform 0.15s, background 0.15s;
+    }
+    .card-play-btn:hover { transform: scale(1.1); }
+    .card-coming-text {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--content-secondary);
+      letter-spacing: 0.5px;
+      background: rgba(0,0,0,0.5);
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+    .card-info {
+      display: none;
+      position: absolute;
+      bottom: 0;
+      left: 0; right: 0;
+      z-index: 2;
+      padding: 10px 10px 12px;
+    }
+    .card-name {
+      font-size: 16px;
+      font-weight: 900;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+    .card-tags {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+    .tag {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 3px;
+      letter-spacing: 0.3px;
+    }
+    .tag-new    { background: rgba(229,9,20,0.15); color: var(--accent); }
+    .tag-hot    { background: rgba(236,93,94,0.15); color: var(--red); }
+    .tag-jackpot{ background: rgba(255,255,87,0.12); color: var(--yellow); }
+    .tag-live   { background: rgba(51,176,116,0.15); color: var(--green); }
+    .tag-coming { background: rgba(255,255,255,0.07); color: var(--content-subtle); }
+    .tag-play   { background: rgba(229,9,20,0.2); color: var(--accent); }
+
+    /* Coming Soon ribbon */
+    .ribbon {
+      position: absolute;
+      top: 10px; left: 8px;
+      z-index: 2;
+      background: rgba(0,0,0,0.55);
+      color: var(--content-secondary);
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 4px;
+      border: 1px solid var(--border-default);
+      pointer-events: none;
+    }
+
+    /* Playable badge */
+    .playable-badge {
+      position: absolute;
+      top: 10px; left: 10px;
+      z-index: 2;
+      background: var(--accent);
+      color: #fff;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 3px 7px;
+      border-radius: 3px;
+      pointer-events: none;
+    }
+
+    /* ── Left sidebar (desktop) ──────────────────────────────────────── */
+    .sidebar {
+      display: none;
+    }
+
+    @media (min-width: 901px) {
+      .nav, .nav-gradient { display: none; }
+
+      .sidebar {
+        display: flex;
+        position: fixed;
+        top: 0; bottom: 0; left: 0;
+        width: 64px;
+        flex-direction: column;
+        align-items: center;
+        padding: 24px 0 20px;
+        z-index: 200;
+        background: linear-gradient(to right, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.45) 70%, transparent 100%);
+      }
+
+      .sidebar-logo {
+        font-size: 10px;
+        font-weight: 900;
+        color: #e50914;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+        margin-bottom: 32px;
+        line-height: 1;
+        cursor: pointer;
+      }
+
+      .sidebar-nav {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2px;
+        width: 100%;
+      }
+
+      .sidebar-btn {
+        position: relative;
+        width: 100%;
+        height: 46px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: rgba(255,255,255,0.48);
+        cursor: pointer;
+        transition: color 0.2s;
+        border: none;
+        background: none;
+        font-family: inherit;
+      }
+
+      .sidebar-btn:hover { color: rgba(255,255,255,0.9); }
+
+      .sidebar-btn.active { color: #fff; }
+
+      .sidebar-btn.active::after {
+        content: "";
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 3px;
+        height: 28px;
+        background: #e50914;
+        border-radius: 2px 0 0 2px;
+      }
+
+      .sidebar-avatar {
+        margin-top: auto;
+        width: 30px; height: 30px;
+        border-radius: 6px;
+        background: linear-gradient(135deg, #8b0000, #e50914);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: 700;
+        color: #fff;
+        cursor: pointer;
+      }
+    }
+
+    /* ── Responsive ───────────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .nav { padding: 0 24px; }
+      .nav-links { display: none; }
+      .hero-content { padding: 0 24px 48px; }
+      .hero-progress { top: calc(var(--nav-height) + 14px); left: 24px; right: 24px; }
+      .rows { padding-left: 0; }
+      .row-header { padding: 0 24px; }
+      .row-track { padding: 20px 24px 20px 12px; }
+    }
+    @media (max-width: 600px) {
+      .hero { height: 60vh; }
+      .hero-title { letter-spacing: -1px; }
+      .hero-desc { display: none; }
+      .card { width: 150px; }
+      .card-thumb { height: 100px; }
+      .btn-play, .btn-info { font-size: 13px; padding: 10px 18px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav gradient overlay (mobile only) -->
+  <div class="nav-gradient"></div>
+
+  <!-- Top navigation (mobile only) -->
+  <nav class="nav" id="nav">
+    <div class="nav-logo">NC<span>asino</span></div>
+    <ul class="nav-links">
+      <li><a href="#" class="active">Home</a></li>
+      <li><a href="#">Games</a></li>
+      <li><a href="#">Jackpots</a></li>
+      <li><a href="#">Live Casino</a></li>
+      <li><a href="#">Promotions</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="nav-search" aria-label="Search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg>
+      </button>
+      <div class="nav-avatar">W</div>
+    </div>
+  </nav>
+
+  <!-- Left sidebar (desktop only) -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">NC</div>
+    <nav class="sidebar-nav">
+      <button class="sidebar-btn" aria-label="Search">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg>
+      </button>
+      <button class="sidebar-btn active" aria-label="Home">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12L12 4l9 8"/><path d="M5 10v9a1 1 0 001 1h4v-5h4v5h4a1 1 0 001-1v-9"/></svg>
+      </button>
+      <button class="sidebar-btn" aria-label="Games">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="M8 12h2m2 0h2M12 10v2m0 2v2" /><circle cx="17" cy="10" r="1" fill="currentColor" stroke="none"/><circle cx="17" cy="14" r="1" fill="currentColor" stroke="none"/></svg>
+      </button>
+      <button class="sidebar-btn" aria-label="Jackpots">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+      </button>
+      <button class="sidebar-btn" aria-label="Live Casino">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="16" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="19" cy="5" r="2" fill="#e50914" stroke="none"/></svg>
+      </button>
+      <button class="sidebar-btn" aria-label="My List">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <button class="sidebar-btn" aria-label="Schedule">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+      </button>
+    </nav>
+    <div class="sidebar-avatar">W</div>
+  </aside>
+
+  <!-- Hero -->
+  <section class="hero" id="hero">
+    <div class="hero-bg" id="heroBg">
+      <div class="hero-bg-visual" id="heroBgVisual">
+        <!-- Full-bleed photo -->
+        <img class="hero-img" id="heroImg" src="https://picsum.photos/seed/mines/1920/1080" alt="">
+        <!-- Per-game colour tint -->
+        <div class="hero-tint" id="heroTint"></div>
+        <!-- Game-specific visual (mines grid, crash graph, etc.) -->
+        <div class="hero-grid" id="heroGrid"></div>
+      </div>
+    </div>
+    <div class="hero-fade-left"></div>
+    <div class="hero-fade-bottom"></div>
+    <div class="hero-progress" id="heroProgress"></div>
+    <div class="hero-content" id="heroContent">
+      <div class="hero-badge">⚡ Featured Game</div>
+      <h1 class="hero-title" id="heroTitle">MI<span>NES</span></h1>
+      <div class="hero-buttons">
+        <button class="btn-play" id="heroPlayBtn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+          Play Now
+        </button>
+        <button class="btn-info">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          More Info
+        </button>
+      </div>
+      <div class="hero-meta">
+        <span class="hero-multiplier" id="heroMeta1">Up to 24.75x multiplier</span>
+        <span class="hero-difficulty" id="heroMeta2">High Risk</span>
+      </div>
+      <p class="hero-desc" id="heroDesc">Navigate the grid. Reveal gems to grow your multiplier. Cash out before you hit a mine — or lose it all.</p>
+    </div>
+  </section>
+
+  <!-- Content rows -->
+  <main class="rows" id="rows"></main>
+
+  <script>
+    /* ── Game data ─────────────────────────────────────────────────── */
+    const games = [
+      { id: 'mines',   name: 'Mines',             icon: '💎', grad: ['#1a0000','#5c0000','#8b0000'], tags: ['play'],   playable: true,  img: 'img/casinogame1.avif',  heroBg: 'img/mines.jpg',    meta1: 'Up to 24.75x', meta2: 'High Risk', desc: 'Navigate the grid. Reveal gems to grow your multiplier. Cash out before you hit a mine.' },
+      { id: 'gates',   name: 'Gates of Olympus',  icon: '⚡', grad: ['#1a0533','#4a1a6e','#7c3aed'], tags: ['jackpot'],playable: false, img: 'img/casinogame2.avif',  heroBg: 'img/gatesofolympus.avif', heroGame: 'img/gatesofolympusgame.jpg', heroPosition: '85% 20%', meta1: 'Up to 5,000x', meta2: 'Jackpot Slots', desc: 'Spin the reels of Olympus and trigger cascading wins. Free spins with multipliers can stack up to 5,000x your stake.'  },
+      { id: 'bonanza', name: 'Sweet Bonanza',      icon: '🍭', grad: ['#330a2e','#8c1a6a','#db2777'], tags: ['hot'],    playable: false, img: 'img/casinogame3.avif'  },
+      { id: 'book',    name: 'Book of Dead',       icon: '📖', grad: ['#1c1500','#78350f','#b45309'], tags: [],         playable: false, img: 'img/casinogame4.avif'  },
+      { id: 'star',    name: 'Starburst',          icon: '✨', grad: ['#1e003d','#5b21b6','#7c3aed'], tags: ['hot'],    playable: false, img: 'img/casinogame5.avif'  },
+      { id: 'moolah',  name: 'Mega Moolah',        icon: '🦁', grad: ['#052e16','#166534','#15803d'], tags: ['jackpot'],playable: false, img: 'img/casinogame6.avif'  },
+      { id: 'wolf',    name: 'Wolf Gold',           icon: '🐺', grad: ['#0c1445','#1e3a8a','#2563eb'], tags: ['jackpot'],playable: false, img: 'img/casinogame7.avif'  },
+      { id: 'react',   name: 'Reactoonz',          icon: '👾', grad: ['#042f2e','#134e4a','#0f766e'], tags: [],         playable: false, img: 'img/casinogame8.avif'  },
+      { id: 'bass',    name: 'Big Bass Bonanza',   icon: '🎣', grad: ['#0c2a4a','#1e4976','#1d4ed8'], tags: ['new'],    playable: false, img: 'img/casinogame9.avif'  },
+      { id: 'legacy',  name: 'Legacy of Dead',     icon: '🏺', grad: ['#1a0a00','#7c2d12','#c2410c'], tags: [],         playable: false, img: 'img/casinogame10.avif' },
+      { id: 'dog',     name: 'The Dog House',      icon: '🐕', grad: ['#1c1a00','#854d0e','#ca8a04'], tags: ['new'],    playable: false, img: 'img/casinogame11.avif' },
+      { id: 'buffalo', name: 'Buffalo King',       icon: '🦬', grad: ['#0f1a00','#365314','#4d7c0f'], tags: ['new'],    playable: false, img: 'img/casinogame12.avif' },
+      { id: 'roulette',name: 'Lightning Roulette', icon: '🎡', grad: ['#1a1500','#713f12','#d97706'], tags: ['live','new'], playable: false, img: 'img/casinogame13.avif' },
+      { id: 'crazy',   name: 'Crazy Time',         icon: '🎪', grad: ['#300a5c','#7e22ce','#9333ea'], tags: ['live'],   playable: false, img: 'img/casinogame14.avif', heroBg: 'img/crazytime2.jpg',         heroGame: 'img/crazytimegame.avif',  heroPosition: 'center 5%', meta1: 'Live Game Show', meta2: 'Up to 20,000x', desc: 'Spin the giant wheel and land on bonus rounds -- Cash Hunt, Coin Flip, Pachinko, or the Crazy Time bonus for massive multipliers.'   },
+      { id: 'dragon',  name: 'Dragon Tiger',       icon: '🐉', grad: ['#3b0000','#991b1b','#dc2626'], tags: ['live','new'], playable: false, img: 'img/casinogame1.avif'  },
+      { id: 'aviator', name: 'Aviator',            icon: '✈️', grad: ['#1a0000','#7f1d1d','#dc2626'], tags: ['hot'],    playable: false, img: 'img/casinogame2.avif',  heroBg: 'img/aviator2.webp',          heroGame: 'img/aviatorgame.jfif',    meta1: 'Crash Game', meta2: 'Instant Win', desc: 'Watch the plane fly. Cash out before it crashes or lose your bet.' },
+      { id: 'gonzo',   name: "Gonzo's Quest",      icon: '🗿', grad: ['#0a1628','#1e3a5f','#2563eb'], tags: [],         playable: false, img: 'img/casinogame3.avif'  },
+      { id: 'phoenix', name: 'Rise of Phoenix',    icon: '🔥', grad: ['#2d0000','#92400e','#f59e0b'], tags: ['new'],    playable: false, img: 'img/casinogame4.avif'  },
+    ];
+
+    const byId = id => games.find(g => g.id === id);
+
+    const rows = [
+      { title: 'Popular Right Now',   ids: ['mines','gates','bonanza','book','star','moolah','wolf','react'] },
+      { title: 'New Releases',        ids: ['buffalo','roulette','dragon','bass','dog','phoenix','gonzo','crazy'] },
+      { title: 'Jackpot Games',       ids: ['moolah','wolf','gates','star','book','react','bass'] },
+      { title: 'Recommended for You', ids: ['mines','aviator','react','bass','legacy','dog','bonanza','gonzo'] },
+    ];
+
+    /* ── Hero rotation ─────────────────────────────────────────────── */
+    const heroGames = ['mines', 'aviator', 'gates', 'crazy'];
+    let heroIdx = 0;
+
+    const heroVisuals = {
+
+      mines: () => `
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;width:300px;">
+          ${[1,0,0,0,1, 0,2,0,0,0, 0,0,1,0,2, 0,0,0,1,0, 1,0,2,0,0].map(p => {
+            if (p === 1) return `<div class="hero-tile gem">💎</div>`;
+            if (p === 2) return `<div class="hero-tile mine">💣</div>`;
+            return `<div class="hero-tile"></div>`;
+          }).join('')}
+        </div>`,
+
+      aviator: () => `
+        <div style="width:300px;height:210px;position:relative;">
+          <svg width="300" height="210" viewBox="0 0 300 210" style="position:absolute;inset:0;">
+            <defs>
+              <linearGradient id="crashFill" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#dc2626" stop-opacity="0.35"/>
+                <stop offset="100%" stop-color="#dc2626" stop-opacity="0.03"/>
+              </linearGradient>
+              <linearGradient id="crashLine" x1="0" y1="1" x2="1" y2="0">
+                <stop offset="0%" stop-color="#f97316"/>
+                <stop offset="100%" stop-color="#dc2626"/>
+              </linearGradient>
+            </defs>
+            <!-- Grid lines -->
+            <g stroke="rgba(255,255,255,0.06)" stroke-width="1">
+              <line x1="0" y1="50"  x2="300" y2="50"/><line x1="0" y1="100" x2="300" y2="100"/>
+              <line x1="0" y1="150" x2="300" y2="150"/><line x1="75"  y1="0" x2="75"  y2="210"/>
+              <line x1="150" y1="0" x2="150" y2="210"/><line x1="225" y1="0" x2="225" y2="210"/>
+            </g>
+            <!-- Fill under curve -->
+            <path d="M0 195 C60 190 100 170 150 120 C190 80 230 40 268 8 L268 210 L0 210 Z" fill="url(#crashFill)"/>
+            <!-- Curve line -->
+            <path d="M0 195 C60 190 100 170 150 120 C190 80 230 40 268 8" fill="none" stroke="url(#crashLine)" stroke-width="2.5" stroke-linecap="round"/>
+            <!-- Multiplier markers -->
+            <text x="8"   y="200" fill="rgba(255,255,255,0.35)" font-size="9" font-family="Arial,sans-serif">1.00×</text>
+            <text x="90"  y="162" fill="rgba(255,255,255,0.4)"  font-size="9" font-family="Arial,sans-serif">2.4×</text>
+            <text x="170" y="112" fill="rgba(255,255,255,0.45)" font-size="9" font-family="Arial,sans-serif">6.1×</text>
+            <text x="235" y="54"  fill="rgba(255,255,255,0.55)" font-size="9" font-family="Arial,sans-serif">18.7×</text>
+            <!-- Dashed cashout line -->
+            <line x1="0" y1="120" x2="150" y2="120" stroke="rgba(249,163,22,0.4)" stroke-width="1" stroke-dasharray="4 3"/>
+            <text x="2" y="115" fill="rgba(249,163,22,0.7)" font-size="9" font-family="Arial,sans-serif">Cash out</text>
+          </svg>
+          <!-- Plane at tip of curve -->
+          <div style="position:absolute;top:0;right:18px;font-size:28px;transform:rotate(-35deg);filter:drop-shadow(0 0 8px rgba(220,38,38,0.7))">✈️</div>
+        </div>`,
+
+      gates: () => {
+        const cols = [
+          ['⚡','👑','⚡'],
+          ['⚡','⚡','🏛️'],
+          ['👑','⚡','⚡'],
+        ];
+        return `
+          <div style="display:flex;gap:10px;justify-content:center;align-items:center;">
+            ${cols.map(col => `
+              <div style="display:flex;flex-direction:column;gap:8px;background:rgba(255,255,255,0.04);border:1px solid rgba(124,58,237,0.3);border-radius:12px;padding:10px 14px;box-shadow:0 0 20px rgba(124,58,237,0.2);">
+                ${col.map((sym, i) => `
+                  <div style="font-size:30px;line-height:1;text-align:center;
+                    ${i === 1 ? 'filter:drop-shadow(0 0 10px rgba(250,204,21,0.8));transform:scale(1.15)' : 'opacity:0.6'}">
+                    ${sym}
+                  </div>`).join('')}
+              </div>`).join('')}
+          </div>
+          <div style="text-align:center;margin-top:14px;font-size:12px;font-weight:700;letter-spacing:2px;color:rgba(167,139,250,0.7);text-transform:uppercase;">Free Spins Active</div>`;
+      },
+
+      crazy: () => `
+        <div style="position:relative;width:230px;height:230px;margin:0 auto;">
+          <!-- Wheel using conic-gradient -->
+          <div style="width:100%;height:100%;border-radius:50%;
+            background:conic-gradient(
+              #1d4ed8 0deg 45deg,
+              #dc2626 45deg 90deg,
+              #16a34a 90deg 135deg,
+              #9333ea 135deg 165deg,
+              #d97706 165deg 210deg,
+              #0891b2 210deg 255deg,
+              #be185d 255deg 300deg,
+              #ca8a04 300deg 330deg,
+              #1d4ed8 330deg 360deg
+            );
+            border:3px solid rgba(255,255,255,0.15);
+            box-shadow:0 0 30px rgba(147,51,234,0.4);
+            animation:spinWheel 12s linear infinite;">
+          </div>
+          <!-- Centre hub -->
+          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+            width:52px;height:52px;border-radius:50%;
+            background:#18191b;border:3px solid rgba(255,255,255,0.2);
+            display:flex;align-items:center;justify-content:center;
+            font-size:20px;font-weight:800;color:rgba(255,255,255,0.8);z-index:2;">
+            CT
+          </div>
+          <!-- Pointer -->
+          <div style="position:absolute;top:-14px;left:50%;transform:translateX(-50%);
+            font-size:20px;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.6));z-index:3;">▼</div>
+        </div>`,
+    };
+
+    function buildHeroGrid(game) {
+      const grid = document.getElementById('heroGrid');
+      if (!grid) return;
+      grid.style.opacity = '0.7';
+      grid.style.width = '320px';
+      const builder = heroVisuals[game.id] || heroVisuals.mines;
+      grid.innerHTML = typeof builder === 'function' ? builder() : builder;
+    }
+
+    const kbClasses = ['kb1','kb2','kb3','kb4'];
+
+    function restartKenBurns(idx) {
+      const visual = document.getElementById('heroBgVisual');
+      // Remove all kb classes then force reflow to restart animation
+      kbClasses.forEach(c => visual.classList.remove(c));
+      void visual.offsetWidth; // reflow
+      visual.classList.add(kbClasses[idx % kbClasses.length]);
+    }
+
+    function updateProgressBars(activeIdx) {
+      document.querySelectorAll('.progress-seg').forEach((seg, i) => {
+        // Reset fill animation by replacing the fill element
+        const fill = seg.querySelector('.progress-fill');
+        const newFill = fill.cloneNode(false);
+        seg.replaceChild(newFill, fill);
+        seg.classList.remove('active','done');
+        if (i < activeIdx)  seg.classList.add('done');
+        if (i === activeIdx) seg.classList.add('active');
+      });
+    }
+
+    function buildHeroProgress() {
+      const container = document.getElementById('heroProgress');
+      container.innerHTML = heroGames.map((_, i) =>
+        `<div class="progress-seg" onclick="jumpHero(${i})"><div class="progress-fill"></div></div>`
+      ).join('');
+    }
+
+    function updateHero(idx, animate) {
+      const game = byId(heroGames[idx]);
+      if (!game) return;
+      const el = id => document.getElementById(id);
+      const content = el('heroContent');
+      if (animate) {
+        content.style.opacity = '0';
+        content.style.transform = 'translateY(8px)';
+      }
+      setTimeout(() => {
+        el('heroTitle').innerHTML = game.name.slice(0,2).toUpperCase() + '<span>' + game.name.slice(2).toUpperCase() + '</span>';
+        if (game.desc) el('heroDesc').textContent = game.desc;
+        if (game.meta1) el('heroMeta1').textContent = game.meta1;
+        if (game.meta2) el('heroMeta2').textContent = game.meta2;
+        // Swap hero background image and apply per-game colour tint
+        el('heroImg').src = game.heroBg || `https://picsum.photos/seed/${game.id}/1920/1080`;
+        el('heroImg').style.objectPosition = game.heroPosition || 'center';
+        el('heroTint').style.background = `
+          linear-gradient(to right, ${game.grad[0]}cc 0%, ${game.grad[0]}66 30%, transparent 60%),
+          radial-gradient(ellipse at 72% 38%, ${game.grad[2]}33 0%, transparent 50%)
+        `;
+        el('heroPlayBtn').onclick = () => game.playable && (window.location.href = 'mines.html');
+        buildHeroGrid(game);
+        restartKenBurns(idx);
+        updateProgressBars(idx);
+        if (animate) {
+          content.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+          content.style.opacity = '1';
+          content.style.transform = 'translateY(0)';
+        }
+      }, animate ? 250 : 0);
+    }
+
+    window.jumpHero = function(idx) {
+      clearInterval(heroTimer);
+      heroIdx = idx;
+      updateHero(idx, true);
+      heroTimer = setInterval(autoAdvance, 7000);
+    };
+
+    function autoAdvance() {
+      heroIdx = (heroIdx + 1) % heroGames.length;
+      updateHero(heroIdx, true);
+    }
+
+    let heroTimer = setInterval(autoAdvance, 7000);
+
+    /* ── Build cards ───────────────────────────────────────────────── */
+    function buildCard(game) {
+      const tagMap = { new: ['tag-new','New'], hot: ['tag-hot','Hot'], jackpot: ['tag-jackpot','Jackpot'], live: ['tag-live','Live'], play: ['tag-play','Playable'] };
+      const tagHTML = game.tags.map(t => tagMap[t] ? `<span class="tag ${tagMap[t][0]}">${tagMap[t][1]}</span>` : '').join('');
+      const grad = `linear-gradient(135deg, ${game.grad[0]} 0%, ${game.grad[1]} 55%, ${game.grad[2]} 100%)`;
+      const overlay = game.playable
+        ? `<div class="card-hover-overlay"><div class="card-play-btn">▶</div></div>`
+        : `<div class="card-hover-overlay"><div class="card-coming-text">Coming Soon</div></div>`;
+      const ribbon = !game.playable ? `<div class="ribbon">Soon</div>` : '';
+      const badge  = game.playable  ? `<div class="playable-badge">Live</div>` : '';
+
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <div class="card-thumb" style="background:${grad}">
+          <img class="card-img" src="${game.img}" alt="${game.name}" loading="lazy">
+        </div>
+        ${overlay}${ribbon}${badge}
+        <div class="card-info">
+          <div class="card-name">${game.name}</div>
+          <div class="card-tags">${tagHTML || '<span class="tag tag-coming">Coming Soon</span>'}</div>
+        </div>`;
+      if (game.playable) card.onclick = () => window.location.href = 'mines.html';
+      return card;
+    }
+
+    /* ── Build rows ────────────────────────────────────────────────── */
+    function buildRows() {
+      const main = document.getElementById('rows');
+      rows.forEach(row => {
+        const sec = document.createElement('section');
+        sec.className = 'row';
+        sec.innerHTML = `
+          <div class="row-header">
+            <span class="row-title">${row.title}</span>
+            <span class="row-see-all">See all ›</span>
+          </div>
+          <div class="row-outer">
+            <button class="row-arrow left" aria-label="Scroll left">‹</button>
+            <div class="row-track"></div>
+            <button class="row-arrow right" aria-label="Scroll right">›</button>
+          </div>`;
+        const track = sec.querySelector('.row-track');
+        row.ids.forEach(id => { const g = byId(id); if (g) track.appendChild(buildCard(g)); });
+        sec.querySelector('.row-arrow.left').onclick  = () => track.scrollBy({ left: -440, behavior: 'smooth' });
+        sec.querySelector('.row-arrow.right').onclick = () => track.scrollBy({ left: 440,  behavior: 'smooth' });
+        addSwipe(track);
+        main.appendChild(sec);
+      });
+    }
+
+    /* ── Touch swipe ───────────────────────────────────────────────── */
+    function addSwipe(track) {
+      let startX = 0, startScrollLeft = 0, isDragging = false;
+
+      track.addEventListener('touchstart', e => {
+        startX = e.touches[0].clientX;
+        startScrollLeft = track.scrollLeft;
+        track.style.scrollBehavior = 'auto';
+      }, { passive: true });
+
+      track.addEventListener('touchmove', e => {
+        const dx = startX - e.touches[0].clientX;
+        track.scrollLeft = startScrollLeft + dx;
+      }, { passive: true });
+
+      track.addEventListener('touchend', () => {
+        track.style.scrollBehavior = 'smooth';
+      });
+
+      // Mouse drag for desktop
+      track.addEventListener('mousedown', e => {
+        isDragging = true;
+        startX = e.clientX;
+        startScrollLeft = track.scrollLeft;
+        track.style.scrollBehavior = 'auto';
+      });
+      window.addEventListener('mousemove', e => {
+        if (!isDragging) return;
+        track.scrollLeft = startScrollLeft - (e.clientX - startX);
+      });
+      window.addEventListener('mouseup', () => {
+        isDragging = false;
+        track.style.scrollBehavior = 'smooth';
+      });
+    }
+
+    /* ── Parallax ──────────────────────────────────────────────────── */
+    const heroBg = document.getElementById('heroBg');
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      heroBg.style.transform = `translateY(${y * 0.35}px)`;
+      document.getElementById('nav').classList.toggle('scrolled', y > 40);
+    }, { passive: true });
+
+    /* ── Init ──────────────────────────────────────────────────────── */
+    buildHeroProgress();
+    updateHero(0, false);
+    buildRows();
+  </script>
+</body>
+</html>

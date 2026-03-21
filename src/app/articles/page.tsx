@@ -33,23 +33,27 @@ function ArticleCard({ article }: { article: Article }) {
 export default function ArticlesPage() {
   return (
     <div className="min-h-screen bg-white">
-      <div className="max-w-3xl mx-auto px-6 py-16">
+      <div className="max-w-5xl mx-auto px-6">
 
         {/* Header */}
-        <div className="flex items-end justify-between mb-3">
-          <div>
-            <p className="text-[11px] tracking-widest text-[#AAA] uppercase mb-2">
-              Writing &amp; Thinking
-            </p>
-            <h1 className="text-3xl md:text-5xl text-[#1C1C1C]">Articles</h1>
+        <div style={{ paddingTop: 64 }}>
+          <div className="flex items-end justify-between mb-3">
+            <div>
+              <p className="text-[11px] tracking-widest text-[#AAA] uppercase mb-2">
+                Writing &amp; Thinking
+              </p>
+              <h1 className="text-3xl md:text-5xl text-[#1C1C1C]">Articles</h1>
+            </div>
+            <p className="text-[12px] text-[#888] pb-1">{articles.length} articles</p>
           </div>
-          <p className="text-[12px] text-[#888] pb-1">{articles.length} articles</p>
+          <div className="h-[2px] bg-[#1C1C1C] w-full mb-8" />
         </div>
-        <div className="h-[2px] bg-[#1C1C1C] w-full mb-8" />
 
-        {/* Article list */}
-        <div className="flex flex-col gap-4">
-          {articles.map((article) => (
+        {/* Article grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-[14px] pb-20">
+          {[...articles]
+            .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+            .map((article) => (
             <ArticleCard key={article.slug} article={article} />
           ))}
         </div>

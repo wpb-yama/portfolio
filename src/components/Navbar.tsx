@@ -157,13 +157,13 @@ export default function Navbar() {
 
       {/* ── Mobile top bar ── */}
       <header className="lg:hidden fixed top-0 left-0 right-0 h-14 bg-[#FFFFFF] flex items-center justify-between px-4 z-40">
-        <div className="flex items-center gap-3">
+        <Link href="/" className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/sticker-will.png" alt="Will Booth" style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }} />
           </div>
           <span className="font-bold text-[#1C1C1C] text-sm">Will Booth</span>
-        </div>
+        </Link>
         <button
           onClick={() => setMobileOpen((v) => !v)}
           aria-label="Toggle menu"
