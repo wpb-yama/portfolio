@@ -138,7 +138,7 @@ export default function FeaturedProjectsBar() {
           </div>
           <Link
             href="/projects"
-            className="flex-shrink-0 bg-[#1C1C1C] text-white text-sm font-medium rounded-full px-5 py-2 hover:bg-neutral-700 transition-colors duration-150"
+            className="flex-shrink-0 inline-flex items-center text-[12px] font-medium text-[#888] border border-[#EBEBEB] rounded-full px-3.5 py-1.5 hover:border-[#1C1C1C] hover:text-[#1C1C1C] transition-all duration-150"
           >
             See All
           </Link>

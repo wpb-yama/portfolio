@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { ChevronLeft } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Netflix Casino | Will Booth",
@@ -15,9 +16,10 @@ export default function NetflixCasinoPage() {
         {/* Back link */}
         <Link
           href="/lab"
-          className="inline-flex items-center gap-1 text-[12px] text-[#888] hover:text-[#1C1C1C] transition-colors mb-10"
+          className="inline-flex items-center gap-1.5 text-[12px] font-medium text-[#888] border border-[#EBEBEB] rounded-full px-3.5 py-1.5 hover:border-[#1C1C1C] hover:text-[#1C1C1C] transition-all duration-150 mb-10"
         >
-          ← Lab
+          <ChevronLeft size={13} strokeWidth={2.5} />
+          Lab
         </Link>
 
         {/* Header */}
@@ -27,7 +29,7 @@ export default function NetflixCasinoPage() {
         <h1 className="text-3xl md:text-5xl text-[#1C1C1C] mb-4">
           Netflix Casino
         </h1>
-        <p className="text-[15px] text-[#888] leading-relaxed max-w-xl mb-8">
+        <p className="text-[15px] text-[#888] leading-relaxed mb-8">
           A proof-of-concept casino lobby redesign built to look and feel like
           Netflix: content discovery, personalisation, parallax hero, and a
           playable Mines game.
@@ -57,7 +59,7 @@ export default function NetflixCasinoPage() {
 
         {/* Problem */}
         <div className="mb-10">
-          <h2 className="text-[11px] tracking-widest text-[#AAA] uppercase mb-3">
+          <h2 className="text-[1.15rem] font-bold text-[#1C1C1C] mb-3 mt-0">
             Problem
           </h2>
           <p className="text-[15px] text-[#555] leading-relaxed">
@@ -71,7 +73,7 @@ export default function NetflixCasinoPage() {
 
         {/* Approach */}
         <div className="mb-12">
-          <h2 className="text-[11px] tracking-widest text-[#AAA] uppercase mb-3">
+          <h2 className="text-[1.15rem] font-bold text-[#1C1C1C] mb-3 mt-0">
             Approach
           </h2>
           <p className="text-[15px] text-[#555] leading-relaxed">
@@ -85,7 +87,7 @@ export default function NetflixCasinoPage() {
 
         {/* Prototype embed */}
         <div className="mb-16">
-          <h2 className="text-[11px] tracking-widest text-[#AAA] uppercase mb-4">
+          <h2 className="text-[1.15rem] font-bold text-[#1C1C1C] mb-4 mt-0">
             Prototype
           </h2>
           <div className="rounded-2xl overflow-hidden border border-[#EBEBEB] shadow-sm">

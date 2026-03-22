@@ -12,6 +12,24 @@ const labItems = [
     accent: "#C0392B",
     image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&q=80",
   },
+  {
+    slug: "splendor-rag",
+    title: "RAG Splendor",
+    tag: "AI · Tools",
+    description:
+      "A RAG chatbot that answers Splendor rules questions using the base game and all three expansion rulebooks — Pinecone, Gemini 2 embeddings, and Claude Haiku.",
+    accent: "#4338CA",
+    image: "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=800&q=80",
+  },
+  {
+    slug: "adaptive-reward-engine",
+    title: "Adaptive Reward Engine",
+    tag: "AI · Tools",
+    description:
+      "A contextual bandit system that personalises discount rewards in real time, maximising daily active engagement and reducing churn risk across iGaming and e-commerce platforms.",
+    accent: "#7C3AED",
+    image: "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=800&q=80",
+  },
 ];
 
 type LabItem = (typeof labItems)[number];
@@ -74,7 +92,7 @@ export default function LabPage() {
               </p>
               <h1 className="text-3xl md:text-5xl text-[#1C1C1C]">Lab</h1>
             </div>
-            <p className="text-[12px] text-[#888] pb-1">{labItems.length} experiment</p>
+            <p className="text-[12px] text-[#888] pb-1">{labItems.length} experiments</p>
           </div>
           <div className="h-[2px] bg-[#1C1C1C] w-full mb-8" />
         </div>

@@ -15,6 +15,26 @@ const projects = [
     image:
       "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=600&q=80",
   },
+  {
+    slug: "splendor-rag",
+    title: "RAG Splendor",
+    tag: "AI · Tools",
+    description:
+      "A RAG chatbot that answers Splendor rules questions on the fly — trained on the base game and all three expansion rulebooks.",
+    accent: "#4338CA",
+    image:
+      "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=600&q=80",
+  },
+  {
+    slug: "adaptive-reward-engine",
+    title: "Adaptive Reward Engine",
+    tag: "AI · Tools",
+    description:
+      "A contextual bandit system that personalises discount rewards in real time, maximising daily active engagement and reducing churn risk.",
+    accent: "#7C3AED",
+    image:
+      "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=600&q=80",
+  },
 ];
 
 const CARD_WIDTH = 280;
@@ -107,7 +127,7 @@ export default function Labs() {
           </div>
           <Link
             href="/lab"
-            className="flex-shrink-0 bg-[#1C1C1C] text-white text-sm font-medium rounded-full px-5 py-2 hover:bg-neutral-700 transition-colors duration-150"
+            className="flex-shrink-0 inline-flex items-center text-[12px] font-medium text-[#888] border border-[#EBEBEB] rounded-full px-3.5 py-1.5 hover:border-[#1C1C1C] hover:text-[#1C1C1C] transition-all duration-150"
           >
             See All
           </Link>

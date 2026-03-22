@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { ChevronLeft } from "lucide-react";
 import articles, { type BodyBlock } from "@/data/articles";
 import summaries from "@/data/summaries.json";
 import TLDRWidget from "@/components/TLDRWidget";
@@ -31,7 +32,7 @@ function renderBlock(block: BodyBlock, index: number) {
         <h2
           key={index}
           id={block.id}
-          className={`text-[1.6rem] text-[#1C1C1C] mt-12 mb-4 leading-snug scroll-mt-8`}
+          className={`text-[1.15rem] font-bold text-[#1C1C1C] mt-12 mb-4 leading-snug scroll-mt-8`}
         >
           {block.text}
         </h2>
@@ -41,7 +42,7 @@ function renderBlock(block: BodyBlock, index: number) {
         <h3
           key={index}
           id={block.id}
-          className={`text-[1.2rem] text-[#1C1C1C] mt-8 mb-3 leading-snug scroll-mt-8`}
+          className={`text-[1.15rem] font-bold text-[#1C1C1C] mt-8 mb-3 leading-snug scroll-mt-8`}
         >
           {block.text}
         </h3>
@@ -116,9 +117,10 @@ export default async function ArticlePage({
         {/* ── Back link ─────────────────────────────────────────────────────── */}
         <Link
           href="/articles"
-          className="inline-flex items-center gap-1.5 text-[12px] text-[#888] hover:text-[#1C1C1C] transition-colors duration-150 mb-10"
+          className="inline-flex items-center gap-1.5 text-[12px] font-medium text-[#888] border border-[#EBEBEB] rounded-full px-3.5 py-1.5 hover:border-[#1C1C1C] hover:text-[#1C1C1C] transition-all duration-150 mb-10"
         >
-          ← All articles
+          <ChevronLeft size={13} strokeWidth={2.5} />
+          All articles
         </Link>
 
         {/* ── Article header ────────────────────────────────────────────────── */}

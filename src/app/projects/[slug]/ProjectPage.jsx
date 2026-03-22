@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useParams, notFound } from 'next/navigation';
+import { ChevronLeft } from 'lucide-react';
 import projects from '@/data/projects';
 import TLDRWidget from '@/components/TLDRWidget';
 import ArticleTOC from '@/components/ArticleTOC';
@@ -183,9 +184,10 @@ export default function ProjectPage() {
       <div className="max-w-5xl mx-auto px-6 pt-20 pb-1">
         <Link
           href="/projects"
-          className="inline-flex items-center gap-1.5 text-[12px] text-[#888] hover:text-[#1C1C1C] transition-colors duration-150 mb-10"
+          className="inline-flex items-center gap-1.5 text-[12px] font-medium text-[#888] border border-[#EBEBEB] rounded-full px-3.5 py-1.5 hover:border-[#1C1C1C] hover:text-[#1C1C1C] transition-all duration-150 mb-10"
         >
-          ← All Projects
+          <ChevronLeft size={13} strokeWidth={2.5} />
+          All Projects
         </Link>
         <div className="mb-10">
           {/* Meta row */}

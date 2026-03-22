@@ -115,7 +115,7 @@ function SidebarContent({
         <a
           href="/cv.pdf"
           download="Will_Booth_CV.pdf"
-          className="flex items-center gap-3 px-4 py-2.5 rounded-full bg-[#1C1C1C] text-white hover:bg-neutral-800 transition-colors duration-150"
+          className="flex items-center gap-3 px-4 py-2.5 rounded-full text-[#888888] hover:text-[#1C1C1C] hover:bg-black/5 transition-colors duration-150"
         >
           <Download size={18} strokeWidth={1.8} />
           <span className="text-sm font-medium">Download CV</span>
