@@ -83,6 +83,15 @@ function renderBlock(block: BodyBlock, index: number) {
           <p className="text-[13.5px] text-[#555] leading-relaxed">{block.text}</p>
         </div>
       );
+    case "image":
+      return (
+        <figure key={index} className="my-8">
+          <img src={block.src} alt={block.alt} className="w-full rounded-xl border border-[#EBEBEB]" />
+          {block.caption && (
+            <figcaption className="text-[12px] text-[#AAA] text-center mt-3">{block.caption}</figcaption>
+          )}
+        </figure>
+      );
     default:
       return null;
   }

@@ -1,36 +1,20 @@
 "use client";
 
-import Link from "next/link";
-import articles, { type Article } from "@/data/articles";
+import articles from "@/data/articles";
+import ArticleCard from "@/components/ArticleCard";
 
-function ArticleCard({ article }: { article: Article }) {
-  return (
-    <Link
-      href={`/articles/${article.slug}`}
-      className="group block bg-white border border-[#EBEBEB] rounded-2xl p-6 hover:-translate-y-[2px] hover:shadow-md transition-all duration-200"
-    >
-      <p className="text-[10px] font-semibold uppercase tracking-widest text-[#AAA] mb-2">
-        {article.category}
-      </p>
-      <h2 className="text-[1.1rem] leading-snug text-[#1C1C1C] mb-2">
-        {article.title}
-      </h2>
-      <p className="text-[13px] text-[#888] leading-relaxed line-clamp-2 mb-4">
-        {article.excerpt}
-      </p>
-      <div className="flex items-center justify-between">
-        <p className="text-[11px] text-[#AAA]">
-          {article.date} · {article.readTime}
-        </p>
-        <span className="text-[12px] font-medium text-[#1C1C1C] opacity-0 translate-x-[-4px] group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200">
-          Read →
-        </span>
-      </div>
-    </Link>
-  );
+function parseDate(dateStr: string): Date {
+  const parts = dateStr.trim().split(" ");
+  if (parts.length === 2) return new Date(`${parts[0]} 1, ${parts[1]}`);
+  if (parts.length === 3) return new Date(`${parts[1]} ${parts[0]}, ${parts[2]}`);
+  return new Date(0);
 }
 
 export default function ArticlesPage() {
+  const sorted = [...articles].sort(
+    (a, b) => parseDate(b.date).getTime() - parseDate(a.date).getTime()
+  );
+
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-5xl mx-auto px-6">
@@ -51,10 +35,8 @@ export default function ArticlesPage() {
 
         {/* Article grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-[14px] pb-20">
-          {[...articles]
-            .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-            .map((article) => (
-            <ArticleCard key={article.slug} article={article} />
+          {sorted.map((article) => (
+            <ArticleCard key={article.slug} article={article} heroHeight={160} />
           ))}
         </div>
 

@@ -4,7 +4,8 @@ export type BodyBlock =
   | { type: "p";         text: string }
   | { type: "blockquote";text: string }
   | { type: "ul";        items: string[] }
-  | { type: "callout";   icon: string; text: string };
+  | { type: "callout";   icon: string; text: string }
+  | { type: "image";     src: string; alt: string; caption?: string };
 
 export type Article = {
   slug: string;
@@ -23,6 +24,7 @@ const articles: Article[] = [
   {
     slug: "acquire-churn-repeat",
     title: "Acquire. Churn. Repeat. The cycle that breaks businesses.",
+    featuredImage: "/images/articles/acquire-churn-repeat.png",
     excerpt:
       "The obsession with new customers is a structural flaw. When your strategy ends at the 'Buy Now' button, you aren't building a business — you're running a treadmill.",
     category: "Product Strategy",
@@ -71,7 +73,7 @@ const articles: Article[] = [
     date: "March 2026",
     readTime: "6 min",
     featured: true,
-    featuredImage: "/images/articles/post-code-era.svg",
+    featuredImage: "/images/articles/software-team.png",
     relatedSlugs: ["cricket-odds-ai", "art-of-the-kill"],
     body: [
       { type: "h2", id: "seismic-shift", text: "A Seismic Shift in Software Development" },
@@ -121,6 +123,7 @@ const articles: Article[] = [
   {
     slug: "outcome-led-roadmaps",
     title: "Why Outcome-Led Roadmaps Beat Feature Lists Every Time",
+    featuredImage: "/images/articles/product-roadmap.png",
     excerpt:
       "Most roadmaps are just a backlog in disguise. Here's how shifting to outcomes changed how my team builds, prioritises, and ships.",
     category: "Product Strategy",
@@ -157,6 +160,7 @@ const articles: Article[] = [
   {
     slug: "cricket-odds-ai",
     title: "Predicting Ball-by-Ball Cricket Odds with AI",
+    featuredImage: "/images/articles/cricket-odds-ai.png",
     excerpt:
       "Instead of predicting who wins a match, I trained a TensorFlow neural network to predict what happens on every single delivery — then ran the game thousands of times.",
     category: "AI & Tech",
@@ -204,6 +208,7 @@ const articles: Article[] = [
   {
     slug: "art-of-the-kill",
     title: "The Art of the Kill: Why Great PMs Are Defined by What They Don't Ship",
+    featuredImage: "/images/articles/art-of-the-kill.png",
     excerpt:
       "Shipping features is easy. Killing them takes courage. If your primary metric is volume of features delivered, you aren't managing a product — you're managing a factory.",
     category: "Product Strategy",
@@ -239,6 +244,7 @@ const articles: Article[] = [
   {
     slug: "gacha-trap",
     title: "The Gacha Trap: Why We Spend Thousands on Free Games",
+    featuredImage: "/images/articles/gacha-trap.png",
     excerpt:
       "A tiny fraction of players — called Whales — generate the majority of revenue in free-to-play games. Understanding the psychology behind Gacha mechanics reveals a system engineered for addiction.",
     category: "AI & Tech",
@@ -297,6 +303,7 @@ const articles: Article[] = [
   {
     slug: "stop-being-helpful",
     title: "Stop Being Helpful and Start Being Valuable",
+    featuredImage: "/images/articles/being-valuable.png",
     excerpt:
       "Why 'Yes-Boss' is a career dead end. The most valuable employees aren't the ones who execute their manager's vision perfectly — they're the ones who convince their managers to do things differently.",
     category: "Leadership",
@@ -347,6 +354,55 @@ const articles: Article[] = [
         "Take Initiative: Do things your manager isn't directing you to do because you see a gap that needs filling.",
       ]},
       { type: "p", text: "The point of hierarchy is to enable faster, better decisions. The moment it stops doing that, it becomes a cage rather than a tool." },
+    ],
+  },
+
+  {
+    slug: "claude-job-finder",
+    title: "Using Claude to help my friend find a job",
+    featuredImage: "/images/articles/job-hireagent.png",
+    excerpt:
+      "Job hunting is exhausting. Checking the same boards every day, filtering through irrelevant roles, losing track of what you've already seen. I built a tool with Claude that automated the whole thing. It worked.",
+    category: "AI & Tech",
+    date: "24 March 2026",
+    readTime: "5 min",
+    featured: false,
+    relatedSlugs: ["post-code-era", "cricket-odds-ai"],
+    body: [
+      { type: "p", text: "A friend of mine was job hunting. She was doing what everyone does: opening the same five websites every morning, scrolling through the same listings, trying to remember which ones she'd already seen. It was tedious, repetitive work. Exactly the kind of thing that should be automated." },
+      { type: "p", text: "So instead of sending her a list of tips, I built something." },
+
+      { type: "h2", id: "the-problem", text: "The Problem With Manual Job Hunting" },
+      { type: "p", text: "Job boards are not designed with the applicant's time in mind. They're designed to maximise time-on-site. That means duplicate listings, roles that don't match your criteria sitting alongside the ones that do, and no memory of what you've already reviewed. Every morning starts from zero." },
+      { type: "p", text: "For my friend, who was targeting Account Manager and Senior Account Manager roles in iGaming, the relevant boards were niche. A handful of specialist recruiters: Pentasia, BettingJobs, TalentBet, iGaming Recruitment, plus a few general iGaming industry sites. Not hundreds of sources, but enough that checking them all daily was a genuine drain." },
+      { type: "callout", icon: "💡", text: "The insight: the actual work of applying for jobs takes judgment. The work of finding them each morning is just a task, and tasks are automatable." },
+
+      { type: "h2", id: "what-we-built", text: "What We Built" },
+      { type: "p", text: "The tool is a Python script, built with Claude over a couple of sessions. It uses Playwright to run a headless browser, visits each of the configured job boards in turn, and scrapes the current listings. Each source gets its own scraper. Some sites are straightforward; others required more work to handle dynamic rendering." },
+      { type: "image", src: "/images/articles/claude-job-finder-flow.svg", alt: "Job finder automation flow: job boards to daily PDF report", caption: "The full pipeline: from seven job boards to a daily PDF report." },
+      { type: "p", text: "Once the jobs are collected, the script filters them by keyword. For my friend: 'account manager', 'senior account manager', and a few variations. Anything that doesn't match gets dropped. Anything seen on a previous day gets dropped too. The tool keeps a record of what it has already surfaced, so the daily output is genuinely new." },
+      { type: "p", text: "The final step is the output. Not a text file, not a spreadsheet. A properly formatted PDF. Clean layout, source headings, job title, company, location, salary where listed, and a clickable URL for each role. Something she could open on her phone on the way to a coffee and have everything ready to act on." },
+      { type: "ul", items: [
+        "7 iGaming job boards scraped daily: Pentasia, BettingJobs, TalentBet, iGaming Recruitment, Van Kaizen, iGamingCareer, iGaming Business",
+        "Keyword filtering tuned to her exact role targets",
+        "Deduplication: only roles that weren't in yesterday's report appear today",
+        "A PDF report generated automatically, dated and ready to open",
+      ]},
+
+      { type: "h2", id: "the-feedback-loop", text: "The Feedback Loop" },
+      { type: "p", text: "The first version just delivered jobs. It worked, but it wasn't smart about it. Some companies kept appearing that she'd already ruled out. Some role types were showing up that technically matched the keywords but weren't relevant to what she was actually looking for." },
+      { type: "p", text: "So we added a preference layer. As she reviewed each day's output, she'd mark roles as relevant or not, with a simple note in a markdown file the script reads before generating the PDF. Over time, this built up a picture of what she actually wanted. Employers she'd already applied to or ruled out were suppressed. Role types that matched the keyword but not the intent got filtered. The daily report got sharper." },
+      { type: "blockquote", text: "By week two, the noise was almost gone. Every role in the morning PDF was something she genuinely wanted to consider." },
+
+      { type: "h2", id: "the-result", text: "The Result" },
+      { type: "p", text: "The script runs automatically every morning. She wakes up to a PDF in her folder with that day's relevant, de-duplicated, pre-filtered roles, each with a direct link to apply. No login required. No scrolling. No remembering what she already saw." },
+      { type: "p", text: "She landed a role. Whether the tool was the reason or just made the process less miserable is hard to say. But it changed the texture of the search. Instead of a daily grind of opening tabs and trying to remember where she was up to, it became a simple ritual: open the PDF, pick the roles worth pursuing, apply." },
+
+      { type: "h2", id: "what-this-actually-means", text: "What This Actually Means" },
+      { type: "p", text: "This wasn't a complex project. The whole thing took a few hours across two sessions with Claude. I described the problem, Claude wrote the scaffolding, I adjusted the details, we iterated on the edge cases. By the time we were done, it was a tool that genuinely saved her time every single day." },
+      { type: "p", text: "That's the thing that still surprises me about working with Claude on projects like this. The barrier to automating something tedious is now almost nothing. If you can describe the problem clearly, you can usually have a working solution in an afternoon. The question is just whether you stop to ask: does this need to be manual?" },
+      { type: "callout", icon: "✦", text: "Most tedious recurring tasks can be automated. Most people never try because it seems like it requires a developer. It doesn't — not anymore." },
+      { type: "p", text: "Job hunting is a high-stakes, emotionally draining process. Anything that removes friction from it is worth building. And if the cost of building it is an afternoon and some prompts, there's very little reason not to." },
     ],
   },
 
