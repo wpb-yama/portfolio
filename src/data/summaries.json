@@ -47,6 +47,12 @@
     "A Gemini Pro agent dynamically selects which players each user sees, balancing engagement likelihood against operator-defined KPIs and financial guardrails.",
     "First customer going live. Targets: 20–30% DAU uplift and 15–25% reduction in first-session churn within 90 days."
   ],
+  "claude-job-finder": [
+    "A Python scraper built with Claude checks 7 iGaming job boards daily and generates a formatted PDF of new, relevant roles.",
+    "Deduplication means only genuinely new listings appear each day — no re-reviewing roles already seen.",
+    "A feedback layer lets the user mark roles as relevant or not, sharpening the output over time.",
+    "The whole thing was built in an afternoon. The real insight: most tedious recurring tasks can be automated if you just try."
+  ],
   "predict-6": [
     "A free-to-play weekly score predictor — the first white-label equivalent of Sky Super 6 and BetVictor's 6 Goals.",
     "Built to acquire the hesitant majority: users interested in sport but not yet ready to deposit real money.",
