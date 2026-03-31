@@ -83,7 +83,7 @@ function MorphPairCard({ fromKey, toKey }: MorphPairCardProps) {
         });
       }
       cancelRot?.(); cancelCoord?.();
-      svg.style.transform = "rotate(0deg)";
+      svg!.style.transform = "rotate(0deg)";
       cssRot = 0;
     }
 

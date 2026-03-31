@@ -58,7 +58,7 @@ export default function InsightParagraph() {
       document.head.appendChild(script);
     }
 
-    return () => { highlight?.hide(); bracket?.hide(); label?.hide(); };
+    return () => { highlight?.hide(); bracket?.hide(); };
   }, []);
 
   return (

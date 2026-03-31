@@ -102,7 +102,7 @@ export default function MorphingIconSolo() {
         });
       }
       cancelRot?.(); cancelCoord?.();
-      svg.style.transform = "rotate(0deg)";
+      svg!.style.transform = "rotate(0deg)";
       cssRot = 0;
     }
 
@@ -120,7 +120,7 @@ export default function MorphingIconSolo() {
         const endRot = cssRot;
         cancelRot?.();
         cancelRot = tween(420, t => {
-          svg.style.transform = `rotate(${lerp(startRot, endRot, t)}deg)`;
+          svg!.style.transform = `rotate(${lerp(startRot, endRot, t)}deg)`;
         });
       } else {
         flatten();
@@ -147,7 +147,7 @@ export default function MorphingIconSolo() {
           const endRot = to.rotation;
           cancelRot?.();
           cancelRot = tween(420, t => {
-            svg.style.transform = `rotate(${lerp(0, endRot, t)}deg)`;
+            svg!.style.transform = `rotate(${lerp(0, endRot, t)}deg)`;
           });
           cssRot = endRot;
         }
