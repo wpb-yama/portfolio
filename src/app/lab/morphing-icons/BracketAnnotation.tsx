@@ -17,7 +17,6 @@ export default function BracketAnnotation({ children, label = "Click me" }: Prop
     if (!el || !labelEl) return;
 
     let bracketAnnotation: { show: () => void; hide: () => void } | null = null;
-    let labelAnnotation:   { show: () => void; hide: () => void } | null = null;
 
     function init() {
       const RN = (window as { RoughNotation?: { annotate: (el: Element, opts: object) => { show: () => void; hide: () => void } } }).RoughNotation;
@@ -45,7 +44,7 @@ export default function BracketAnnotation({ children, label = "Click me" }: Prop
       document.head.appendChild(script);
     }
 
-    return () => { bracketAnnotation?.hide(); labelAnnotation?.hide(); };
+    return () => { bracketAnnotation?.hide(); };
   }, []);
 
   return (
