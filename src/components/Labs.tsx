@@ -1,10 +1,18 @@
 "use client";
 
-import { useRef } from "react";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight, FlaskConical } from "lucide-react";
 
 const projects = [
+  {
+    slug: "morphing-icons",
+    title: "Morphing Icons",
+    tag: "AI · Craft",
+    description:
+      "Every icon is built from exactly three SVG lines. That single constraint makes it possible to morph between any two icons without crossfades.",
+    accent: "#3B5BDB",
+    image:
+      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80",
+  },
   {
     slug: "netflix-casino",
     title: "Netflix Casino",
@@ -37,9 +45,6 @@ const projects = [
   },
 ];
 
-const CARD_WIDTH = 280;
-const CARD_GAP = 24;
-const SCROLL_AMOUNT = CARD_WIDTH + CARD_GAP;
 
 function LabCard({
   slug,
@@ -54,7 +59,7 @@ function LabCard({
       href={`/lab/${slug}`}
       className="group relative flex-shrink-0 w-[280px] h-[340px] rounded-[20px] overflow-hidden snap-start block
                  transition-all duration-300 ease-out
-                 hover:-translate-y-[6px]"
+                 hover:-translate-y-[6px] hover:shadow-xl"
     >
       {/* Background image */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -100,15 +105,6 @@ function LabCard({
 }
 
 export default function Labs() {
-  const trackRef = useRef<HTMLDivElement>(null);
-
-  function scroll(dir: "left" | "right") {
-    trackRef.current?.scrollBy({
-      left: dir === "right" ? SCROLL_AMOUNT : -SCROLL_AMOUNT,
-      behavior: "smooth",
-    });
-  }
-
   return (
     <section className="py-16 bg-[#FFFFFF]">
       <div className="max-w-5xl mx-auto px-6">
@@ -116,12 +112,11 @@ export default function Labs() {
         <div className="flex items-start justify-between mb-8">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <FlaskConical size={20} strokeWidth={1.8} className="text-[#1C1C1C]" />
-              <h2 className="text-2xl font-bold text-[#1C1C1C] tracking-tight">
+<h2 className="text-2xl font-bold text-[#1C1C1C] tracking-tight">
                 Labs
               </h2>
             </div>
-            <p className="text-sm text-[#888888] ml-7">
+            <p className="text-sm text-[#888888] ">
               Experiments, prototypes, and side projects
             </p>
           </div>
@@ -134,34 +129,12 @@ export default function Labs() {
         </div>
 
         {/* Carousel track */}
-        <div
-          ref={trackRef}
-          className="flex gap-6 overflow-x-auto snap-x snap-mandatory no-scrollbar py-6 -my-6"
-        >
+        <div className="flex gap-6 overflow-x-auto snap-x snap-mandatory no-scrollbar py-6 -my-6">
           {projects.map((project) => (
             <LabCard key={project.slug} {...project} />
           ))}
         </div>
 
-        {/* Arrow buttons — hidden on mobile */}
-        <div className="hidden sm:flex gap-3 mt-6">
-          <button
-            onClick={() => scroll("left")}
-            aria-label="Scroll left"
-            className="w-10 h-10 rounded-full border border-[#1C1C1C] flex items-center justify-center text-[#1C1C1C]
-                       hover:bg-[#1C1C1C] hover:text-white transition-colors duration-150"
-          >
-            <ChevronLeft size={18} strokeWidth={2} />
-          </button>
-          <button
-            onClick={() => scroll("right")}
-            aria-label="Scroll right"
-            className="w-10 h-10 rounded-full border border-[#1C1C1C] flex items-center justify-center text-[#1C1C1C]
-                       hover:bg-[#1C1C1C] hover:text-white transition-colors duration-150"
-          >
-            <ChevronRight size={18} strokeWidth={2} />
-          </button>
-        </div>
       </div>
     </section>
   );

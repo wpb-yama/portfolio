@@ -358,6 +358,99 @@ const articles: Article[] = [
   },
 
   {
+    slug: "autodream",
+    title: "AutoDream: Claude Code's Sleep Feature Explained",
+    featuredImage: "/images/articles/autodream.png",
+    excerpt: "A complete guide to automatic memory consolidation in Claude Code — what it does, how it works, and how to turn it on.",
+    category: "AI & Tech",
+    date: "24 March 2026",
+    readTime: "7 min",
+    featured: false,
+    relatedSlugs: ["post-code-era", "claude-job-finder"],
+    body: [
+      { type: "h2", id: "what-is-autodream", text: "What Is AutoDream?" },
+      { type: "p", text: "Anthropic quietly rolled out a new feature for Claude Code called AutoDream. It is an experimental, background cleanup and organisation system for your Claude memories, designed so that each new session feels sharp instead of fuzzy or cluttered." },
+      { type: "p", text: "At its core, AutoDream periodically runs a background Claude sub-agent that reviews your accumulated memory files, merges related notes, prunes stale information, and keeps a clean index. The result is that over time, your memory files become leaner, more accurate, and more useful." },
+
+      { type: "image", src: "/images/articles/overview.png", alt: "AutoDream overview: prerequisites, triggers, safety and status" },
+
+      { type: "h2", id: "how-auto-memory-works", text: "How Auto-Memory Works Today" },
+      { type: "p", text: "Before understanding AutoDream, it helps to understand the existing auto-memory system. Claude Code already has auto-memory, which allows it to remember things about your project across sessions using a MEMORY.md file and related files." },
+      { type: "ul", items: [
+        "At the start of each session, Claude reads MEMORY.md and injects relevant context into the conversation.",
+        "This means Claude does not start from zero every time. It already knows about your project structure, preferences, and decisions.",
+        "The memory file is written to and updated as you work, capturing patterns and important facts.",
+      ]},
+      { type: "p", text: "Think of auto-memory as Claude's notebook: it writes things down as you work so it can refer back to them next time." },
+      { type: "p", text: "The limitation is that the notebook gets messy over time. Notes accumulate, old information is never removed, and the file can become bloated and hard to parse. That is exactly the problem AutoDream solves." },
+
+      { type: "h2", id: "how-autodream-is-different", text: "How AutoDream Is Different" },
+      { type: "p", text: "Auto-memory records things. AutoDream cleans them up. Rather than simply flooding a file with information, AutoDream runs three core operations on your memory files:" },
+      { type: "ul", items: [
+        "Merge: Combines related notes and entries scattered across multiple memory files into coherent, deduplicated summaries.",
+        "Prune: Eliminates stale, redundant, or irrelevant entries. Trims the fat so only what matters remains.",
+        "Refresh: Updates outdated references and keeps the index file accurate and concise, well within the line limit.",
+      ]},
+      { type: "h2", id: "how-to-turn-it-on", text: "How to Turn It On" },
+      { type: "p", text: "AutoDream is turned on globally, meaning once enabled it applies to all your projects, though each project maintains its own separate dream files. Here is how to enable it:" },
+      { type: "ul", items: [
+        "Open Memory Settings: Type /memory in your Claude Code session to open the memory management panel.",
+        "Locate AutoDream Toggle: You will see 'Edit Claude Memory Files' with an AutoDream: Off toggle near the top.",
+        "Enable It: Hover over the toggle and press Enter. It will switch to AutoDream: On.",
+        "Run Manually (optional): Use /dream or type 'run your AutoDream' to trigger a dream cycle immediately.",
+      ]},
+      { type: "h2", id: "why-autodream-matters", text: "Why AutoDream Matters" },
+      { type: "p", text: "Even with auto-memory in place, many users notice friction over time: re-explaining context, carrying over notes manually, or sessions that feel strangely forgetful. AutoDream addresses this with four key benefits:" },
+      { type: "ul", items: [
+        "Less Repetition: Stop re-explaining your stack, preferences, and project decisions every session.",
+        "Less Bloat: Compacted memory files use fewer tokens, improving context window efficiency.",
+        "Better Recall: Fewer irrelevant entries means the right context is easier to surface. Like finding a pink ball in a pit of 50 blue ones instead of 100.",
+        "Like Sleep: Each dream cycle is a checkpoint. Experiences get converted into durable memory, just like human sleep.",
+      ]},
+
+      { type: "image", src: "/images/articles/why-autodream.png", alt: "Why AutoDream: four key benefits and before/after comparison" },
+
+      { type: "h2", id: "how-it-works", text: "How It Works Under the Hood" },
+      { type: "p", text: "AutoDream is a consolidation prompt over memory, run on a schedule. Here is the five-step process it follows each time it runs:" },
+      { type: "ul", items: [
+        "Gather Sessions: Collects recent session data, conversations, decisions made, and new information from your Claude Code interactions since the last dream cycle.",
+        "Read Memory: Loads the current contents of your existing MEMORY.md and all related memory files to understand the current state of what Claude knows.",
+        "Dream Prompt: Passes everything to a sub-agent with a consolidation prompt: 'Synthesize what you have learned recently into durable, well-organised memories. Keep memory.md under a line limit. It is an index, not a dump.'",
+        "Consolidate & Prune: The sub-agent merges related entries, removes redundant or outdated notes, and restructures the files for clarity and conciseness.",
+        "Store Results: Writes the cleaned-up memory files back to disk, ready for the next session to pick up instantly.",
+      ]},
+      { type: "p", text: "The entire process is transparent: when a dream is running, you will see 'dreaming' in your status line. You can press Enter to view the task list and watch it work in real time." },
+      { type: "image", src: "/images/articles/how-autodream.png", alt: "How AutoDream works: five-step consolidation loop" },
+
+      { type: "h2", id: "when-does-it-run", text: "When Does It Run?" },
+      { type: "p", text: "Besides invoking it manually with /dream, AutoDream is designed to trigger automatically. Based on community research, this is not yet formally documented by Anthropic. There appear to be two trigger mechanisms:" },
+      { type: "ul", items: [
+        "Time-Based: Every N hours (e.g., every 12 hours), AutoDream automatically runs a dream cycle in the background regardless of session count.",
+        "Session-Based: Once you exceed a minimum number of sessions (e.g., 300 sessions), a dream cycle is triggered automatically to consolidate the accumulated history.",
+      ]},
+      { type: "p", text: "These triggers can work independently or together. You can also invoke it manually at any time. While AutoDream is running or idle, you will see one of these status indicators:" },
+      { type: "ul", items: [
+        "running: a dream cycle is actively in progress",
+        "never: AutoDream is on but has never been run in this project",
+        "last ran [time]: shows when the most recent cycle completed",
+        "idle: enabled but waiting for the next trigger or manual /dream command",
+      ]},
+      { type: "image", src: "/images/articles/timeline.png", alt: "AutoDream session timeline: raw notes processed into a clean index" },
+
+      { type: "h2", id: "three-layers", text: "The Three Layers of Claude Code Memory" },
+      { type: "p", text: "It helps to think of Claude Code's memory system as three distinct layers, each building on the one above it:" },
+      { type: "ul", items: [
+        "Surface: Normal Sessions. Your active coding, debugging, and refactoring work. This is where you interact with Claude Code directly.",
+        "Middle: Auto-Memory. Captures decisions, patterns, preferences, and project facts into MEMORY.md. Injected at the start of each session so Claude always has context.",
+        "Background: AutoDream. Runs silently in the background on a schedule. Cleans, indexes, and organises the memory files so every new session benefits from sharp, relevant context.",
+      ]},
+      { type: "image", src: "/images/articles/memory-layers.png", alt: "Three layers of Claude Code memory: sessions, auto-memory and AutoDream" },
+
+      { type: "p", text: "Together, these three layers create a self-improving memory system. Normal sessions capture new information. Auto-memory persists it. AutoDream organises and refines it. Each layer feeds the next, making Claude Code feel less like a stateless tool and more like a collaborator that genuinely remembers your project." },
+    ],
+  },
+
+  {
     slug: "claude-job-finder",
     title: "Using Claude to help my friend find a job",
     featuredImage: "/images/articles/job-hireagent.png",

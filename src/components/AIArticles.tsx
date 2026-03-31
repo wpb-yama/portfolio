@@ -3,21 +3,11 @@ import Link from "next/link";
 import articles from "@/data/articles";
 import ArticleCard from "@/components/ArticleCard";
 
-function parseDate(dateStr: string): Date {
-  const parts = dateStr.trim().split(" ");
-  if (parts.length === 2) return new Date(`${parts[0]} 1, ${parts[1]}`);
-  if (parts.length === 3) return new Date(`${parts[1]} ${parts[0]}, ${parts[2]}`);
-  return new Date(0);
-}
-
 const AI_SLUGS = ["claude-job-finder", "autodream"];
 
-const recent = [...articles]
-  .filter((a) => !AI_SLUGS.includes(a.slug))
-  .sort((a, b) => parseDate(b.date).getTime() - parseDate(a.date).getTime())
-  .slice(0, 3);
+const aiArticles = articles.filter((a) => AI_SLUGS.includes(a.slug));
 
-export default function LatestArticles() {
+export default function AIArticles() {
   return (
     <section style={{ padding: "4rem 0", background: "#FFFFFF" }}>
       <div style={{ maxWidth: "64rem", margin: "0 auto", padding: "0 1.5rem" }}>
@@ -26,11 +16,11 @@ export default function LatestArticles() {
           <div>
             <div className="flex items-center gap-2 mb-1">
 <h2 className="text-2xl font-bold text-[#1C1C1C] tracking-tight">
-                Articles
+                AI Articles
               </h2>
             </div>
             <p className="text-sm text-[#888888] ">
-              Thoughts on product, technology, and building things
+              Exploring AI tools, workflows, and what they mean for product teams
             </p>
           </div>
           <Link
@@ -42,7 +32,7 @@ export default function LatestArticles() {
         </div>
 
         <div className="flex overflow-x-auto snap-x snap-mandatory gap-3 pb-2 md:grid md:grid-cols-3 md:overflow-x-visible md:pb-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-          {recent.map((article) => (
+          {aiArticles.map((article) => (
             <div key={article.slug} className="flex-shrink-0 w-[80vw] md:w-auto snap-start">
               <ArticleCard article={article} heroHeight={110} />
             </div>

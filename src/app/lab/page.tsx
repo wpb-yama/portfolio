@@ -4,6 +4,15 @@ import { useRouter } from "next/navigation";
 
 const labItems = [
   {
+    slug: "morphing-icons",
+    title: "Morphing Icons",
+    tag: "AI · Craft",
+    description:
+      "Every icon is built from exactly three SVG line elements. That single constraint makes it possible to morph between any two icons without crossfades or swaps.",
+    accent: "#3B5BDB",
+    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80",
+  },
+  {
     slug: "netflix-casino",
     title: "Netflix Casino",
     tag: "Entertainment",

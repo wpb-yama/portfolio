@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useEffect } from "react";
-import { MessageSquareQuote } from "lucide-react";
+
 
 const testimonials = [
   {
@@ -208,12 +208,11 @@ export default function Testimonials() {
     <section className="py-16 bg-[#FFFFFF]">
       <div className="max-w-5xl mx-auto px-6 mb-10">
         <div className="flex items-center gap-2 mb-1">
-          <MessageSquareQuote size={20} strokeWidth={1.8} className="text-[#1C1C1C]" />
-          <h2 className="text-2xl font-bold text-[#1C1C1C] tracking-tight">
+<h2 className="text-2xl font-bold text-[#1C1C1C] tracking-tight">
             What People Say
           </h2>
         </div>
-        <p className="text-sm text-[#888888] ml-7">
+        <p className="text-sm text-[#888888] ">
           Kind words from colleagues and collaborators
         </p>
       </div>

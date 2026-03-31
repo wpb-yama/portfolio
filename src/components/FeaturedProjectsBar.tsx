@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { FolderOpen } from "lucide-react";
 
 const projects = [
   {
@@ -12,7 +11,7 @@ const projects = [
     accent: "#E8399A",
     image: "/videos/pickem-1.webm",
     trophy: true,
-    award: "Winner · Sportsbook Innovation (Supplier) 2025",
+    award: "Winner 2025 · Sportsbook Innovation (Supplier)",
   },
   {
     slug: "reveals",
@@ -53,7 +52,7 @@ function ProjectCard({
       href={`/projects/${slug}`}
       className="group relative w-full h-[340px] rounded-[20px] overflow-visible block
                  transition-all duration-300 ease-out
-                 hover:-translate-y-[6px]"
+                 hover:-translate-y-[6px] hover:shadow-xl"
     >
       {/* Clipped inner container */}
       <div className="absolute inset-0 rounded-[20px] overflow-hidden">
@@ -112,7 +111,10 @@ function ProjectCard({
       <div className="flex items-center gap-1.5 mt-3 px-1">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/trophy.png" alt="" style={{ width: 45, height: 45, objectFit: "contain", mixBlendMode: "multiply", flexShrink: 0 }} />
-        <p className="text-[11px] text-[#888] leading-snug">{award}</p>
+        <p className="text-[11px] text-[#888] leading-snug">
+          <span className="font-semibold block">Winner 2025</span>
+          Sportsbook Innovation (Supplier)
+        </p>
       </div>
     )}
     </div>
@@ -127,12 +129,11 @@ export default function FeaturedProjectsBar() {
         <div className="flex items-start justify-between mb-8">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <FolderOpen size={20} strokeWidth={1.8} className="text-[#1C1C1C]" />
-              <h2 className="text-2xl font-bold text-[#1C1C1C] tracking-tight">
+<h2 className="text-2xl font-bold text-[#1C1C1C] tracking-tight">
                 Featured Projects
               </h2>
             </div>
-            <p className="text-sm text-[#888888] ml-7">
+            <p className="text-sm text-[#888888] ">
               A selection of product work
             </p>
           </div>

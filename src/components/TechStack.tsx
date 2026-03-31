@@ -1,6 +1,6 @@
 "use client";
 
-import { Wrench } from "lucide-react";
+
 
 const row1 = [
   { label: "Claude",    icon: "https://cdn.simpleicons.org/claude/D97757",         color: "#D97757" },
@@ -86,8 +86,7 @@ export default function TechStack() {
     <section className="py-16 bg-white">
       <div className="max-w-5xl mx-auto px-6">
         <div className="flex items-center gap-2 mb-8">
-          <Wrench size={20} strokeWidth={1.8} className="text-[#1C1C1C]" />
-          <h2 className="text-2xl font-bold text-[#1C1C1C] tracking-tight">Tech Stack</h2>
+<h2 className="text-2xl font-bold text-[#1C1C1C] tracking-tight">Tech Stack</h2>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 12, alignItems: "center" }}>

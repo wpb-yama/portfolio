@@ -175,6 +175,39 @@ function ThumbStopHelpful({ c }: { c: string }) {
   );
 }
 
+function ThumbAutoDream({ c }: { c: string }) {
+  return (
+    <svg viewBox="0 0 300 100" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
+      {/* Messy stacked files on left */}
+      <rect x="14" y="22" width="38" height="28" rx="3" fill={c} opacity="0.10"/>
+      <rect x="20" y="16" width="38" height="28" rx="3" fill={c} opacity="0.12"/>
+      <rect x="26" y="10" width="38" height="28" rx="3" fill={c} opacity="0.17"/>
+      <line x1="33" y1="18" x2="57" y2="18" stroke={c} strokeWidth="1.2" opacity="0.35"/>
+      <line x1="33" y1="24" x2="57" y2="24" stroke={c} strokeWidth="1.2" opacity="0.3"/>
+      <line x1="33" y1="30" x2="50" y2="30" stroke={c} strokeWidth="1.2" opacity="0.22"/>
+      {/* Arrow right */}
+      <line x1="72" y1="50" x2="106" y2="50" stroke={c} strokeWidth="2" opacity="0.4"/>
+      <polygon points="106,46 114,50 106,54" fill={c} opacity="0.4"/>
+      {/* Crescent moon */}
+      <path d="M 148 26 Q 134 34 134 50 Q 134 66 148 74 Q 124 72 116 50 Q 124 28 148 26 Z" fill={c} opacity="0.65"/>
+      {/* ZZZ rising */}
+      <text x="154" y="36" fontSize="8"  fill={c} opacity="0.45" fontFamily="system-ui, sans-serif" fontWeight="700">Z</text>
+      <text x="163" y="27" fontSize="11" fill={c} opacity="0.62" fontFamily="system-ui, sans-serif" fontWeight="700">Z</text>
+      <text x="174" y="18" fontSize="14" fill={c} opacity="0.78" fontFamily="system-ui, sans-serif" fontWeight="700">Z</text>
+      {/* Arrow right */}
+      <line x1="196" y1="50" x2="222" y2="50" stroke={c} strokeWidth="2" opacity="0.4"/>
+      <polygon points="222,46 230,50 222,54" fill={c} opacity="0.4"/>
+      {/* Clean single file on right */}
+      <rect x="232" y="22" width="52" height="56" rx="4" fill={c} opacity="0.13"/>
+      <rect x="232" y="22" width="52" height="56" rx="4" fill="none" stroke={c} strokeWidth="1.5" opacity="0.38"/>
+      <line x1="242" y1="38" x2="274" y2="38" stroke={c} strokeWidth="1.5" opacity="0.5"/>
+      <line x1="242" y1="48" x2="274" y2="48" stroke={c} strokeWidth="1.5" opacity="0.5"/>
+      <line x1="242" y1="58" x2="264" y2="58" stroke={c} strokeWidth="1.5" opacity="0.5"/>
+      <polyline points="238,70 244,76 258,63" fill="none" stroke={c} strokeWidth="2" opacity="0.65" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  );
+}
+
 function ThumbCricketAI({ c }: { c: string }) {
   return (
     <svg viewBox="0 0 300 100" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
@@ -198,6 +231,7 @@ function ThumbCricketAI({ c }: { c: string }) {
 }
 
 export const thumbnailMap: Record<string, (c: string) => React.ReactElement> = {
+  "autodream":            (c) => <ThumbAutoDream c={c} />,
   "claude-job-finder":    (c) => <ThumbJobFinder c={c} />,
   "post-code-era":        (c) => <ThumbPostCodeEra c={c} />,
   "acquire-churn-repeat": (c) => <ThumbAcquireChurn c={c} />,
@@ -216,7 +250,7 @@ export default function ArticleCard({ article, heroHeight = 140 }: { article: Ar
     <Link
       href={`/articles/${article.slug}`}
       className="hover:-translate-y-[3px] hover:shadow-xl transition-all duration-200"
-      style={{ textDecoration: "none", display: "block", height: "100%" }}
+      style={{ textDecoration: "none", display: "block", height: "100%", borderRadius: 12, overflow: "hidden" }}
     >
       <div
         style={{

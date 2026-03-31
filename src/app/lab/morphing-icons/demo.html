@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Morphing Icons</title>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+  <style>
+    :root {
+      --bg:       #FFFFFF;
+      --text:     #1C1C1C;
+      --subtle:   #6B6B6B;
+      --accent:   #3B5BDB;
+      --surface:  #F8F8F8;
+      --border:   #E8E8E8;
+      --radius:   12px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header {
+      padding: 64px 24px 40px;
+      text-align: center;
+      max-width: 560px;
+    }
+
+    .eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 0 0 12px;
+    }
+
+    h1 {
+      font-size: 36px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0 0 12px;
+    }
+
+    .subtitle {
+      font-size: 15px;
+      color: var(--subtle);
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    .constraint-tag {
+      display: inline-block;
+      margin-top: 16px;
+      padding: 4px 10px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--subtle);
+      letter-spacing: 0.03em;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      padding: 0 24px 16px;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    .icon-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 20px 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      cursor: pointer;
+      background: #fff;
+      color: var(--text);
+      transition: color 0.15s, box-shadow 0.2s, border-color 0.2s, transform 0.1s;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .icon-card:hover {
+      color: var(--accent);
+      border-color: rgba(59, 91, 219, 0.3);
+      box-shadow: 0 4px 20px rgba(59, 91, 219, 0.1);
+    }
+
+    .icon-card:active {
+      transform: scale(0.95);
+    }
+
+    .icon-card svg,
+    #soloSvg,
+    #builderSvg,
+    .picker-btn svg,
+    .seq-chip svg {
+      display: block;
+      overflow: visible;
+      transform-box: fill-box;   /* rotate around the SVG's own bounds */
+      transform-origin: center;
+    }
+
+    .icon-label {
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--subtle);
+      text-align: center;
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 100%;
+    }
+
+    .controls {
+      padding: 20px 24px 64px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.15s, transform 0.1s;
+      letter-spacing: 0.01em;
+    }
+
+    .btn:hover  { opacity: 0.88; }
+    .btn:active { transform: scale(0.97); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--subtle);
+      border: 1px solid var(--border);
+    }
+
+    .btn-ghost:hover {
+      opacity: 1;
+      border-color: var(--text);
+      color: var(--text);
+    }
+
+    /* ---- Solo Viewer ---- */
+    .solo-section {
+      padding: 0 24px 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .solo-card {
+      width: 180px;
+      height: 180px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      cursor: pointer;
+      background: #fff;
+      color: var(--text);
+      transition: color 0.15s, box-shadow 0.2s, border-color 0.2s, transform 0.1s;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .solo-card:hover {
+      color: var(--accent);
+      border-color: rgba(59, 91, 219, 0.3);
+      box-shadow: 0 6px 32px rgba(59, 91, 219, 0.12);
+    }
+
+    .solo-card:active { transform: scale(0.97); }
+
+    .solo-card svg { display: block; overflow: visible; }
+
+    .solo-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -0.01em;
+    }
+
+    .solo-counter {
+      font-size: 12px;
+      color: var(--subtle);
+      letter-spacing: 0.02em;
+    }
+
+    /* ---- Sequence Builder ---- */
+
+    .builder-section {
+      padding: 0 24px 80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      width: 100%;
+      max-width: 440px;
+    }
+
+    .builder-section-title {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0;
+      align-self: flex-start;
+    }
+
+    .builder-player {
+      width: 160px;
+      height: 160px;
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      user-select: none;
+      transition: box-shadow 0.2s, border-color 0.2s, color 0.15s, transform 0.1s;
+    }
+
+    .builder-player.empty {
+      border: 2px dashed #CCCCCC;
+      background: repeating-conic-gradient(#F4F4F4 0% 25%, #FAFAFA 0% 50%) 0 0 / 14px 14px;
+      cursor: default;
+    }
+
+    .builder-player.empty svg { display: none; }
+    .builder-player.empty .builder-name { display: none; }
+
+    .builder-player.filled {
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .builder-player.filled:hover {
+      color: var(--accent);
+      border-color: rgba(59, 91, 219, 0.3);
+      box-shadow: 0 6px 24px rgba(59, 91, 219, 0.12);
+    }
+
+    .builder-player.filled:active { transform: scale(0.97); }
+
+    .builder-name {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: inherit;
+    }
+
+    .sequence-strip {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 6px;
+      max-width: 100%;
+    }
+
+    .seq-chip {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fff;
+      color: var(--text);
+      cursor: default;
+      transition: border-color 0.15s, background 0.15s, color 0.15s;
+      flex-shrink: 0;
+    }
+
+    .seq-chip.active {
+      border-color: var(--accent);
+      background: rgba(59, 91, 219, 0.07);
+      color: var(--accent);
+    }
+
+    .builder-picker-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
+    }
+
+    .picker-btn {
+      width: 52px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fff;
+      color: var(--text);
+      cursor: pointer;
+      padding: 0;
+      transition: color 0.15s, border-color 0.15s, box-shadow 0.15s, transform 0.1s;
+    }
+
+    .picker-btn:hover {
+      color: var(--accent);
+      border-color: rgba(59, 91, 219, 0.3);
+      box-shadow: 0 2px 10px rgba(59, 91, 219, 0.1);
+    }
+
+    .picker-btn:active { transform: scale(0.92); }
+
+    .builder-hint {
+      font-size: 13px;
+      color: var(--subtle);
+      margin: 0;
+      text-align: center;
+    }
+
+    .builder-clear {
+      font-size: 12px;
+      color: var(--subtle);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      text-decoration: underline;
+      transition: color 0.15s;
+    }
+    .builder-clear:hover { color: var(--text); }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 28px; }
+      .grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+      }
+      .icon-card { padding: 16px 8px 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <p class="eyebrow">Interactive Demo</p>
+  <h1>Morphing Icons</h1>
+  <p class="subtitle">Click any icon to morph it into the next in the sequence. Each icon is built from exactly three SVG lines.</p>
+  <span class="constraint-tag">3 lines per icon</span>
+</header>
+
+<section class="solo-section">
+  <div class="solo-card" id="soloCard">
+    <svg id="soloSvg" viewBox="0 0 14 14" width="80" height="80"
+         fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+      <line id="sl0" /><line id="sl1" /><line id="sl2" />
+    </svg>
+    <div class="solo-name" id="soloName"></div>
+  </div>
+  <div class="solo-counter" id="soloCounter"></div>
+</section>
+
+<div class="grid" id="grid"></div>
+
+<div class="controls">
+  <button class="btn" id="cycleAll">Cycle All</button>
+  <button class="btn btn-ghost" id="resetAll">Reset</button>
+</div>
+
+<section class="builder-section">
+  <h2 class="builder-section-title">Build a sequence</h2>
+
+  <div class="builder-player empty" id="builderCard">
+    <svg id="builderSvg" viewBox="0 0 14 14" width="72" height="72"
+         fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+      <line/><line/><line/>
+    </svg>
+    <div class="builder-name" id="builderName"></div>
+  </div>
+
+  <div class="sequence-strip" id="sequenceStrip" style="display:none"></div>
+
+  <div class="builder-picker-grid" id="builderPickerGrid"></div>
+
+  <p class="builder-hint" id="builderHint">Select icons to build a sequence</p>
+  <button class="builder-clear" id="builderClear" style="display:none">Clear sequence</button>
+</section>
+
+<script>
+// ============================================================
+// ICON DEFINITIONS
+// viewBox: 0 0 14 14  |  center: (7, 7)
+// Every icon uses exactly 3 <line> elements.
+// Unused lines collapse to an invisible point at (7,7).
+// ============================================================
+
+const ICONS = [
+  {
+    key:   'menu',
+    label: 'Menu',
+    lines: [
+      { x1: 2,    y1: 3,   x2: 12,   y2: 3,   opacity: 1 },
+      { x1: 2,    y1: 7,   x2: 12,   y2: 7,   opacity: 1 },
+      { x1: 2,    y1: 11,  x2: 12,   y2: 11,  opacity: 1 },
+    ],
+  },
+  {
+    key:   'cross',
+    label: 'Close',
+    group: 'plusCross', rotation: 45,
+    lines: [ // same base as plus -- rotation makes it an X
+      { x1: 2,    y1: 7,   x2: 12,   y2: 7,   opacity: 1 },
+      { x1: 7,    y1: 2,   x2: 7,    y2: 12,  opacity: 1 },
+      { x1: 7,    y1: 7,   x2: 7,    y2: 7,   opacity: 0 },
+    ],
+  },
+  {
+    key:   'plus',
+    label: 'Plus',
+    group: 'plusCross', rotation: 0,
+    lines: [
+      { x1: 2,    y1: 7,   x2: 12,   y2: 7,   opacity: 1 },
+      { x1: 7,    y1: 2,   x2: 7,    y2: 12,  opacity: 1 },
+      { x1: 7,    y1: 7,   x2: 7,    y2: 7,   opacity: 0 },
+    ],
+  },
+  {
+    key:   'minus',
+    label: 'Minus',
+    lines: [
+      { x1: 2,    y1: 7,   x2: 12,   y2: 7,   opacity: 1 },
+      { x1: 7,    y1: 7,   x2: 7,    y2: 7,   opacity: 0 },
+      { x1: 7,    y1: 7,   x2: 7,    y2: 7,   opacity: 0 },
+    ],
+  },
+  {
+    key:   'equals',
+    label: 'Equals',
+    lines: [
+      { x1: 2,    y1: 5,   x2: 12,   y2: 5,   opacity: 1 },
+      { x1: 2,    y1: 9,   x2: 12,   y2: 9,   opacity: 1 },
+      { x1: 7,    y1: 7,   x2: 7,    y2: 7,   opacity: 0 },
+    ],
+  },
+  {
+    key:   'asterisk',
+    label: 'Asterisk',
+    // 3 lines through center at 0°, 60°, 120° -- radius 5
+    lines: [
+      { x1: 7,    y1: 2,   x2: 7,    y2: 12,  opacity: 1 }, // vertical (0°)
+      { x1: 2.67, y1: 9.5, x2: 11.33, y2: 4.5, opacity: 1 }, // 60°
+      { x1: 2.67, y1: 4.5, x2: 11.33, y2: 9.5, opacity: 1 }, // 120°
+    ],
+  },
+  {
+    key:   'play',
+    label: 'Play',
+    lines: [
+      { x1: 4,    y1: 3,   x2: 4,    y2: 11,  opacity: 1 }, // left edge
+      { x1: 4,    y1: 3,   x2: 11,   y2: 7,   opacity: 1 }, // top edge to tip
+      { x1: 4,    y1: 11,  x2: 11,   y2: 7,   opacity: 1 }, // bottom edge to tip
+    ],
+  },
+  {
+    key:   'pause',
+    label: 'Pause',
+    lines: [
+      { x1: 4,    y1: 3,   x2: 4,    y2: 11,  opacity: 1 }, // left bar
+      { x1: 10,   y1: 3,   x2: 10,   y2: 11,  opacity: 1 }, // right bar
+      { x1: 7,    y1: 7,   x2: 7,    y2: 7,   opacity: 0 },
+    ],
+  },
+  {
+    key:   'check',
+    label: 'Check',
+    lines: [
+      { x1: 2,    y1: 7,   x2: 5.5,  y2: 11,  opacity: 1 }, // short left stroke
+      { x1: 5.5,  y1: 11,  x2: 12,   y2: 3,   opacity: 1 }, // long right stroke
+      { x1: 7,    y1: 7,   x2: 7,    y2: 7,   opacity: 0 },
+    ],
+  },
+  {
+    key:   'download',
+    label: 'Download',
+    // symmetric chevron pointing down + horizontal base (tray)
+    lines: [
+      { x1: 4,    y1: 5,   x2: 7,    y2: 9,   opacity: 1 }, // left arm
+      { x1: 10,   y1: 5,   x2: 7,    y2: 9,   opacity: 1 }, // right arm
+      { x1: 3,    y1: 12,  x2: 11,   y2: 12,  opacity: 1 }, // base/tray
+    ],
+  },
+  {
+    key:   'upload',
+    label: 'Upload',
+    // symmetric chevron pointing up + horizontal base at bottom (source tray)
+    lines: [
+      { x1: 4,    y1: 9,   x2: 7,    y2: 5,   opacity: 1 }, // left arm
+      { x1: 10,   y1: 9,   x2: 7,    y2: 5,   opacity: 1 }, // right arm
+      { x1: 3,    y1: 12,  x2: 11,   y2: 12,  opacity: 1 }, // base/tray
+    ],
+  },
+  {
+    key:   'external',
+    label: 'External',
+    // diagonal arrow + corner bracket at tip
+    lines: [
+      { x1: 3,    y1: 11,  x2: 11,   y2: 3,   opacity: 1 }, // main diagonal
+      { x1: 11,   y1: 3,   x2: 6,    y2: 3,   opacity: 1 }, // horizontal arm
+      { x1: 11,   y1: 3,   x2: 11,   y2: 8,   opacity: 1 }, // vertical arm
+    ],
+  },
+  {
+    key:   'arrowRight',
+    label: 'Arrow',
+    group: 'arrow', rotation: 0,
+    lines: [ // base coords -- rotation handles direction
+      { x1: 2,    y1: 7,   x2: 12,   y2: 7,   opacity: 1 }, // stem
+      { x1: 7,    y1: 3,   x2: 12,   y2: 7,   opacity: 1 }, // top wing
+      { x1: 7,    y1: 11,  x2: 12,   y2: 7,   opacity: 1 }, // bottom wing
+    ],
+  },
+  {
+    key:   'arrowDown',
+    label: 'Arrow',
+    group: 'arrow', rotation: 90,
+    lines: [ // same base as arrowRight
+      { x1: 2,    y1: 7,   x2: 12,   y2: 7,   opacity: 1 },
+      { x1: 7,    y1: 3,   x2: 12,   y2: 7,   opacity: 1 },
+      { x1: 7,    y1: 11,  x2: 12,   y2: 7,   opacity: 1 },
+    ],
+  },
+  {
+    key:   'arrowLeft',
+    label: 'Arrow',
+    group: 'arrow', rotation: 180,
+    lines: [ // same base as arrowRight
+      { x1: 2,    y1: 7,   x2: 12,   y2: 7,   opacity: 1 },
+      { x1: 7,    y1: 3,   x2: 12,   y2: 7,   opacity: 1 },
+      { x1: 7,    y1: 11,  x2: 12,   y2: 7,   opacity: 1 },
+    ],
+  },
+  {
+    key:   'arrowUp',
+    label: 'Arrow',
+    group: 'arrow', rotation: 270,
+    lines: [ // same base as arrowRight
+      { x1: 2,    y1: 7,   x2: 12,   y2: 7,   opacity: 1 },
+      { x1: 7,    y1: 3,   x2: 12,   y2: 7,   opacity: 1 },
+      { x1: 7,    y1: 11,  x2: 12,   y2: 7,   opacity: 1 },
+    ],
+  },
+  {
+    key:   'chevronRight',
+    label: 'Chevron',
+    group: 'chevron', rotation: 0,
+    lines: [ // base coords -- rotation handles direction
+      { x1: 5,    y1: 3,   x2: 10,   y2: 7,   opacity: 1 },
+      { x1: 5,    y1: 11,  x2: 10,   y2: 7,   opacity: 1 },
+      { x1: 7,    y1: 7,   x2: 7,    y2: 7,   opacity: 0 },
+    ],
+  },
+  {
+    key:   'chevronDown',
+    label: 'Chevron',
+    group: 'chevron', rotation: 90,
+    lines: [ // same base as chevronRight
+      { x1: 5,    y1: 3,   x2: 10,   y2: 7,   opacity: 1 },
+      { x1: 5,    y1: 11,  x2: 10,   y2: 7,   opacity: 1 },
+      { x1: 7,    y1: 7,   x2: 7,    y2: 7,   opacity: 0 },
+    ],
+  },
+  {
+    key:   'chevronLeft',
+    label: 'Chevron',
+    group: 'chevron', rotation: 180,
+    lines: [ // same base as chevronRight
+      { x1: 5,    y1: 3,   x2: 10,   y2: 7,   opacity: 1 },
+      { x1: 5,    y1: 11,  x2: 10,   y2: 7,   opacity: 1 },
+      { x1: 7,    y1: 7,   x2: 7,    y2: 7,   opacity: 0 },
+    ],
+  },
+  {
+    key:   'chevronUp',
+    label: 'Chevron',
+    group: 'chevron', rotation: 270,
+    lines: [ // same base as chevronRight
+      { x1: 5,    y1: 3,   x2: 10,   y2: 7,   opacity: 1 },
+      { x1: 5,    y1: 11,  x2: 10,   y2: 7,   opacity: 1 },
+      { x1: 7,    y1: 7,   x2: 7,    y2: 7,   opacity: 0 },
+    ],
+  },
+];
+
+// ============================================================
+// LOOKUP TABLES
+// ============================================================
+
+const SEQUENCE = ICONS.map(i => i.key);
+const ICON_MAP  = Object.fromEntries(ICONS.map(i => [i.key, i]));
+const CENTER    = 7; // SVG viewBox centre (0 0 14 14)
+
+// ============================================================
+// ROTATION HELPER
+// ============================================================
+
+function rotatePoint(x, y, deg) {
+  const rad = (deg * Math.PI) / 180;
+  const cos = Math.cos(rad), sin = Math.sin(rad);
+  const dx  = x - CENTER,   dy  = y - CENTER;
+  return {
+    x: CENTER + dx * cos - dy * sin,
+    y: CENTER + dx * sin + dy * cos,
+  };
+}
+
+// ============================================================
+// ICON PLAYER FACTORY
+// Manages one SVG element with exactly 3 <line> children.
+// Rotation-group icons rotate; all others do coordinate morphs.
+// ============================================================
+
+function createIconPlayer(svgEl, initialKey) {
+  const lineEls  = Array.from(svgEl.querySelectorAll('line'));
+  let currentKey = initialKey;
+  let cssRot     = ICON_MAP[initialKey].rotation || 0;
+
+  // Set initial coordinates
+  ICON_MAP[initialKey].lines.forEach((l, i) => {
+    lineEls[i].setAttribute('x1',      l.x1);
+    lineEls[i].setAttribute('y1',      l.y1);
+    lineEls[i].setAttribute('x2',      l.x2);
+    lineEls[i].setAttribute('y2',      l.y2);
+    lineEls[i].setAttribute('opacity', l.opacity);
+  });
+  // Apply initial rotation for group icons (e.g. arrowDown starts at 90°)
+  if (cssRot !== 0) svgEl.style.transform = `rotate(${cssRot}deg)`;
+
+  // Bake the current CSS rotation into the SVG line attributes then reset
+  function _flatten() {
+    const angle = ((cssRot % 360) + 360) % 360;
+    if (angle !== 0) {
+      lineEls.forEach(line => {
+        const p1 = rotatePoint(+line.getAttribute('x1'), +line.getAttribute('y1'), angle);
+        const p2 = rotatePoint(+line.getAttribute('x2'), +line.getAttribute('y2'), angle);
+        line.setAttribute('x1', p1.x.toFixed(4)); line.setAttribute('y1', p1.y.toFixed(4));
+        line.setAttribute('x2', p2.x.toFixed(4)); line.setAttribute('y2', p2.y.toFixed(4));
+      });
+    }
+    anime.remove(svgEl);
+    svgEl.style.transform = 'rotate(0deg)';
+    cssRot = 0;
+  }
+
+  function morph(targetKey, labelEl) {
+    const from      = ICON_MAP[currentKey];
+    const to        = ICON_MAP[targetKey];
+    const sameGroup = from.group && from.group === to.group;
+
+    if (sameGroup) {
+      // Pure rotation -- no coordinate change needed
+      let delta = to.rotation - from.rotation;
+      if (delta >  180) delta -= 360;
+      if (delta < -180) delta += 360;
+      cssRot += delta;
+      anime({ targets: svgEl, rotate: cssRot, duration: 420,
+              easing: 'cubicBezier(0.4, 0, 0.2, 1)' });
+    } else {
+      // Bake any accumulated rotation into the line coords, then coordinate-morph
+      _flatten();
+
+      to.lines.forEach((l, i) => {
+        anime({ targets: lineEls[i],
+                x1: l.x1, y1: l.y1, x2: l.x2, y2: l.y2, opacity: l.opacity,
+                duration: 420, easing: 'cubicBezier(0.4, 0, 0.2, 1)' });
+      });
+
+      // If arriving into a rotation group, spin to its canonical angle simultaneously
+      if (to.group && to.rotation) {
+        cssRot = to.rotation;
+        anime({ targets: svgEl, rotate: cssRot, duration: 420,
+                easing: 'cubicBezier(0.4, 0, 0.2, 1)' });
+      }
+    }
+
+    if (labelEl) labelEl.textContent = to.label;
+    currentKey = targetKey;
+  }
+
+  return { morph };
+}
+
+// ============================================================
+// BUILD GRID
+// ============================================================
+
+const cardEls     = [];
+const cardPlayers = [];
+const cardIdxs    = ICONS.map((_, i) => i); // current sequence index per card
+
+const grid = document.getElementById('grid');
+ICONS.forEach((icon, pos) => {
+  const card = document.createElement('div');
+  card.className = 'icon-card';
+
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('viewBox', '0 0 14 14');
+  svg.setAttribute('width',  '40');
+  svg.setAttribute('height', '40');
+  svg.setAttribute('fill',   'none');
+  svg.setAttribute('stroke', 'currentColor');
+  svg.setAttribute('stroke-width',   '1.5');
+  svg.setAttribute('stroke-linecap', 'round');
+  for (let i = 0; i < 3; i++) {
+    svg.appendChild(document.createElementNS('http://www.w3.org/2000/svg', 'line'));
+  }
+
+  const label = document.createElement('div');
+  label.className   = 'icon-label';
+  label.textContent = icon.label;
+
+  card.appendChild(svg);
+  card.appendChild(label);
+
+  const player = createIconPlayer(svg, icon.key);
+  cardPlayers.push(player);
+  cardEls.push(card);
+
+  card.addEventListener('click', () => {
+    cardIdxs[pos] = (cardIdxs[pos] + 1) % SEQUENCE.length;
+    player.morph(SEQUENCE[cardIdxs[pos]], label);
+  });
+
+  grid.appendChild(card);
+});
+
+// ============================================================
+// CONTROLS
+// ============================================================
+
+document.getElementById('cycleAll').addEventListener('click', () => {
+  cardEls.forEach((_, i) => {
+    cardIdxs[i] = (cardIdxs[i] + 1) % SEQUENCE.length;
+    cardPlayers[i].morph(SEQUENCE[cardIdxs[i]], cardEls[i].querySelector('.icon-label'));
+  });
+});
+
+document.getElementById('resetAll').addEventListener('click', () => {
+  cardIdxs.forEach((_, i) => {
+    cardIdxs[i] = i;
+    cardPlayers[i].morph(ICONS[i].key, cardEls[i].querySelector('.icon-label'));
+  });
+});
+
+// ============================================================
+// SOLO VIEWER
+// ============================================================
+
+let soloIdx         = 0;
+const soloSvgEl     = document.getElementById('soloSvg');
+const soloNameEl    = document.getElementById('soloName');
+const soloCounterEl = document.getElementById('soloCounter');
+
+const soloPlayer = createIconPlayer(soloSvgEl, ICONS[0].key);
+soloNameEl.textContent    = ICONS[0].label;
+soloCounterEl.textContent = `1 / ${ICONS.length}`;
+
+document.getElementById('soloCard').addEventListener('click', () => {
+  soloIdx = (soloIdx + 1) % ICONS.length;
+  soloPlayer.morph(ICONS[soloIdx].key, soloNameEl);
+  soloCounterEl.textContent = `${soloIdx + 1} / ${ICONS.length}`;
+});
+
+// ============================================================
+// SEQUENCE BUILDER
+// ============================================================
+
+const builderCardEl   = document.getElementById('builderCard');
+const builderSvgEl    = document.getElementById('builderSvg');
+const builderNameEl   = document.getElementById('builderName');
+const sequenceStripEl = document.getElementById('sequenceStrip');
+const builderHintEl   = document.getElementById('builderHint');
+const builderClearEl  = document.getElementById('builderClear');
+const builderPickerEl = document.getElementById('builderPickerGrid');
+
+let builderSeq     = [];   // array of icon keys
+let builderPlayer  = null;
+let builderPlaying = false;
+
+// Build a static (non-animated) icon SVG at a given pixel size
+function buildIconSvg(icon, size) {
+  const ns  = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(ns, 'svg');
+  svg.setAttribute('viewBox', '0 0 14 14');
+  svg.setAttribute('width',  size);
+  svg.setAttribute('height', size);
+  svg.setAttribute('fill',   'none');
+  svg.setAttribute('stroke', 'currentColor');
+  svg.setAttribute('stroke-width',   '1.5');
+  svg.setAttribute('stroke-linecap', 'round');
+  if (icon.rotation) svg.style.transform = `rotate(${icon.rotation}deg)`;
+  icon.lines.forEach(l => {
+    const line = document.createElementNS(ns, 'line');
+    line.setAttribute('x1', l.x1); line.setAttribute('y1', l.y1);
+    line.setAttribute('x2', l.x2); line.setAttribute('y2', l.y2);
+    line.setAttribute('opacity', l.opacity);
+    svg.appendChild(line);
+  });
+  return svg;
+}
+
+function updateBuilderUI() {
+  const n = builderSeq.length;
+  if (n === 0) {
+    builderHintEl.textContent = 'Select icons to build a sequence';
+    builderClearEl.style.display = 'none';
+  } else if (n === 1) {
+    builderHintEl.textContent = 'Add more icons, then click to play';
+    builderClearEl.style.display = 'inline';
+  } else {
+    builderHintEl.textContent = `${n} icons — click the preview to play`;
+    builderClearEl.style.display = 'inline';
+  }
+}
+
+function renderStrip() {
+  sequenceStripEl.innerHTML = '';
+  builderSeq.forEach((key, idx) => {
+    const chip = document.createElement('div');
+    chip.className = 'seq-chip';
+    chip.dataset.idx = idx;
+    chip.appendChild(buildIconSvg(ICON_MAP[key], 22));
+    sequenceStripEl.appendChild(chip);
+  });
+  sequenceStripEl.style.display = builderSeq.length ? 'flex' : 'none';
+}
+
+function highlightChip(idx) {
+  sequenceStripEl.querySelectorAll('.seq-chip').forEach((c, i) => {
+    c.classList.toggle('active', i === idx);
+  });
+}
+
+function addToSeq(key) {
+  if (builderSeq.length === 0) {
+    // First icon: initialise the player
+    builderCardEl.classList.replace('empty', 'filled');
+    builderPlayer = createIconPlayer(builderSvgEl, key);
+    builderNameEl.textContent = ICON_MAP[key].label;
+  }
+  builderSeq.push(key);
+  renderStrip();
+  updateBuilderUI();
+}
+
+function playBuilderSeq() {
+  if (builderPlaying || builderSeq.length < 2) return;
+  builderPlaying = true;
+
+  let step = 0;
+
+  // Jump back to start
+  builderPlayer.morph(builderSeq[0], builderNameEl);
+  highlightChip(0);
+
+  function advance() {
+    step++;
+    if (step >= builderSeq.length) {
+      builderPlaying = false;
+      setTimeout(() => highlightChip(-1), 600);
+      return;
+    }
+    builderPlayer.morph(builderSeq[step], builderNameEl);
+    highlightChip(step);
+    setTimeout(advance, 1200);
+  }
+
+  setTimeout(advance, 900);
+}
+
+// Play on card click
+builderCardEl.addEventListener('click', () => {
+  if (!builderPlaying && builderSeq.length >= 2) playBuilderSeq();
+});
+
+// Clear sequence
+builderClearEl.addEventListener('click', () => {
+  builderSeq     = [];
+  builderPlayer  = null;
+  builderPlaying = false;
+  builderCardEl.classList.replace('filled', 'empty');
+  builderNameEl.textContent = '';
+  // Reset builder SVG lines to hidden collapsed state
+  anime.remove(builderSvgEl);
+  builderSvgEl.style.transform = '';
+  Array.from(builderSvgEl.querySelectorAll('line')).forEach(l => {
+    l.setAttribute('x1', 7); l.setAttribute('y1', 7);
+    l.setAttribute('x2', 7); l.setAttribute('y2', 7);
+    l.setAttribute('opacity', 0);
+  });
+  renderStrip();
+  updateBuilderUI();
+});
+
+// Build picker grid
+ICONS.forEach(icon => {
+  const btn = document.createElement('button');
+  btn.className = 'picker-btn';
+  btn.appendChild(buildIconSvg(icon, 26));
+  btn.addEventListener('click', () => addToSeq(icon.key));
+  builderPickerEl.appendChild(btn);
+});
+</script>
+</body>
+</html>

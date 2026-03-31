@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { User } from "lucide-react";
+
 import SpotifyWidget from "@/components/SpotifyWidget";
 import AboutCarousel from "@/components/AboutCarousel";
 
@@ -100,8 +100,7 @@ export default function AboutPage() {
       <section className="py-16 bg-[#FFFFFF]">
         <div className="max-w-5xl mx-auto px-6">
           <div className="flex items-center gap-2 mb-1">
-            <User size={20} strokeWidth={1.8} className="text-[#1C1C1C]" />
-            <h2 className="text-2xl font-bold text-[#1C1C1C] tracking-tight">About Me</h2>
+<h2 className="text-2xl font-bold text-[#1C1C1C] tracking-tight">About Me</h2>
           </div>
 
           <div className="mt-6">

@@ -36,6 +36,11 @@ body {
   50%       { opacity: 0; }
 }
 
+[data-variant="cursive"] {
+  font-family: "Edu NSW ACT Foundation", cursive !important;
+  font-style: normal !important;
+}
+
 @layer utilities {
   .no-scrollbar::-webkit-scrollbar { display: none; }
   .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
