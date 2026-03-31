@@ -127,9 +127,7 @@ export default function AboutPage() {
 
       {/* ── Fun Facts (horizontal widget) ──────────────────────────────────── */}
       <div className="max-w-5xl mx-auto px-6 py-10">
-        <p style={{ fontSize: 11, fontWeight: 500, letterSpacing: "0.1em", textTransform: "uppercase", color: "#888", marginBottom: "1.25rem" }}>
-          Fun facts
-        </p>
+        <h2 className="text-2xl font-bold text-[#1C1C1C] tracking-tight mb-6">Fun Facts</h2>
         <div style={{ display: "flex", gap: 0, flexWrap: "wrap", border: "0.5px solid #EBEBEB", borderRadius: 16, overflow: "hidden" }}>
           {funFacts.map((fact, i) => (
             <div

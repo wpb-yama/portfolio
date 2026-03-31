@@ -6,28 +6,29 @@ type Annotation = { show: () => void; hide: () => void };
 type RN = { annotate: (el: Element, opts: object) => Annotation };
 
 export default function ApproachParagraph() {
-  const circleRef = useRef<HTMLSpanElement>(null);
+  const geminiRef  = useRef<HTMLSpanElement>(null);
+  const pineconeRef = useRef<HTMLSpanElement>(null);
+  const haikuRef   = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
-    const el = circleRef.current;
-    if (!el) return;
+    const els = [geminiRef.current, pineconeRef.current, haikuRef.current];
+    if (els.some(el => !el)) return;
 
-    let annotation: Annotation | null = null;
+    let annotations: Annotation[] = [];
 
     function init() {
       const RN = (window as { RoughNotation?: RN }).RoughNotation;
-      if (!RN || !el) return;
+      if (!RN) return;
 
-      annotation = RN.annotate(el, {
-        type: "circle",
-        color: "#3B5BDB",
-        strokeWidth: 1.5,
-        padding: 4,
+      annotations = els.map(el => RN.annotate(el!, {
+        type: "underline",
+        color: "#F472B6",
+        strokeWidth: 2,
         animate: true,
         animationDuration: 600,
-      });
+      }));
 
-      setTimeout(() => annotation?.show(), 400);
+      setTimeout(() => annotations.forEach(a => a.show()), 400);
     }
 
     if ((window as { RoughNotation?: unknown }).RoughNotation) {
@@ -39,18 +40,18 @@ export default function ApproachParagraph() {
       document.head.appendChild(script);
     }
 
-    return () => { annotation?.hide(); };
+    return () => annotations.forEach(a => a.hide());
   }, []);
 
   return (
     <p style={{ fontSize: 15, color: "#555", lineHeight: 1.7, margin: 0 }}>
-      I built a retrieval-augmented generation{" "}
-      <span ref={circleRef}>(RAG) pipeline</span>
-      {" "}that ingests all four rulebooks as PDFs, chunks and embeds them
-      using Google Gemini 2, and stores the vectors in Pinecone. At query time,
-      the user&apos;s question is embedded with the same model and matched
-      against the stored vectors; the 10 most semantically similar chunks are
-      retrieved and passed as context to Claude Haiku, which generates a
+      I built a RAG pipeline that ingests all four rulebooks as PDFs, chunks
+      and embeds them using{" "}
+      <span ref={geminiRef}>Google Gemini 2</span>, and stores the vectors in{" "}
+      <span ref={pineconeRef}>Pinecone</span>. At query time, the user&apos;s
+      question is embedded with the same model and matched against the stored
+      vectors; the 10 most similar chunks are retrieved. This is passed as
+      context to <span ref={haikuRef}>Claude Haiku</span>, which generates a
       grounded answer and attributes which rulebook edition it used.
     </p>
   );

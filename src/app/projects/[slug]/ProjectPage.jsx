@@ -1,12 +1,237 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useParams, notFound } from 'next/navigation';
 import { ChevronLeft } from 'lucide-react';
 import projects from '@/data/projects';
 import TLDRWidget from '@/components/TLDRWidget';
 import ArticleTOC from '@/components/ArticleTOC';
+
+// ── Highlighted context paragraph ──────────────────────────────────────────────
+
+function ContextParagraph({ text, highlights, style }) {
+  const refs = useRef([]);
+
+  useEffect(() => {
+    if (!highlights || highlights.length === 0) return;
+
+    let annotations = [];
+
+    function init() {
+      const RN = window.RoughNotation;
+      if (!RN) return;
+      annotations = refs.current.map(el =>
+        el ? RN.annotate(el, {
+          type: 'highlight',
+          color: 'rgba(255,214,0,0.5)',
+          multiline: true,
+          animate: true,
+          animationDuration: 600,
+          padding: 2,
+        }) : null
+      );
+      setTimeout(() => annotations.forEach(a => a?.show()), 400);
+    }
+
+    if (window.RoughNotation) {
+      init();
+    } else {
+      const script = document.createElement('script');
+      script.src = 'https://unpkg.com/rough-notation/lib/rough-notation.iife.js';
+      script.onload = init;
+      document.head.appendChild(script);
+    }
+
+    return () => annotations.forEach(a => a?.hide());
+  }, [highlights]);
+
+  if (!highlights || highlights.length === 0) {
+    return <p style={style}>{text}</p>;
+  }
+
+  // Split text into parts, wrapping highlight phrases in spans
+  let parts = [{ text, isHighlight: false }];
+  highlights.forEach((phrase, idx) => {
+    parts = parts.flatMap(part => {
+      if (part.isHighlight) return [part];
+      const pieces = part.text.split(phrase);
+      return pieces.flatMap((piece, i) => {
+        const result = [{ text: piece, isHighlight: false }];
+        if (i < pieces.length - 1) result.push({ text: phrase, isHighlight: true, idx });
+        return result;
+      });
+    });
+  });
+
+  return (
+    <p style={style}>
+      {parts.map((part, i) =>
+        part.isHighlight
+          ? <span key={i} ref={el => { refs.current[part.idx] = el; }}>{part.text}</span>
+          : part.text
+      )}
+    </p>
+  );
+}
+
+// ── Annotated Section Body ─────────────────────────────────────────────────────
+
+function AnnotatedSectionBody({ body, annotations, style }) {
+  const paragraphs = body.split('\n\n');
+  const circleRefs = useRef({});
+  const bracketRefs = useRef({});
+
+  useEffect(() => {
+    if (!annotations || annotations.length === 0) return;
+    const anns = [];
+
+    function init() {
+      const RN = window.RoughNotation;
+      if (!RN) return;
+
+      annotations.forEach(ann => {
+        if (ann.type === 'underline') {
+          const el = circleRefs.current[`${ann.paragraphIdx}_underline`];
+          if (!el) return;
+          const a = RN.annotate(el, {
+            type: 'underline',
+            color: '#F472B6',
+            strokeWidth: 2,
+            animate: true,
+            animationDuration: 600,
+          });
+          setTimeout(() => a.show(), 400);
+          anns.push(a);
+        } else if (ann.type === 'circle') {
+          const el = circleRefs.current[ann.paragraphIdx];
+          if (!el) return;
+          const a = RN.annotate(el, {
+            type: 'circle',
+            color: '#3B5BDB',
+            strokeWidth: 1.5,
+            padding: 4,
+            animate: true,
+            animationDuration: 600,
+          });
+          setTimeout(() => a.show(), 400);
+          anns.push(a);
+        } else if (ann.type === 'bracket') {
+          const el = bracketRefs.current[ann.paragraphIdx];
+          if (!el) return;
+          const a = RN.annotate(el, {
+            type: 'bracket',
+            color: '#3B5BDB',
+            strokeWidth: 2,
+            brackets: ['right'],
+            animate: true,
+            animationDuration: 600,
+          });
+          setTimeout(() => a.show(), 500);
+          anns.push(a);
+        }
+      });
+    }
+
+    if (window.RoughNotation) {
+      init();
+    } else {
+      const script = document.createElement('script');
+      script.src = 'https://unpkg.com/rough-notation/lib/rough-notation.iife.js';
+      script.onload = init;
+      document.head.appendChild(script);
+    }
+
+    return () => anns.forEach(a => a?.hide());
+  }, [annotations]);
+
+  return (
+    <>
+      {paragraphs.map((para, j) => {
+        const circleAnn = annotations?.find(a => a.type === 'circle' && a.paragraphIdx === j);
+        const bracketAnn = annotations?.find(a => a.type === 'bracket' && a.paragraphIdx === j);
+        const isLast = j === paragraphs.length - 1;
+        const paraStyle = { ...style, marginBottom: isLast ? 0 : 16 };
+
+        const highlightAnn = annotations?.find(a => a.type === 'highlight' && a.paragraphIdx === j);
+        const underlineAnn = annotations?.find(a => a.type === 'underline' && a.paragraphIdx === j);
+
+        let pEl;
+        if (underlineAnn) {
+          const parts = para.split(underlineAnn.phrase);
+          pEl = (
+            <p style={paraStyle}>
+              {parts.map((piece, i) => (
+                <span key={i}>
+                  {piece}
+                  {i < parts.length - 1 && (
+                    <span ref={el => { circleRefs.current[`${j}_underline`] = el; }}>{underlineAnn.phrase}</span>
+                  )}
+                </span>
+              ))}
+            </p>
+          );
+        } else if (highlightAnn) {
+          const parts = para.split(highlightAnn.phrase);
+          pEl = (
+            <p style={paraStyle}>
+              {parts.map((piece, i) => (
+                <span key={i}>
+                  {piece}
+                  {i < parts.length - 1 && (
+                    <span style={{ backgroundColor: 'rgba(255,214,0,0.5)', boxDecorationBreak: 'clone', WebkitBoxDecorationBreak: 'clone', padding: '2px 0' }}>{highlightAnn.phrase}</span>
+                  )}
+                </span>
+              ))}
+            </p>
+          );
+        } else if (circleAnn) {
+          const parts = para.split(circleAnn.phrase);
+          pEl = (
+            <p style={paraStyle}>
+              {parts.map((piece, i) => (
+                <span key={i}>
+                  {piece}
+                  {i < parts.length - 1 && (
+                    <span ref={el => { circleRefs.current[j] = el; }}>{circleAnn.phrase}</span>
+                  )}
+                </span>
+              ))}
+            </p>
+          );
+        } else if (bracketAnn) {
+          pEl = (
+            <p ref={el => { bracketRefs.current[j] = el; }} style={paraStyle}>{para}</p>
+          );
+        } else {
+          pEl = <p style={paraStyle}>{para}</p>;
+        }
+
+        if (bracketAnn) {
+          return (
+            <div key={j} style={{ display: 'flex', alignItems: 'flex-start', gap: 20, paddingRight: 4 }}>
+              <div style={{ flex: 1 }}>{pEl}</div>
+              <span style={{
+                fontFamily: "'Edu NSW ACT Foundation', cursive",
+                fontSize: 16,
+                color: '#3B5BDB',
+                flexShrink: 0,
+                writingMode: 'vertical-rl',
+                textOrientation: 'mixed',
+                transform: 'rotate(180deg)',
+                alignSelf: 'center',
+              }}>
+                {bracketAnn.label}
+              </span>
+            </div>
+          );
+        }
+
+        return <span key={j} style={{ display: 'block' }}>{pEl}</span>;
+      })}
+    </>
+  );
+}
 
 // ── Polaroid Fan ───────────────────────────────────────────────────────────────
 
@@ -227,16 +452,16 @@ export default function ProjectPage() {
 
           {/* Overview section */}
           <section id="overview" style={{ scrollMarginTop: 80 }}>
-            {/* Hero images — 3-column row */}
+            {/* Hero images — 2-column row */}
             {!project.hideHeroGrid && (
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 10, marginBottom: 24 }}>
-                {[0, 1, 2].map((i) => {
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 24 }}>
+                {[0, 2].map((i) => {
                   const src = project.heroImages?.[i];
                   return (
                     <div
                       key={i}
                       style={{
-                        height: 220, borderRadius: 12, overflow: 'hidden',
+                        height: 280, borderRadius: 12, overflow: 'hidden',
                         background: project.heroImagesBg?.[i] ?? project.gradient ?? '#1C1C1C',
                       }}
                     >
@@ -244,7 +469,7 @@ export default function ProjectPage() {
                         <video src={project.heroVideo} autoPlay loop muted playsInline style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                       ) : src ? (
                         // eslint-disable-next-line @next/next/no-img-element
-                        <img src={src} alt="" style={{ width: '100%', height: '100%', objectFit: project.heroImagesFit?.[i] ?? (i === 2 ? 'contain' : 'cover'), padding: (project.heroImagesFit?.[i] ?? (i === 2 ? 'contain' : 'cover')) === 'contain' ? '12px' : 0 }} />
+                        <img src={src} alt="" style={{ width: '100%', height: '100%', objectFit: project.heroImagesFit?.[i] ?? 'cover', padding: project.heroImagesFit?.[i] === 'contain' ? '12px' : 0 }} />
                       ) : null}
                     </div>
                   );
@@ -298,7 +523,7 @@ export default function ProjectPage() {
             {project.context && (
               <div id="context" style={mb40}>
                 <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#1C1C1C', marginBottom: 12, marginTop: 0 }}>Context</h3>
-                <p style={sectionBody}>{project.context}</p>
+                <ContextParagraph text={project.context} highlights={project.contextHighlights} style={sectionBody} />
               </div>
             )}
 
@@ -306,7 +531,7 @@ export default function ProjectPage() {
             {project.opportunity && (
               <div id="opportunity" style={mb40}>
                 <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#1C1C1C', marginBottom: 12, marginTop: 0 }}>Opportunity</h3>
-                <p style={sectionBody}>{project.opportunity}</p>
+                <ContextParagraph text={project.opportunity} highlights={project.opportunityHighlights} style={sectionBody} />
               </div>
             )}
 
@@ -324,9 +549,7 @@ export default function ProjectPage() {
             {project.sections?.map((section, i) => (
               <div key={i} id={slugify(section.title)} style={mb40}>
                 <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#1C1C1C', marginBottom: 12, marginTop: 0 }}>{section.title}</h3>
-                {section.body.split('\n\n').map((para, j) => (
-                  <p key={j} style={{ ...sectionBody, marginBottom: j < section.body.split('\n\n').length - 1 ? 16 : 0 }}>{para}</p>
-                ))}
+                <AnnotatedSectionBody body={section.body} annotations={section.annotations} style={sectionBody} />
                 {section.video && (
                   <div style={{ display: 'flex', justifyContent: 'center', marginTop: 16 }}>
                     <video

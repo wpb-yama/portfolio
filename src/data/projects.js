@@ -39,22 +39,30 @@ const projects = [
     opportunityImageWidth: 100,
 
     context: "Most sportsbooks were built for a different era. They were designed for desktop, for experienced bettors, and for markets measured in decimal odds. The modern fan, one who follows LeBron or Messi rather than a team, was largely ignored.",
+    contextHighlights: ["the modern fan", "was largely ignored"],
     opportunity: "B2C disruptors like Underdog Fantasy and PrizePicks had proven that simplifying betting into a binary \"More or Less\" choice could unlock an entirely new audience. No B2B equivalent existed. The opportunity was to build the first white-label Pick'em engine that any operator could plug in and own.",
 
     sections: [
       {
         title: 'Initial Problem',
-        body: "The high level problem the team initially focused on was: how do you make a complex, margin-sensitive betting product feel effortless to the end user? To tackle this, I started by stripping the experience down to its simplest possible form — a multiplier, not odds and a question, more or less.",
+        body: "The high level problem the team initially focused on was: how do you make a complex, margin-sensitive betting product feel effortless to the end user? To tackle this, I started by stripping the experience down to its simplest possible form: a multiplier, not odds, and a question of more or less.",
         video: '/videos/cut_footballselect.mp4',
       },
       {
         title: 'Crafting the Experience Through Product Decisions',
-        body: "Pick'em is a second, simpler layer on top of traditional sports betting. Rather than confronting users with decimal odds and obscure markets, it surfaces one clear question: more or less? It provides unique value by meeting fans where they already are — following players, not point spreads.\n\nTo support this, I personally modelled the multiplier calculation logic from scratch, reverse-engineering competitor models to establish a baseline before rebuilding the formula to protect margins and maintain player trust.",
+        body: "Pick'em is a second, simpler layer on top of traditional sports betting. Rather than confronting users with decimal odds and obscure markets, it surfaces one clear question: more or less? It provides unique value by meeting fans where they already are, following players, not point spreads.\n\nTo support this, I personally modelled the multiplier calculation logic from scratch, reverse-engineering competitor models to establish a baseline before rebuilding the formula to protect margins and maintain player trust.",
         videos: ['/videos/cut_basketballselect.mp4', '/videos/cut_betoption.mp4'],
+        annotations: [
+          { type: 'circle',  paragraphIdx: 0, phrase: 'more or less?' },
+          { type: 'bracket', paragraphIdx: 1, label: 'important to manage risk' },
+        ],
       },
       {
         title: 'Directing the Design',
-        body: "Pick'em needed to feel like a game, not a spreadsheet. I personally directed and approved every design decision — from the card-based player selection interface to the visual language used to communicate multipliers and outcomes. The goal was to create something that felt native to how modern fans consume sport: fast, visual, and player-first.\n\nEvery detail was considered. The way a pick snaps into a slip. The moment of feedback when a leg is won or lost. The clarity of a single number — your multiplier — replacing a table of odds nobody asked to read.",
+        annotations: [
+          { type: 'highlight', paragraphIdx: 0, phrase: "Pick'em needed to feel like a game" },
+        ],
+        body: "Pick'em needed to feel like a game, not a spreadsheet. I personally directed and approved every design decision: from the card-based player selection interface to the visual language used to communicate multipliers and outcomes. The goal was to create something that felt native to how modern fans consume sport: fast, visual, and player-first.\n\nEvery detail was considered. The way a pick snaps into a slip. The moment of feedback when a leg is won or lost.",
         mediaRow: {
           video: '/videos/cut_bet_placed.mp4',
           carousel: [
@@ -71,6 +79,9 @@ const projects = [
       },
       {
         title: 'Early Integration Complexity',
+        annotations: [
+          { type: 'underline', paragraphIdx: 0, phrase: "our product, the aggregator, and each operator's platform" },
+        ],
         body: "What began as a relatively straightforward build evolved into a three-layer technical dependency — our product, the aggregator, and each operator's platform. Shared wallet infrastructure, inconsistent operator standards, and slow feedback loops created cascading complexity that required a flexible microservices architecture and constant stakeholder alignment to navigate.",
       },
       {
@@ -126,14 +137,16 @@ const projects = [
     beforeAfterImages: [],
 
     tldrBullets: [
-      "Conceived and led end-to-end delivery of Reveals — a free-to-play daily engagement product for sportsbooks built on Gacha mechanics and an AI personalisation loop.",
+      "Conceived and led end-to-end delivery of Reveals: a free-to-play daily engagement product for sportsbooks built on Gacha mechanics and an AI personalisation loop.",
       "The idea came entirely from outside iGaming, drawing on research into mobile gaming, collectible card games, and Nir Eyal's Hooked.",
       "Designed the full game mechanic, tiered reward structure, AI feedback loop architecture, and three-tier commercial model.",
       "Went from idea to delivered product in under six months. First customer is about to go live.",
     ],
 
     context: "In iGaming, acquisition is expensive and loyalty is fragile. Most operators rely on financial incentives (free bets, free spins) to retain users. This attracts bonus hunters rather than genuine fans, inflating Customer Acquisition Costs while doing nothing for long-term Lifetime Value. Up to 40% of users disappear after their first session, long before any real value is captured.",
+    contextHighlights: ["acquisition is expensive and loyalty is fragile", "inflating Customer Acquisition Costs"],
     opportunity: "Mobile gaming had spent years perfecting daily engagement mechanics. Clash of Clans, TCG Pocket, FIFA Ultimate Team; these products had cracked habit formation through variable rewards, scarcity, and personalisation. Almost none of this thinking had crossed over into sports betting. The opportunity was to build a product that applied these mechanics to iGaming, using the natural probability structure of the Goalscorer market as its foundation.",
+    opportunityHighlights: ["habit formation through variable rewards, scarcity, and personalisation"],
     opportunityImages: ['/images/reveals/lootbox.jpg'],
 
     sections: [
@@ -143,28 +156,40 @@ const projects = [
       },
       {
         title: 'Crafting the Experience Through Game Design',
+        annotations: [
+          { type: 'highlight', paragraphIdx: 1, phrase: 'turning the sportsbook into a destination rather than a utility' },
+        ],
         body: "Reveals is a daily pack-opening mechanic built around live sports. Each weekday, users tap to reveal a player from an upcoming fixture. If that player hits their target over the weekend, they win. Five days, five players, five chances.\n\nThe reward structure is deliberately tiered (a Haaland reveal is rare and valuable, a Tarkowski reveal is common) mirroring the emotional variance of opening a pack in FIFA Ultimate Team. The 24-hour availability window creates the scarcity that drives habitual check-ins. The Monday-to-Friday cadence builds anticipation, turning the sportsbook into a destination rather than a utility.",
         image: '/images/reveals/reveals_3.png',
         imageWidth: '56%',
       },
       {
         title: 'Directing the Design',
-        body: "Reveals needed to feel like a game, not a betting product. I personally directed and approved every design decision — from the reveal animation and card visual language to the reward feedback moments that follow a weekend result. The goal was to make something that felt immediately familiar to anyone who had ever opened a pack in a mobile game, while remaining native to a sports betting context.\n\nEvery detail was considered. The tension of the tap-to-reveal moment. The visual hierarchy that communicates a player's rarity at a glance.",
+        annotations: [
+          { type: 'highlight', paragraphIdx: 0, phrase: 'familiar to anyone who had ever opened a pack in a mobile game' },
+        ],
+        body: "Reveals needed to feel like a game, not a betting product. I personally directed and approved every design decision: from the reveal animation and card visual language to the reward feedback moments that follow a weekend result. The goal was to make something that felt immediately familiar to anyone who had ever opened a pack in a mobile game, while remaining native to a sports betting context.\n\nEvery detail was considered. The tension of the tap-to-reveal moment. The visual hierarchy that communicates a player's rarity at a glance.",
         images: ['/images/reveals/cole.png', '/images/reveals/salah.png', '/images/reveals/haaland.png'],
       },
       {
         title: 'The AI Feedback Loop',
+        annotations: [
+          { type: 'bracket', paragraphIdx: 0, label: 'The smart part' },
+        ],
         body: "The frontend experience is the hook. Beneath it, an AI layer makes the product commercially intelligent. A predictive model profiles users early in their lifecycle, identifying signals of high-value or bonus-abusive behaviour. An AI agent using Gemini Pro then dynamically selects which players each user sees; balancing individual engagement likelihood against operator-defined KPI targets and financial caps. The system iterates week-on-week, continuously closing the gap between actual and target outcomes.\n\nDesigning a personalisation engine that was both effective at scale and fully auditable by operators was the hardest technical part of the project, and the part that required the most internal advocacy.",
         video: '/videos/reveals.webm',
         videoWidth: 550,
       },
       {
         title: 'Securing Internal Buy-In',
-        body: "One of the hardest parts of the project wasn't the product itself — it was getting the concept across. Describing pack-opening mechanics for football predictions in a meeting room is a harder sell than showing it. In hindsight, I would have moved earlier to build a lightweight prototype to make the mechanics tangible. A faster path to something visual would have compressed the approval timeline significantly.",
+        annotations: [
+          { type: 'underline', paragraphIdx: 0, phrase: 'I would have moved earlier to build a lightweight prototype' },
+        ],
+        body: "One of the hardest parts of the project wasn't the product itself: it was getting the concept across. Describing pack-opening mechanics for football predictions in a meeting room is a harder sell than showing it. In hindsight, I would have moved earlier to build a lightweight prototype to make the mechanics tangible. A faster path to something visual would have compressed the approval timeline significantly.",
       },
       {
         title: 'Additional Details',
-        body: "I drove every aspect of this product from the ground up — conceiving the mechanic, designing the reward structure, architecting the AI feedback loop, building the commercial model, and taking on the role of being solely responsible to ensure every layer of the product was executed with a high level of craftsmanship.\n\nReveals is about to go live with its first operator, and I'm proud to have built something genuinely novel in a space that had gone largely untouched.",
+        body: "I drove every aspect of this product from the ground up: conceiving the mechanic, designing the reward structure, architecting the AI feedback loop, building the commercial model, and taking on the role of being solely responsible to ensure every layer of the product was executed with a high level of craftsmanship.\n\nReveals is about to go live with its first operator, and I'm proud to have built something genuinely novel in a space that had gone largely untouched.",
       },
     ],
 

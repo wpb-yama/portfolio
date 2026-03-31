@@ -1,6 +1,9 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { ChevronLeft } from "lucide-react";
+import BackButton from "@/components/BackButton";
+import IntroParagraph from "./IntroParagraph";
+import ApproachParagraph from "./ApproachParagraph";
+import BracketAnnotation from "../morphing-icons/BracketAnnotation";
 
 export const metadata: Metadata = {
   title: "Netflix Casino | Will Booth",
@@ -14,48 +17,46 @@ export default function NetflixCasinoPage() {
       <div className="max-w-5xl mx-auto px-6" style={{ paddingTop: 64 }}>
 
         {/* Back link */}
-        <Link
-          href="/lab"
-          className="inline-flex items-center gap-1.5 text-[12px] font-medium text-[#888] border border-[#EBEBEB] rounded-full px-3.5 py-1.5 hover:border-[#1C1C1C] hover:text-[#1C1C1C] transition-all duration-150 mb-10"
-        >
-          <ChevronLeft size={13} strokeWidth={2.5} />
-          Lab
-        </Link>
+        <BackButton href="/lab" label="Lab" />
 
         {/* Header */}
         <p className="text-[11px] tracking-widest text-[#AAA] uppercase mb-2">
           Entertainment · Concept
         </p>
-        <h1 className="text-3xl md:text-5xl text-[#1C1C1C] mb-4">
+        <h1 className="text-3xl md:text-5xl text-[#1C1C1C] mb-8">
           Netflix Casino
         </h1>
-        <p className="text-[15px] text-[#888] leading-relaxed mb-8">
-          A proof-of-concept casino lobby redesign built to look and feel like
-          Netflix: content discovery, personalisation, parallax hero, and a
-          playable Mines game.
-        </p>
-
-        {/* CTAs */}
-        <div className="flex gap-3 mb-10">
-          <a
-            href="/lab/netflix-casino/lobby.html"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-[13px] font-medium px-5 py-2.5 rounded-xl bg-[#1C1C1C] text-white hover:bg-[#333] transition-colors"
-          >
-            Open lobby ↗
-          </a>
-          <a
-            href="/lab/netflix-casino/mines.html"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-[13px] font-medium px-5 py-2.5 rounded-xl border border-[#EBEBEB] text-[#1C1C1C] hover:border-[#CCC] transition-colors"
-          >
-            Play Mines ↗
-          </a>
-        </div>
 
         <div className="h-[2px] bg-[#1C1C1C] w-full mb-10" />
+
+        {/* Intro */}
+        <div className="mb-6">
+          <IntroParagraph />
+        </div>
+
+        {/* CTAs */}
+        <div className="mb-10">
+          <BracketAnnotation label="Click me">
+            <div className="flex gap-3">
+              <a
+                href="/lab/netflix-casino/lobby.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[13px] font-medium px-5 py-2.5 rounded-xl bg-[#1C1C1C] text-white hover:bg-[#333] transition-colors"
+              >
+                Open lobby ↗
+              </a>
+              <a
+                href="/lab/netflix-casino/mines.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[13px] font-medium px-5 py-2.5 rounded-xl border border-[#EBEBEB] text-[#1C1C1C] hover:border-[#CCC] transition-colors"
+              >
+                Play Mines ↗
+              </a>
+            </div>
+          </BracketAnnotation>
+        </div>
 
         {/* Problem */}
         <div className="mb-10">
@@ -76,13 +77,7 @@ export default function NetflixCasinoPage() {
           <h2 className="text-[1.15rem] font-bold text-[#1C1C1C] mb-3 mt-0">
             Approach
           </h2>
-          <p className="text-[15px] text-[#555] leading-relaxed">
-            Netflix solves discovery at scale with a small set of proven
-            patterns: a full-bleed hero that puts the best content front and
-            centre, horizontal rows that create rhythm without overwhelming, and
-            subtle personalisation signals that make the experience feel curated.
-            This prototype applies that same playbook to an iGaming lobby.
-          </p>
+          <ApproachParagraph />
         </div>
 
         {/* Prototype embed */}

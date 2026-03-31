@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { ChevronLeft } from "lucide-react";
+import BackButton from "@/components/BackButton";
 import MorphingIconSolo from "./MorphingIconSolo";
 import BracketAnnotation from "./BracketAnnotation";
 import InsightParagraph from "./InsightParagraph";
@@ -21,13 +21,7 @@ export default function MorphingIconsPage() {
       <div className="max-w-5xl mx-auto px-6" style={{ paddingTop: 64 }}>
 
         {/* Back link */}
-        <Link
-          href="/lab"
-          className="inline-flex items-center gap-1.5 text-[12px] font-medium text-[#888] border border-[#EBEBEB] rounded-full px-3.5 py-1.5 hover:border-[#1C1C1C] hover:text-[#1C1C1C] transition-all duration-150 mb-10"
-        >
-          <ChevronLeft size={13} strokeWidth={2.5} />
-          Lab
-        </Link>
+        <BackButton href="/lab" label="Lab" />
 
         {/* Header */}
         <p className="text-[11px] tracking-widest text-[#AAA] uppercase mb-2">

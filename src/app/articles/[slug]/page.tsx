@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
+import BackButton from "@/components/BackButton";
 import articles, { type BodyBlock } from "@/data/articles";
 import summaries from "@/data/summaries.json";
 import TLDRWidget from "@/components/TLDRWidget";
@@ -124,13 +125,7 @@ export default async function ArticlePage({
       <div className="max-w-5xl mx-auto px-6 py-16">
 
         {/* ── Back link ─────────────────────────────────────────────────────── */}
-        <Link
-          href="/articles"
-          className="inline-flex items-center gap-1.5 text-[12px] font-medium text-[#888] border border-[#EBEBEB] rounded-full px-3.5 py-1.5 hover:border-[#1C1C1C] hover:text-[#1C1C1C] transition-all duration-150 mb-10"
-        >
-          <ChevronLeft size={13} strokeWidth={2.5} />
-          All articles
-        </Link>
+        <BackButton href="/articles" label="All articles" />
 
         {/* ── Article header ────────────────────────────────────────────────── */}
         <div className="mb-10">

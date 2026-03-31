@@ -5,29 +5,28 @@ import { useEffect, useRef } from "react";
 type Annotation = { show: () => void; hide: () => void };
 type RN = { annotate: (el: Element, opts: object) => Annotation };
 
-export default function ProblemParagraph() {
-  const paceRef = useRef<HTMLSpanElement>(null);
+export default function ApproachParagraph() {
+  const highlightRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
-    const el = paceRef.current;
+    const el = highlightRef.current;
     if (!el) return;
 
-    let pace: Annotation | null = null;
+    let annotation: Annotation | null = null;
 
     function init() {
       const RN = (window as { RoughNotation?: RN }).RoughNotation;
       if (!RN || !el) return;
 
-      pace = RN.annotate(el, {
-        type: "highlight",
-        color: "rgba(255,214,0,0.5)",
-        multiline: true,
+      annotation = RN.annotate(el, {
+        type: "underline",
+        color: "#F472B6",
+        strokeWidth: 2,
         animate: true,
         animationDuration: 600,
-        padding: 2,
       });
 
-      setTimeout(() => pace?.show(), 400);
+      setTimeout(() => annotation?.show(), 400);
     }
 
     if ((window as { RoughNotation?: unknown }).RoughNotation) {
@@ -39,15 +38,16 @@ export default function ProblemParagraph() {
       document.head.appendChild(script);
     }
 
-    return () => { pace?.hide(); };
+    return () => { annotation?.hide(); };
   }, []);
 
   return (
     <p style={{ fontSize: 15, color: "#555", lineHeight: 1.7, margin: 0 }}>
-      Splendor has a base game plus three expansions (Silk Road, Sun Never Sets,
-      and Cities of Splendor), each with its own rules and edge cases. Disputes
-      meant stopping play and consulting a rulebook.{" "}
-      <span ref={paceRef}>It killed the pace of every session.</span>
+      <span ref={highlightRef}>Netflix solves discovery at scale</span>
+      {" "}with a small set of proven patterns: a full-bleed hero that puts the
+      best content front and centre, horizontal rows that create rhythm without
+      overwhelming, and subtle personalisation signals that make the experience
+      feel curated. This prototype applies that same playbook to an iGaming lobby.
     </p>
   );
 }

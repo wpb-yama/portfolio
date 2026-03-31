@@ -28,6 +28,7 @@ export default function InsightParagraph() {
       highlight = RN.annotate(highlightEl!, {
         type: "highlight",
         color: "rgba(255,214,0,0.5)",
+        multiline: true,
         animate: true,
         animationDuration: 600,
         padding: 2,

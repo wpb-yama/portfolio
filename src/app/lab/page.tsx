@@ -10,7 +10,7 @@ const labItems = [
     description:
       "Every icon is built from exactly three SVG line elements. That single constraint makes it possible to morph between any two icons without crossfades or swaps.",
     accent: "#3B5BDB",
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80",
+    image: "/images/labs/morphing-icons.png",
   },
   {
     slug: "netflix-casino",
@@ -19,16 +19,16 @@ const labItems = [
     description:
       "Exploring how casinos can modernise their UI to replicate the Netflix experience — personalisation, content surfaces and reduced friction.",
     accent: "#C0392B",
-    image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&q=80",
+    image: "/images/labs/netflix-casino.png",
   },
   {
     slug: "splendor-rag",
-    title: "RAG Splendor",
+    title: "Boardgame RAG",
     tag: "AI · Tools",
     description:
       "A RAG chatbot that answers Splendor rules questions using the base game and all three expansion rulebooks — Pinecone, Gemini 2 embeddings, and Claude Haiku.",
     accent: "#4338CA",
-    image: "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=800&q=80",
+    image: "/images/labs/splendor-rag.png",
   },
   {
     slug: "adaptive-reward-engine",
@@ -37,7 +37,7 @@ const labItems = [
     description:
       "A contextual bandit system that personalises discount rewards in real time, maximising daily active engagement and reducing churn risk across iGaming and e-commerce platforms.",
     accent: "#7C3AED",
-    image: "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=800&q=80",
+    image: "/images/labs/adaptive-reward-engine.png",
   },
 ];
 

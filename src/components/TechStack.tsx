@@ -17,7 +17,7 @@ const row2 = [
   { label: "Google Analytics", icon: "https://cdn.simpleicons.org/googleanalytics/E37400", color: "#E37400" },
   { label: "Notion",           icon: "https://cdn.simpleicons.org/notion/000000",           color: "#000000" },
   { label: "Hotjar",           icon: "https://cdn.simpleicons.org/hotjar/FD3A5C",           color: "#FD3A5C" },
-  { label: "AWS",              icon: "https://cdn.simpleicons.org/amazonaws/FF9900",         color: "#FF9900" },
+  { label: "AWS",              icon: "/images/logos/aws.svg",                               color: "#FF9900" },
   { label: "MongoDB",          icon: "https://cdn.simpleicons.org/mongodb/47A248",           color: "#47A248" },
 ];
 

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { ChevronLeft } from "lucide-react";
+import BackButton from "@/components/BackButton";
 
 export const metadata: Metadata = {
   title: "Adaptive Reward Engine | Will Booth",
@@ -24,26 +24,24 @@ export default function AdaptiveRewardEnginePage() {
       <div className="max-w-5xl mx-auto px-6" style={{ paddingTop: 64 }}>
 
         {/* Back link */}
-        <Link
-          href="/lab"
-          className="inline-flex items-center gap-1.5 text-[12px] font-medium text-[#888] border border-[#EBEBEB] rounded-full px-3.5 py-1.5 hover:border-[#1C1C1C] hover:text-[#1C1C1C] transition-all duration-150 mb-10"
-        >
-          <ChevronLeft size={13} strokeWidth={2.5} />
-          Lab
-        </Link>
+        <BackButton href="/lab" label="Lab" />
 
         {/* Header */}
         <p className="text-[11px] tracking-widest text-[#AAA] uppercase mb-2">
           AI · Tools
         </p>
-        <h1 className="text-3xl md:text-5xl text-[#1C1C1C] mb-4">
+        <h1 className="text-3xl md:text-5xl text-[#1C1C1C] mb-8">
           Adaptive Reward Engine
         </h1>
-        <p className="text-[15px] text-[#888] leading-relaxed mb-10">
-          A contextual bandit system that personalises discount rewards in real time, maximising daily active engagement and reducing churn risk across iGaming and e-commerce platforms, without over-investing in users who would have stayed anyway.
-        </p>
 
         <div className="h-[2px] bg-[#1C1C1C] w-full mb-10" />
+
+        {/* Intro */}
+        <div className="mb-10">
+          <p className="text-[15px] text-[#555] leading-relaxed">
+            A contextual bandit system that personalises discount rewards in real time, maximising daily active engagement and reducing churn risk across iGaming and e-commerce platforms, without over-investing in users who would have stayed anyway.
+          </p>
+        </div>
 
         {/* Problem */}
         <div className="mb-10">

@@ -24,6 +24,7 @@ const navLinks = [
   { href: "/about", label: "About", icon: User },
 ];
 
+
 function NavLink({
   href,
   label,
