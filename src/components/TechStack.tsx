@@ -85,8 +85,8 @@ export default function TechStack() {
   return (
     <section className="py-16 bg-white">
       <div className="max-w-5xl mx-auto px-6">
-        <div className="flex items-center gap-2 mb-8">
-<h2 className="text-2xl font-bold text-[#1C1C1C] tracking-tight">Tech Stack</h2>
+        <div className="mb-8">
+          <h2 className="text-2xl font-bold text-[#1C1C1C] tracking-tight">Tools</h2>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 12, alignItems: "center" }}>

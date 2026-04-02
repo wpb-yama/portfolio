@@ -56,19 +56,33 @@ function ProjectCard({
     const el = winnerRef.current;
     if (!el) return;
     let circle: Annotation | null = null;
+    let scrollTimer: ReturnType<typeof setTimeout> | null = null;
 
-    function init() {
+    function draw(animated: boolean) {
       const RN = (window as { RoughNotation?: RN }).RoughNotation;
       if (!RN || !el) return;
+      circle?.hide();
       circle = RN.annotate(el, {
         type: "highlight",
         color: "rgba(255,214,0,0.5)",
         multiline: true,
-        animate: true,
-        animationDuration: 600,
+        animate: animated,
+        animationDuration: animated ? 600 : 0,
         padding: 2,
       });
-      setTimeout(() => circle?.show(), 400);
+      circle.show();
+    }
+
+    function onScroll() {
+      circle?.hide();
+      if (scrollTimer) clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(() => draw(false), 150);
+    }
+
+    function init() {
+      setTimeout(() => draw(true), 400);
+      const scrollContainer = el?.closest(".overflow-x-auto");
+      scrollContainer?.addEventListener("scroll", onScroll);
     }
 
     if ((window as { RoughNotation?: unknown }).RoughNotation) {
@@ -80,7 +94,12 @@ function ProjectCard({
       document.head.appendChild(script);
     }
 
-    return () => { circle?.hide(); };
+    return () => {
+      if (scrollTimer) clearTimeout(scrollTimer);
+      circle?.hide();
+      const scrollContainer = el?.closest(".overflow-x-auto");
+      scrollContainer?.removeEventListener("scroll", onScroll);
+    };
   }, [trophy]);
 
   return (

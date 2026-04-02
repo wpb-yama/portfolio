@@ -39,6 +39,15 @@ const labItems = [
     accent: "#7C3AED",
     image: "/images/labs/adaptive-reward-engine.png",
   },
+  {
+    slug: "sudoku-solver",
+    title: "Sudoku Solver",
+    tag: "AI · Research",
+    description:
+      "A looped transformer trained to solve Sudoku puzzles by running the same 277K-parameter block 8 times, using iteration as a form of reasoning.",
+    accent: "#22C55E",
+    image: "/images/labs/sudoku-solver.png",
+  },
 ];
 
 type LabItem = (typeof labItems)[number];

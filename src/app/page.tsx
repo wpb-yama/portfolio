@@ -1,6 +1,5 @@
 import Testimonials from "@/components/Testimonials";
 import LatestArticles from "@/components/LatestArticles";
-import AIArticles from "@/components/AIArticles";
 import SpeakingResearch from "@/components/SpeakingResearch";
 import Labs from "@/components/Labs";
 import Hero from "@/components/Hero";
@@ -13,7 +12,6 @@ export default function Home() {
       <Hero />
       <FeaturedProjectsBar />
       <Labs />
-      <AIArticles />
       <LatestArticles />
       <Testimonials />
       <TechStack />
