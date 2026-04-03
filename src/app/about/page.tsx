@@ -1,6 +1,13 @@
 
 
 
+"use client";
+
+import { useEffect, useRef } from "react";
+
+type Annotation = { show: () => void; hide: () => void };
+type RN = { annotate: (el: Element, opts: object) => Annotation };
+
 const funFacts = [
   { label: "Miles hitchhiked",  value: "3,000", bg: "#EEEDFE", color: "#3C3489", emoji: "🛣️" },
   { label: "Escape rooms",       value: "35+",   bg: "#E1F5EE", color: "#085041", emoji: "🔐" },
@@ -11,6 +18,48 @@ const funFacts = [
 
 
 export default function AboutPage() {
+  const highlightRef  = useRef<HTMLSpanElement>(null);
+  const highlight2Ref = useRef<HTMLSpanElement>(null);
+  const highlight3Ref = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const el1 = highlightRef.current;
+    const el2 = highlight2Ref.current;
+    const el3 = highlight3Ref.current;
+    if (!el1 || !el2 || !el3) return;
+    let a1: Annotation | null = null;
+    let a2: Annotation | null = null;
+    let a3: Annotation | null = null;
+
+    function init() {
+      const RN = (window as { RoughNotation?: RN }).RoughNotation;
+      if (!RN) return;
+      const opts = {
+        type: "highlight",
+        color: "rgba(255,214,0,0.45)",
+        multiline: true,
+        animate: true,
+        animationDuration: 600,
+        padding: 2,
+      };
+      a1 = RN.annotate(el1!, opts);
+      a2 = RN.annotate(el2!, opts);
+      a3 = RN.annotate(el3!, opts);
+      setTimeout(() => { a1?.show(); a2?.show(); a3?.show(); }, 400);
+    }
+
+    if ((window as { RoughNotation?: unknown }).RoughNotation) {
+      init();
+    } else {
+      const script = document.createElement("script");
+      script.src = "https://unpkg.com/rough-notation/lib/rough-notation.iife.js";
+      script.onload = init;
+      document.head.appendChild(script);
+    }
+
+    return () => { a1?.hide(); a2?.hide(); a3?.hide(); };
+  }, []);
+
   return (
     <div className="min-h-screen bg-white">
 
@@ -36,15 +85,22 @@ export default function AboutPage() {
             <h2 className="text-2xl font-bold text-[#1C1C1C] tracking-tight">Experience</h2>
           </div>
 
-          <p className="text-[15px] text-[#555] leading-[1.8] mb-3">
-            Based in England, I have 8+ years of experience building and scaling digital products in iGaming, from early‑stage start‑ups to software used by millions. Recent focus areas include:
+          <p className="text-[15px] text-[#555] leading-[1.8] mb-5">
+            Based in England, I have 8+ years of experience building and scaling digital products in iGaming, <span ref={highlightRef}>from early‑stage start‑ups to software used by millions</span>.
+          </p>
+
+          <p className="text-[15px] text-[#555] leading-[1.8] mb-5">
+            Currently, I&apos;m a Senior Product Manager at WA Technology where I&apos;m working with <span ref={highlight3Ref}>Sportsbooks and Casinos</span>. Before this, I worked at Metric Gaming, as a Senior Quantitative Trader, building AI driven pricing models for their trading team. Earlier roles include providing financial advice to high net worth individuals at law firms and banks.
+          </p>
+
+          <p className="text-[15px] text-[#555] leading-[1.8] mb-4">
+            I specialise in using <span ref={highlight2Ref}>AI to personalise user journeys, building agentic systems that keep teams efficient, and shipping API-driven products</span> built to scale. My work is focused on driving acquisition, boosting engagement and growing GGR. Recent focus areas include:
           </p>
           <ul style={{ display: "flex", flexDirection: "column", gap: 4, marginBottom: 24 }}>
             {[
-              { label: "Product strategy", text: "Roadmap ownership, stakeholder alignment, and outcome-led delivery across Sportsbook and Casino platforms." },
-              { label: "iGaming", text: "Free-to-play, Sportsbook, Casino, trading systems, player engagement and GGR growth." },
-              { label: "AI & personalisation", text: "Agentic workflows, recommendation engines, contextual bandits, and LLM integration into core product." },
-              { label: "Delivery", text: "API-driven products, cross-functional leadership and data-informed iteration." },
+              { label: "iGaming", text: "Casino, Sportsbook, Free-to-play, trading systems and player engagement." },
+              { label: "AI & personalisation", text: "Agentic workflows, recommendation engines and LLM integration into core product." },
+              { label: "Delivery & strategy", text: "Roadmap ownership, API delivery across Sportsbook and Casino platforms and data-informed iteration." },
             ].map(({ label, text }) => (
               <li key={label} className="text-[15px] text-[#555] leading-[1.8]" style={{ paddingLeft: 16, position: "relative" }}>
                 <span style={{ position: "absolute", left: 0, color: "#888" }}>•</span>
@@ -52,15 +108,6 @@ export default function AboutPage() {
               </li>
             ))}
           </ul>
-
-          <div className="mt-6">
-            <p className="text-[15px] text-[#555] leading-[1.8] mb-5">
-              I&apos;m a Senior Product Manager at WA Technology where I&apos;m working with Sportsbooks and Casinos. Before this, I worked at Metric Gaming, as a Senior Quantitative Trader, building AI driven pricing models for their trading team. Earlier roles include providing financial advice to high net worth individuals at law firms and banks.
-            </p>
-            <p className="text-[15px] text-[#555] leading-[1.8]">
-              I specialise in using AI to personalise user journeys, building agentic systems that keep teams efficient, and shipping API-driven products built to scale. My work is focused on driving acquisition, boosting engagement and growing GGR.
-            </p>
-          </div>
         </div>
       </section>
 
