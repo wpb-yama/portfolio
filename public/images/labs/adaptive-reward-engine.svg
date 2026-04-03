@@ -1,0 +1,18 @@
+<svg width="600" height="400" viewBox="0 0 600 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="400" x2="600" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#3b0764"/>
+      <stop offset="1" stop-color="#a855f7"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#bg)"/>
+
+  <!-- Circular loop arrow: ~300° arc, clockwise from upper-right to top -->
+  <path d="M 395 145 A 110 110 0 1 1 300 90" stroke="white" stroke-width="5.5" stroke-linecap="round"/>
+  <!-- Arrowhead at (300,90) pointing right (clockwise tangent at top) -->
+  <polyline points="288,79 300,90 288,101" stroke="white" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- 4-pointed sparkle in centre -->
+  <polygon points="300,154 314,186 350,200 314,214 300,246 286,214 250,200 286,186"
+           stroke="white" stroke-width="4" stroke-linejoin="round" fill="rgba(255,255,255,0.15)"/>
+</svg>

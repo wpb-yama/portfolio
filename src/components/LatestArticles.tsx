@@ -12,7 +12,7 @@ function parseDate(dateStr: string): Date {
 
 const recent = [...articles]
   .sort((a, b) => parseDate(b.date).getTime() - parseDate(a.date).getTime())
-  .slice(0, 5);
+  .slice(0, 4);
 
 export default function LatestArticles() {
   return (
