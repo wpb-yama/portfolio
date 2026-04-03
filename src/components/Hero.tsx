@@ -40,7 +40,7 @@ export default function Hero() {
           </div>
 
           {/* Middle: circle image */}
-          <div className="flex justify-center self-start order-first md:order-none">
+          <div className="flex justify-start md:justify-center self-start order-first md:order-none">
             <div
               onClick={() => setShowSticker(s => !s)}
               className="w-[110px] h-[110px] md:w-[200px] md:h-[200px]"
