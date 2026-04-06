@@ -43,24 +43,10 @@ function ThumbJobFinder({ c }: { c: string }) {
   );
 }
 
-function ThumbPostCodeEra({ c }: { c: string }) {
+function ThumbPostCodeEra({ c: _c }: { c: string }) {
   return (
-    <svg viewBox="0 0 300 100" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
-      {[0,1,2,3].map(col => [0,1,2].map(row => (
-        <circle key={`${col}-${row}`} cx={20 + col * 18} cy={20 + row * 22} r={6} fill={c} opacity={0.18}/>
-      )))}
-      <line x1="10" y1="10" x2="95" y2="90" stroke={c} strokeWidth="2" opacity="0.2" strokeLinecap="round"/>
-      <line x1="108" y1="50" x2="148" y2="50" stroke={c} strokeWidth="2" opacity="0.45"/>
-      <polygon points="148,46 156,50 148,54" fill={c} opacity="0.45"/>
-      <circle cx="200" cy="50" r="22" fill={c} opacity="0.12"/>
-      <circle cx="200" cy="50" r="14" fill={c} opacity="0.22"/>
-      <circle cx="200" cy="50" r="7"  fill={c} opacity="0.7"/>
-      <text x="230" y="34" fontSize="9" fill={c} opacity="0.7" fontFamily="system-ui, sans-serif" fontWeight="700">+AI</text>
-      <circle cx="232" cy="50" r="2" fill={c} opacity="0.5"/>
-      <circle cx="242" cy="44" r="1.5" fill={c} opacity="0.4"/>
-      <circle cx="240" cy="58" r="1.5" fill={c} opacity="0.3"/>
-      <circle cx="252" cy="51" r="1" fill={c} opacity="0.3"/>
-    </svg>
+    // eslint-disable-next-line @next/next/no-img-element
+    <img src="/images/articles/post-code-era.png" alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
   );
 }
 
@@ -267,7 +253,7 @@ export default function ArticleCard({ article, heroHeight = 140 }: { article: Ar
         <div
           style={{
             height: heroHeight,
-            backgroundColor: s.heroBg,
+            backgroundColor: article.thumbnailBg ?? s.heroBg,
             overflow: "hidden",
             flexShrink: 0,
             position: "relative",
@@ -278,7 +264,7 @@ export default function ArticleCard({ article, heroHeight = 140 }: { article: Ar
             <img
               src={article.featuredImage}
               alt={article.title}
-              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              style={{ width: "100%", height: "100%", objectFit: article.thumbnailFit ?? "cover" }}
             />
           ) : thumb ? thumb(s.color) : null}
         </div>

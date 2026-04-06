@@ -59,7 +59,7 @@ export default function LatestArticles() {
                       height: 88,
                       borderRadius: 8,
                       overflow: "hidden",
-                      background: s.heroBg,
+                      background: article.thumbnailBg ?? s.heroBg,
                       position: "relative",
                     }}
                   >
@@ -68,7 +68,7 @@ export default function LatestArticles() {
                       <img
                         src={article.featuredImage}
                         alt={article.title}
-                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                        style={{ width: "100%", height: "100%", objectFit: article.thumbnailFit ?? "cover" }}
                       />
                     ) : thumb ? (
                       thumb(s.color)

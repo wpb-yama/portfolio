@@ -16,6 +16,8 @@ export type Article = {
   readTime: string;
   featured: boolean;
   featuredImage?: string;
+  thumbnailFit?: "cover" | "contain";
+  thumbnailBg?: string;
   body: BodyBlock[];
   relatedSlugs: string[];
 };
@@ -25,6 +27,8 @@ const articles: Article[] = [
     slug: "acquire-churn-repeat",
     title: "Acquire. Churn. Repeat. The cycle that breaks businesses.",
     featuredImage: "/images/articles/acquire-churn-repeat.png",
+    thumbnailFit: "contain",
+    thumbnailBg: "#cfe8a0",
     excerpt:
       "The obsession with new customers is a structural flaw. When your strategy ends at the 'Buy Now' button, you aren't building a business — you're running a treadmill.",
     category: "Product Strategy",
@@ -73,7 +77,9 @@ const articles: Article[] = [
     date: "March 2026",
     readTime: "6 min",
     featured: true,
-    featuredImage: "/images/articles/software-team.png",
+    featuredImage: "/images/articles/post-code-era.png",
+    thumbnailFit: "contain",
+    thumbnailBg: "#cfe8a0",
     relatedSlugs: ["cricket-odds-ai", "art-of-the-kill"],
     body: [
       { type: "h2", id: "seismic-shift", text: "A Seismic Shift in Software Development" },
@@ -123,7 +129,9 @@ const articles: Article[] = [
   {
     slug: "outcome-led-roadmaps",
     title: "Why Outcome-Led Roadmaps Beat Feature Lists Every Time",
-    featuredImage: "/images/articles/product-roadmap.png",
+    featuredImage: "/images/articles/outcome-led-roadmaps.png",
+    thumbnailFit: "contain",
+    thumbnailBg: "#cfe8a0",
     excerpt:
       "Most roadmaps are just a backlog in disguise. Here's how shifting to outcomes changed how my team builds, prioritises, and ships.",
     category: "Product Strategy",
@@ -161,6 +169,8 @@ const articles: Article[] = [
     slug: "cricket-odds-ai",
     title: "Predicting Ball-by-Ball Cricket Odds with AI",
     featuredImage: "/images/articles/cricket-odds-ai.png",
+    thumbnailFit: "contain",
+    thumbnailBg: "#cfe8a0",
     excerpt:
       "Instead of predicting who wins a match, I trained a TensorFlow neural network to predict what happens on every single delivery — then ran the game thousands of times.",
     category: "AI & Tech",
@@ -209,6 +219,8 @@ const articles: Article[] = [
     slug: "art-of-the-kill",
     title: "The Art of the Kill: Why Great PMs Are Defined by What They Don't Ship",
     featuredImage: "/images/articles/art-of-the-kill.png",
+    thumbnailFit: "contain",
+    thumbnailBg: "#cfe8a0",
     excerpt:
       "Shipping features is easy. Killing them takes courage. If your primary metric is volume of features delivered, you aren't managing a product — you're managing a factory.",
     category: "Product Strategy",
@@ -245,6 +257,8 @@ const articles: Article[] = [
     slug: "gacha-trap",
     title: "The Gacha Trap: Why We Spend Thousands on Free Games",
     featuredImage: "/images/articles/gacha-trap.png",
+    thumbnailFit: "contain",
+    thumbnailBg: "#cfe8a0",
     excerpt:
       "A tiny fraction of players — called Whales — generate the majority of revenue in free-to-play games. Understanding the psychology behind Gacha mechanics reveals a system engineered for addiction.",
     category: "AI & Tech",
@@ -304,6 +318,8 @@ const articles: Article[] = [
     slug: "stop-being-helpful",
     title: "Stop Being Helpful and Start Being Valuable",
     featuredImage: "/images/articles/being-valuable.png",
+    thumbnailFit: "contain",
+    thumbnailBg: "#cfe8a0",
     excerpt:
       "Why 'Yes-Boss' is a career dead end. The most valuable employees aren't the ones who execute their manager's vision perfectly — they're the ones who convince their managers to do things differently.",
     category: "Leadership",
