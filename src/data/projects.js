@@ -3,10 +3,10 @@ const projects = [
     // ── Bento grid fields ────────────────────────────────────────────────────
     slug: 'pickem',
     title: "Pick'em",
-    description: "A B2B 'More or Less' sports prediction product built from scratch and shipped via casino aggregator — live across 5 continents in 12 months.",
+    description: "A B2B 'More or Less' sports prediction product built from scratch and shipped via casino aggregator — live across 5 continents in 10 months.",
     category: ['B2B', 'Zero-to-One'],
     season: '2025',
-    duration: '12 Months',
+    duration: '10 Months',
     featured: true,
     gradient: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 55%, #0f3460 100%)',
     cardImage: '/images/pickem/pickem.png',
@@ -38,14 +38,12 @@ const projects = [
     opportunityImageHeight: 100,
     opportunityImageWidth: 100,
 
-    context: "Most sportsbooks were built for a different era. They were designed for desktop, for experienced bettors, and for markets measured in decimal odds. The modern fan, one who follows LeBron or Messi rather than a team, was largely ignored.",
-    contextHighlights: ["the modern fan", "was largely ignored"],
-    opportunity: "B2C disruptors like Underdog Fantasy and PrizePicks had proven that simplifying betting into a binary \"More or Less\" choice could unlock an entirely new audience. No B2B equivalent existed. The opportunity was to build the first white-label Pick'em engine that any operator could plug in and own.",
+    context: "Most sportsbooks were built for a different era; designed for desktop, for experienced bettors, and for markets measured in fractional odds. The younger and modern fan that follows individual players (LeBron or Messi) rather than a team, was largely ignored.\n\nB2C disruptors like Underdog Fantasy and PrizePicks had proven that simplifying betting into a binary \"More or Less\" choice could unlock an entirely new audience. No B2B equivalent existed. The opportunity was to build the first white-label Pick'em engine that any operator could plug in and own.",
+    contextHighlights: ["was largely ignored"],
+    opportunity: "How do you make a Sportsbook feel effortless and tailored to a younger audience?",
 
     sections: [
       {
-        title: 'The Problem',
-        body: "The high level problem the team initially focused on was: how do you make a complex, margin-sensitive betting product feel effortless to the end user? To tackle this, I started by stripping the experience down to its simplest possible form: a multiplier, not odds, and a question of more or less.",
         video: '/videos/cut_footballselect.mp4',
       },
       {
@@ -53,12 +51,14 @@ const projects = [
         body: "Pick'em is a second, simpler layer on top of traditional sports betting. Rather than confronting users with decimal odds and obscure markets, it surfaces one clear question: more or less? It provides unique value by meeting fans where they already are, following players, not point spreads.\n\nTo support this, I personally modelled the multiplier calculation logic from scratch, reverse-engineering competitor models to establish a baseline before rebuilding the formula to protect margins and maintain player trust.",
         videos: ['/videos/cut_basketballselect.mp4', '/videos/cut_betoption.mp4'],
         annotations: [
-          { type: 'circle',  paragraphIdx: 0, phrase: 'more or less?' },
-          { type: 'bracket', paragraphIdx: 1, label: 'important to manage risk' },
+          { type: 'circle',     paragraphIdx: 0, phrase: 'more or less?' },
+          { type: 'highlight',  paragraphIdx: 0, phrase: 'one clear question: more or less?' },
+          { type: 'highlight',  paragraphIdx: 0, phrase: 'following players' },
+          { type: 'bracket',    paragraphIdx: 1, label: 'important to manage risk' },
         ],
       },
       {
-        title: 'Directing the Design',
+        title: 'The User Experience',
         annotations: [
           { type: 'highlight', paragraphIdx: 0, phrase: "Pick'em needed to feel like a game" },
         ],
@@ -78,11 +78,13 @@ const projects = [
         },
       },
       {
-        title: 'Early Integration Complexity',
+        title: 'Integration Process',
         annotations: [
-          { type: 'underline', paragraphIdx: 0, phrase: "our product, the aggregator, and each operator's platform" },
+          { type: 'highlight', paragraphIdx: 0, phrase: "three-layer technical dependency. Pick'em, a casino aggregator, and each operator's platform" },
+          { type: 'highlight', paragraphIdx: 1, phrase: 'flexible microservice architecture' },
+          { type: 'highlight', paragraphIdx: 1, phrase: 'constant stakeholder alignment' },
         ],
-        body: "What began as a relatively straightforward build evolved into a three-layer technical dependency — our product, the aggregator, and each operator's platform. Shared wallet infrastructure, inconsistent operator standards, and slow feedback loops created cascading complexity that required a flexible microservices architecture and constant stakeholder alignment to navigate.",
+        body: "The integration process revolved around a three-layer technical dependency. Pick'em, a casino aggregator, and each operator's platform. This was strategically done to help distribute our aggregator into additional platforms for cross-selling opportunities.\n\nAs a result, this involved implementing shared wallet infrastructure with inconsistent operator standards, whilst dealing with slow feedback loops created cascading complexity that required flexible microservice architecture and constant stakeholder alignment to navigate.",
       },
       {
         title: 'Iterating Based on Operator Feedback',
@@ -90,6 +92,9 @@ const projects = [
       },
       {
         title: 'Additional Details',
+        annotations: [
+          { type: 'highlight', paragraphIdx: 1, phrase: 'across five operators and four continents' },
+        ],
         body: "I acted as sole PM across the full product lifecycle — defining the roadmap, bridging commercial and engineering teams, negotiating the data feed provider contract, and taking on the role of a directly responsible individual to ensure both the settlement engine and every design detail were executed with a high level of craftsmanship.\n\nPick'em is a product of the hard work and collaboration of many talented teammates, and I'm proud to have been part of the team that brought it to life across five operators and four continents.",
       },
     ],
@@ -97,8 +102,8 @@ const projects = [
     role: 'Product Manager',
     roleDescription: 'Vision, roadmap, stakeholder relationships, operator integrations, commercial research, and multiplier calculation modelling.',
 
-    durationMonths: 12,
-    durationDescription: 'Concept to first live operator in 12 months, with ongoing expansion across new regions.',
+    durationMonths: 10,
+    durationDescription: 'Concept to first live operator in 10 months, with ongoing expansion across new regions.',
     dateRange: '2025',
 
     timeline: [
@@ -147,13 +152,15 @@ const projects = [
     contextHighlights: ["acquisition is expensive and loyalty is fragile", "inflating Customer Acquisition Costs"],
     opportunity: "How do you change why users come back? Not with a better financial incentive, but with a mechanic compelling enough to build a daily habit around.\n\nMobile gaming had spent years perfecting daily engagement mechanics. Clash of Clans, TCG Pocket, FIFA Ultimate Team; these products had cracked habit formation through variable rewards, scarcity, and personalisation. Almost none of this thinking had crossed over into sports betting. The opportunity was to build a product that applied these mechanics to iGaming.",
     opportunityBracket: true,
+    opportunityBracketLabel: 'The Problem',
     opportunityUnderlines: ["variable rewards, scarcity, and personalisation"],
     opportunityImages: ['/images/reveals/lootbox.jpg'],
 
     sections: [
       {
-        title: 'Crafting the Experience Through Game Design',
+        title: 'The Solution',
         annotations: [
+          { type: 'bracket', paragraphIdx: 0, label: 'The Solution' },
           { type: 'highlight', paragraphIdx: 1, phrase: 'turning the sportsbook into a destination rather than a utility' },
         ],
         body: "Reveals is a daily pack-opening mechanic built around live sports. Each weekday, users tap to reveal a player from an upcoming fixture. If that player hits their target over the weekend, they win. Five days, five players, five chances.\n\nThe reward structure is deliberately tiered (a Haaland reveal is rare and valuable, a Tarkowski reveal is common) mirroring the emotional variance of opening a pack in FIFA Ultimate Team. The 24-hour availability window creates the scarcity that drives habitual check-ins. The Monday-to-Friday cadence builds anticipation, turning the sportsbook into a destination rather than a utility.",
@@ -161,31 +168,33 @@ const projects = [
         imageWidth: '56%',
       },
       {
-        title: 'Directing the Design',
-        annotations: [
-          { type: 'highlight', paragraphIdx: 0, phrase: 'familiar to anyone who had ever opened a pack in a mobile game' },
-        ],
-        body: "Reveals needed to feel like a game, not a betting product. I personally directed and approved every design decision: from the reveal animation and card visual language to the reward feedback moments that follow a weekend result. The goal was to make something that felt immediately familiar to anyone who had ever opened a pack in a mobile game, while remaining native to a sports betting context.\n\nEvery detail was considered. The tension of the tap-to-reveal moment. The visual hierarchy that communicates a player's rarity at a glance.",
-        images: ['/images/reveals/cole.png', '/images/reveals/salah.png', '/images/reveals/haaland.png'],
-      },
-      {
         title: 'The AI Feedback Loop',
         annotations: [
-          { type: 'bracket', paragraphIdx: 0, label: 'The smart part' },
+          { type: 'highlight', paragraphIdx: 0, phrase: 'predictive model profiles users' },
+          { type: 'highlight', paragraphIdx: 0, phrase: 'AI agent then adjusts the potential players that a user can return' },
+          { type: 'highlight', paragraphIdx: 0, phrase: 'system adjusts week-on-week' },
         ],
-        body: "The frontend experience is the hook. Beneath it, an AI layer makes the product commercially intelligent. A predictive model profiles users early in their lifecycle, identifying signals of high-value or bonus-abusive behaviour. An AI agent using Gemini Pro then dynamically selects which players each user sees; balancing individual engagement likelihood against operator-defined KPI targets and financial caps. The system iterates week-on-week, continuously closing the gap between actual and target outcomes.\n\nDesigning a personalisation engine that was both effective at scale and fully auditable by operators was the hardest technical part of the project, and the part that required the most internal advocacy.",
+        body: "The Reveal experience is the hook. Beneath it, an AI layer makes the product commercially intelligent. A predictive model profiles users early in their lifecycle, identifying signals of high-value or bonus-abusive behaviour. An AI agent then adjusts the potential players that a user can return; balancing individual engagement likelihood against operator-defined KPI targets and financial caps. The system adjusts week-on-week, continuously closing the gap between actual and target outcomes.",
         video: '/videos/reveals.webm',
         videoWidth: 550,
       },
       {
-        title: 'Securing Internal Buy-In',
+        title: 'The User Experience',
+        annotations: [
+          { type: 'highlight', paragraphIdx: 0, phrase: 'familiar to anyone who had ever opened a pack in a mobile game' },
+        ],
+        body: "Reveals needed to feel like a game, not a betting product. From the reveal animation and card visual language to the reward feedback moments that follow a weekend result. The goal was to make something that felt immediately familiar to anyone who had ever opened a pack in a mobile game, while remaining native to a sports betting context.",
+        images: ['/images/reveals/cole.png', '/images/reveals/salah.png', '/images/reveals/haaland.png'],
+      },
+      {
+        title: 'Reflection',
         annotations: [
           { type: 'underline', paragraphIdx: 0, phrase: 'I would have moved earlier to build a lightweight prototype' },
         ],
-        body: "One of the hardest parts of the project wasn't the product itself: it was getting the concept across. Describing pack-opening mechanics for football predictions in a meeting room is a harder sell than showing it. In hindsight, I would have moved earlier to build a lightweight prototype to make the mechanics tangible. A faster path to something visual would have compressed the approval timeline significantly.",
+        body: "One of the hardest parts of the project wasn't the product itself: it was securing internal buy-in. Describing pack-opening mechanics for football predictions in a meeting room is harder than showing it. In hindsight, I would have moved earlier to build a lightweight prototype to make the mechanics tangible. A faster path to something visual would have compressed the approval timeline significantly.",
       },
       {
-        title: 'Additional Details',
+        title: 'Summary',
         body: "I drove every aspect of this product from the ground up: conceiving the mechanic, designing the reward structure, architecting the AI feedback loop, building the commercial model, and taking on the role of being solely responsible to ensure every layer of the product was executed with a high level of craftsmanship.\n\nReveals is about to go live with its first operator, and I'm proud to have built something genuinely novel in a space that had gone largely untouched.",
       },
     ],
@@ -194,7 +203,7 @@ const projects = [
     roleDescription: 'Conceived the product, designed the game mechanics, architected the AI feedback loop, built the commercial model, and led operator conversations.',
 
     durationMonths: 3,
-    durationDescription: 'Idea to delivered product in under six months. First operator going live.',
+    durationDescription: 'Idea to delivered product in under three months. First operator going live.',
     dateRange: 'Q1 2026',
 
     timeline: [

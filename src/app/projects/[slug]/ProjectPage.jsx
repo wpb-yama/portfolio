@@ -46,18 +46,34 @@ function RoughUnderline({ children }) {
   return <span ref={ref}>{children}</span>;
 }
 
-function RoughBracket({ children, style }) {
+function RoughBracket({ children, style, label, brackets = ['right'] }) {
   const ref = useRef(null);
   useEffect(() => {
     let ann;
     loadRoughNotation(() => {
       if (!ref.current) return;
-      ann = window.RoughNotation.annotate(ref.current, { type: 'bracket', brackets: ['left', 'right'], color: '#1C1C1C', strokeWidth: 1.5, animate: true, animationDuration: 600 });
+      ann = window.RoughNotation.annotate(ref.current, { type: 'bracket', brackets, color: '#1C1C1C', strokeWidth: 1.5, animate: true, animationDuration: 600 });
       setTimeout(() => ann.show(), 400);
     });
     return () => ann?.hide();
   }, []);
-  return <p ref={ref} style={style}>{children}</p>;
+  return (
+    <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16 }}>
+      <p ref={ref} style={{ ...style, flex: 1, margin: 0 }}>{children}</p>
+      {label && (
+        <span style={{
+          fontFamily: "'Edu NSW ACT Foundation', cursive",
+          fontSize: 14,
+          color: '#1C1C1C',
+          flexShrink: 0,
+          writingMode: 'vertical-rl',
+          textOrientation: 'mixed',
+          transform: 'rotate(180deg)',
+          alignSelf: 'center',
+        }}>{label}</span>
+      )}
+    </div>
+  );
 }
 
 function splitWithPhrases(text, highlights, underlines) {
@@ -87,7 +103,7 @@ function splitWithPhrases(text, highlights, underlines) {
   return parts;
 }
 
-function ContextParagraph({ text, highlights, underlines, bracket, style }) {
+function ContextParagraph({ text, highlights, underlines, bracket, bracketLabel, style }) {
   const hasAnnotations = (highlights?.length > 0) || (underlines?.length > 0);
   const parts = hasAnnotations ? splitWithPhrases(text, highlights, underlines) : null;
 
@@ -99,14 +115,14 @@ function ContextParagraph({ text, highlights, underlines, bracket, style }) {
       )
     : text;
 
-  if (bracket) return <RoughBracket style={style}>{inner}</RoughBracket>;
+  if (bracket) return <RoughBracket style={style} label={bracketLabel}>{inner}</RoughBracket>;
   return <p style={style}>{inner}</p>;
 }
 
 // ── Annotated Section Body ─────────────────────────────────────────────────────
 
 function AnnotatedSectionBody({ body, annotations, style }) {
-  const paragraphs = body.split('\n\n');
+  const paragraphs = (body || '').split('\n\n');
   const circleRefs = useRef({});
   const bracketRefs = useRef({});
 
@@ -420,7 +436,7 @@ export default function ProjectPage() {
   const tocItems = [
     ...(project.context      ? [{ id: 'context',       text: 'Context',       level: 2 }] : []),
     ...(project.opportunity  ? [{ id: 'opportunity',   text: 'The Problem',   level: 2 }] : []),
-    ...(project.sections?.map((s) => ({ id: slugify(s.title), text: s.title, level: 2 })) ?? []),
+    ...(project.sections?.filter((s) => s.title).map((s) => ({ id: slugify(s.title), text: s.title, level: 2 })) ?? []),
     ...(project.research     ? [{ id: 'research',      text: 'Research',      level: 2 }] : []),
     ...(project.development  ? [{ id: 'development',   text: 'Development',   level: 2 }] : []),
     ...(project.testing      ? [{ id: 'testing',       text: 'Testing',       level: 2 }] : []),
@@ -550,16 +566,8 @@ export default function ProjectPage() {
             {project.context && (
               <div id="context" style={mb40}>
                 <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#1C1C1C', marginBottom: 12, marginTop: 0 }}>Context</h3>
-                <ContextParagraph text={project.context} highlights={project.contextHighlights} style={sectionBody} />
-              </div>
-            )}
-
-            {/* Opportunity */}
-            {project.opportunity && (
-              <div id="opportunity" style={mb40}>
-                <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#1C1C1C', marginBottom: 12, marginTop: 0 }}>The Problem</h3>
-                {project.opportunity.split('\n\n').map((para, i) => (
-                  <ContextParagraph key={i} text={para} highlights={i === 0 ? [] : project.opportunityHighlights} underlines={i === 0 ? [] : project.opportunityUnderlines} bracket={i === 0 && !!project.opportunityBracket} style={{ ...sectionBody, marginBottom: 12 }} />
+                {project.context.split('\n\n').map((para, i) => (
+                  <ContextParagraph key={i} text={para} highlights={project.contextHighlights} style={{ ...sectionBody, marginBottom: 12 }} />
                 ))}
               </div>
             )}
@@ -574,10 +582,20 @@ export default function ProjectPage() {
               </div>
             )}
 
+            {/* Opportunity */}
+            {project.opportunity && (
+              <div id="opportunity" style={mb40}>
+                <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#1C1C1C', marginBottom: 12, marginTop: 0 }}>The Problem</h3>
+                {project.opportunity.split('\n\n').map((para, i) => (
+                  <ContextParagraph key={i} text={para} highlights={i === 0 ? [] : project.opportunityHighlights} underlines={i === 0 ? [] : project.opportunityUnderlines} bracket={i === 0 && !!project.opportunityBracket} bracketLabel={i === 0 ? project.opportunityBracketLabel : undefined} style={{ ...sectionBody, marginBottom: 12 }} />
+                ))}
+              </div>
+            )}
+
             {/* Custom sections */}
             {project.sections?.map((section, i) => (
-              <div key={i} id={slugify(section.title)} style={mb40}>
-                <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#1C1C1C', marginBottom: 12, marginTop: 0 }}>{section.title}</h3>
+              <div key={i} id={section.title ? slugify(section.title) : undefined} style={mb40}>
+                {section.title && <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#1C1C1C', marginBottom: 12, marginTop: 0 }}>{section.title}</h3>}
                 <AnnotatedSectionBody body={section.body} annotations={section.annotations} style={sectionBody} />
                 {section.video && (
                   <div style={{ display: 'flex', justifyContent: 'center', marginTop: 16 }}>
