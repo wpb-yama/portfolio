@@ -44,7 +44,7 @@ const projects = [
 
     sections: [
       {
-        title: 'Initial Problem',
+        title: 'The Problem',
         body: "The high level problem the team initially focused on was: how do you make a complex, margin-sensitive betting product feel effortless to the end user? To tackle this, I started by stripping the experience down to its simplest possible form: a multiplier, not odds, and a question of more or less.",
         video: '/videos/cut_footballselect.mp4',
       },
@@ -251,7 +251,7 @@ const projects = [
 
     sections: [
       {
-        title: 'Initial Problem',
+        title: 'The Problem',
         body: "The core question was: how do you remove every possible reason not to play? No odds, no deposit, no expertise required. Just one familiar instinct: what do you think the score will be?",
       },
       {
@@ -324,7 +324,7 @@ const projects = [
 
     sections: [
       {
-        title: 'Initial Problem',
+        title: 'The Problem',
         body: "The core question was: how do you build a system that guarantees first-attempt acceptance by the SIGAP validator, at scale, every single day without manual intervention?",
       },
       {
