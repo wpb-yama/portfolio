@@ -146,6 +146,7 @@ const projects = [
     context: "In iGaming, acquisition is expensive and loyalty is fragile. Most operators rely on financial incentives (free bets, free spins) to retain users. This attracts bonus hunters rather than genuine fans, inflating Customer Acquisition Costs while doing nothing for long-term Lifetime Value. Up to 40% of users disappear after their first session, long before any real value is captured.",
     contextHighlights: ["acquisition is expensive and loyalty is fragile", "inflating Customer Acquisition Costs"],
     opportunity: "How do you change why users come back? Not with a better financial incentive, but with a mechanic compelling enough to build a daily habit around.\n\nMobile gaming had spent years perfecting daily engagement mechanics. Clash of Clans, TCG Pocket, FIFA Ultimate Team; these products had cracked habit formation through variable rewards, scarcity, and personalisation. Almost none of this thinking had crossed over into sports betting. The opportunity was to build a product that applied these mechanics to iGaming.",
+    opportunityBracket: true,
     opportunityUnderlines: ["variable rewards, scarcity, and personalisation"],
     opportunityImages: ['/images/reveals/lootbox.jpg'],
 
