@@ -38,7 +38,7 @@ function RoughUnderline({ children }) {
     let ann;
     loadRoughNotation(() => {
       if (!ref.current) return;
-      ann = window.RoughNotation.annotate(ref.current, { type: 'underline', color: '#F472B6', strokeWidth: 2, animate: true, animationDuration: 600 });
+      ann = window.RoughNotation.annotate(ref.current, { type: 'underline', color: '#F472B6', strokeWidth: 2, multiline: true, animate: true, animationDuration: 600 });
       setTimeout(() => ann.show(), 400);
     });
     return () => ann?.hide();
