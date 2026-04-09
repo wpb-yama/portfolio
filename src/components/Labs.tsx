@@ -2,6 +2,22 @@ import Link from "next/link";
 
 const projects = [
   {
+    slug: "apex-legends",
+    title: "Apex Tracker",
+    tag: "Tools",
+    description:
+      "Player stats and ALGS esports tracker for Apex Legends. Live ranked stats, tournament standings from Y3 to Y6, match breakdowns, and player career histories.",
+    image: "/images/labs/apex-legends.png",
+  },
+  {
+    slug: "youtube-tool",
+    title: "YouTube Tool",
+    tag: "Tools",
+    description:
+      "A local browser UI for downloading YouTube videos and pulling transcripts. No signup, no paywall, no ads.",
+    image: "/images/labs/youtube-tool.png",
+  },
+  {
     slug: "morphing-icons",
     title: "Morphing Icons",
     tag: "AI · Craft",
@@ -58,7 +74,7 @@ export default function Labs() {
         </div>
 
         <div className="flex flex-col">
-          {projects.map((project, i) => (
+          {projects.slice(0, 4).map((project, i) => (
             <div key={project.slug}>
               {i > 0 && (
                 <div style={{ height: 1, background: "#EBEBEB" }} />

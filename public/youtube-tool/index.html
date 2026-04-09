@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YouTube Tool</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/rough-notation/lib/rough-notation.iife.js"></script>
+<style>
+:root {
+  --bg:       #ffffff;
+  --bg-1:     #f8f8f8;
+  --bg-2:     #f0f0f0;
+  --text:     #000000;
+  --text-2:   #555555;
+  --text-3:   #999999;
+  --border:   #e5e5e5;
+  --border-2: #f0f0f0;
+  --accent:   #0090ff;
+  --error:    #dc2626;
+  --hl-bg:    rgba(59,130,246,0.1);
+  --hl-bdr:   #3b82f6;
+  --hit-bg:   rgba(253,224,71,0.75);
+  --c-green:  #16a34a;
+  --c-purple: #7c3aed;
+  --c-orange: #ea580c;
+  --c-blue:   #2563eb;
+  --c-pink:   #db2777;
+  --c-teal:   #0891b2;
+  --p-green:  rgba(22,163,74,0.08);
+  --p-purple: rgba(124,58,237,0.08);
+  --p-orange: rgba(234,88,12,0.08);
+  --p-blue:   rgba(37,99,235,0.08);
+  --p-pink:   rgba(219,39,119,0.08);
+  --p-teal:   rgba(8,145,178,0.08);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* ── Nav ──────────────────────────────────────────────────────── */
+nav {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+.nav-logo-badge {
+  background: #FF0000;
+  color: #fff;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 3px 7px 3px 6px;
+  border-radius: 5px;
+  line-height: 1.2;
+  flex-shrink: 0;
+}
+.nav-logo-word {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+/* ── Hero ─────────────────────────────────────────────────────── */
+.hero { max-width: 520px; margin: 0 auto; padding: 40px 24px 0; text-align: center; }
+.hero h1 {
+  font-size: clamp(1.7rem, 4vw, 2.25rem);
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  line-height: 1.12;
+  margin-bottom: 10px;
+}
+.yt-icon { display: inline-block; vertical-align: middle; width: 1.2em; height: 0.85em; margin: 0 2px -2px; }
+.subtitle { color: var(--text-2); font-size: 1rem; line-height: 1.6; margin-bottom: 24px; }
+
+/* ── Input section ────────────────────────────────────────────── */
+.input-section { position: relative; margin-bottom: 6px; }
+
+.input-annotation {
+  position: absolute;
+  left: calc(100% + 18px);
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.hint-text {
+  font-family: 'Caveat', cursive;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-2);
+  display: inline-block;
+  transform: rotate(-4deg);
+}
+.hint-arrow { display: block; }
+@media (max-width: 800px) { .input-annotation { display: none; } }
+
+.url-textarea {
+  width: 100%;
+  min-height: 46px;
+  max-height: 110px;
+  background: transparent;
+  border: none;
+  border-bottom: 1.5px solid var(--border);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 1.05rem;
+  padding: 10px 0;
+  outline: none;
+  resize: none;
+  overflow-y: auto;
+  line-height: 1.5;
+  display: block;
+}
+.url-textarea::placeholder { color: var(--text-3); }
+.url-textarea:focus { border-bottom-color: var(--text-2); }
+
+.error-msg { color: var(--error); font-size: 0.8rem; min-height: 18px; margin-bottom: 12px; text-align: left; }
+
+.btn-fetch {
+  width: 100%;
+  background: var(--text);
+  color: var(--bg);
+  border: none;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.15s;
+}
+.btn-fetch:hover:not(:disabled) { opacity: 0.82; transform: translateY(-1px); }
+.btn-fetch:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.btn-fetch:disabled { opacity: 0.45; cursor: wait; }
+.btn-inner { display: flex; align-items: center; justify-content: center; gap: 8px; }
+
+/* ── Spinners ─────────────────────────────────────────────────── */
+.spin { width: 14px; height: 14px; border-radius: 50%; animation: spin 0.7s linear infinite; display: none; flex-shrink: 0; }
+.spin-dark  { border: 2px solid rgba(255,255,255,0.2); border-top-color: #fff; }
+.spin-light { border: 2px solid var(--border); border-top-color: var(--text-2); }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Results container ────────────────────────────────────────── */
+#results-container {
+  max-width: 1100px;
+  margin: 28px auto 0;
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* ── Widget card ──────────────────────────────────────────────── */
+.result-card {
+  position: relative;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  background: var(--bg);
+  box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+@media (min-width: 680px) {
+  .result-card { grid-template-columns: 0.85fr 1fr; gap: 28px; }
+}
+.result-close {
+  position: absolute;
+  top: -11px; right: -11px;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  cursor: pointer;
+  font-size: 0.75rem;
+  color: var(--text-3);
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+  line-height: 1;
+}
+.result-close:hover { background: var(--text); color: var(--bg); border-color: var(--text); }
+
+/* ── Video column ─────────────────────────────────────────────── */
+.video-col { display: flex; flex-direction: column; gap: 12px; }
+@media (min-width: 680px) { .video-col { position: sticky; top: 24px; align-self: start; } }
+
+.embed-wrap { border-radius: 10px; overflow: hidden; aspect-ratio: 16/9; background: #000; }
+.embed-wrap > div, .embed-wrap iframe { width: 100%; height: 100%; display: block; border: none; }
+
+.video-title-text { font-size: 0.9rem; font-weight: 600; letter-spacing: -0.01em; line-height: 1.4; }
+.duration-pill {
+  display: inline-flex; align-items: center;
+  background: var(--bg-1); border: 1px solid var(--border); border-radius: 999px;
+  color: var(--text-3); font-size: 0.75rem; font-weight: 500; padding: 2px 9px; margin-top: 5px;
+}
+
+.video-meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 12px; margin-top: 10px; }
+.meta-label { display: block; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-3); margin-bottom: 1px; }
+.meta-value { display: block; font-size: 0.82rem; font-weight: 500; color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* ── Tabs column ──────────────────────────────────────────────── */
+.tabs-col { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.tab-bar { display: flex; border-bottom: 1px solid var(--border); }
+.tab-btn {
+  background: none; border: none; border-bottom: 2px solid transparent;
+  color: var(--text-3); cursor: pointer; font-family: inherit;
+  font-size: 0.855rem; font-weight: 500; margin-bottom: -1px;
+  padding: 7px 12px; transition: color 0.15s, border-color 0.15s; white-space: nowrap;
+}
+.tab-btn.active { color: var(--text); border-bottom-color: var(--text); }
+.tab-btn:hover:not(.active) { color: var(--text-2); }
+.tab-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.tab-pane { display: none; flex-direction: column; gap: 10px; }
+.tab-pane.active { display: flex; }
+
+/* ── Transcript toolbar ───────────────────────────────────────── */
+.transcript-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+/* ── Format select ────────────────────────────────────────────── */
+.format-select {
+  background: var(--bg-1);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-2);
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 500;
+  padding: 6px 28px 6px 10px;
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23999' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  transition: border-color 0.15s;
+  align-self: flex-start;
+}
+.format-select:hover { border-color: var(--text-2); }
+.format-select:focus { border-color: var(--text); }
+
+/* ── Search ───────────────────────────────────────────────────── */
+.search-wrap { position: relative; }
+.search-input {
+  width: 100%; background: var(--bg-1); border: 1px solid var(--border);
+  border-radius: 8px; color: var(--text); font-family: inherit;
+  font-size: 0.855rem; padding: 7px 32px 7px 10px; outline: none; transition: border-color 0.2s;
+}
+.search-input::placeholder { color: var(--text-3); }
+.search-input:focus { border-color: var(--text-2); }
+.search-clear {
+  position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+  background: none; border: none; color: var(--text-3); cursor: pointer;
+  font-size: 0.85rem; line-height: 1; padding: 2px 4px; display: none;
+}
+.search-clear:hover { color: var(--text); }
+.search-count { font-size: 0.74rem; color: var(--text-3); min-height: 16px; }
+
+/* ── Transcript scroll ────────────────────────────────────────── */
+.transcript-scroll { max-height: 360px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+.transcript-scroll::-webkit-scrollbar { width: 4px; }
+.transcript-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 20px; }
+
+.transcript-lines { display: flex; flex-direction: column; }
+.tline {
+  border-left: 2px solid transparent; border-radius: 4px;
+  font-size: 0.845rem; line-height: 1.65; padding: 2px 6px 2px 8px;
+  cursor: pointer; transition: background 0.1s;
+}
+.tline:hover { background: var(--bg-1); }
+.tline.hidden { display: none; }
+.tline.now-playing { background: var(--hl-bg); border-left-color: var(--hl-bdr); }
+.tline .ts { font-size: 0.73rem; font-weight: 500; margin-right: 6px; color: var(--text-3); font-variant-numeric: tabular-nums; }
+mark.hit { background: var(--hit-bg); border-radius: 2px; padding: 0 1px; color: inherit; }
+
+.chunk-block {
+  border-left: 2px solid transparent; border-radius: 4px; margin-bottom: 2px;
+  padding: 4px 6px 4px 8px; transition: background 0.1s; cursor: pointer;
+}
+.chunk-block:hover { background: var(--bg-1); }
+.chunk-block.hidden { display: none; }
+.chunk-block.now-playing { background: var(--hl-bg); border-left-color: var(--hl-bdr); }
+.chunk-header { font-size: 0.72rem; font-weight: 600; color: var(--text-3); font-variant-numeric: tabular-nums; margin-bottom: 2px; }
+.chunk-text { font-size: 0.845rem; line-height: 1.65; color: var(--text-2); }
+
+.t-loading { display: flex; align-items: center; gap: 10px; color: var(--text-3); font-size: 0.875rem; padding: 6px 0; }
+.t-loading .spin { display: block; }
+
+/* ── Action buttons ───────────────────────────────────────────── */
+.action-row { display: flex; flex-wrap: wrap; gap: 7px; }
+.btn-outline {
+  background: transparent; border: 1px solid var(--border); border-radius: 8px;
+  color: var(--text-2); cursor: pointer; font-family: inherit;
+  font-size: 0.835rem; font-weight: 500; padding: 6px 13px;
+  transition: border-color 0.15s, color 0.15s, transform 0.15s;
+}
+.btn-outline:hover:not(:disabled) { border-color: var(--text); color: var(--text); transform: translateY(-1px); }
+.btn-outline:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* ── Download tab ─────────────────────────────────────────────── */
+.quality-label { font-size: 0.82rem; color: var(--text-3); margin-bottom: 8px; }
+.radio-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+.radio-pill input { display: none; }
+.radio-pill span {
+  display: inline-block; background: var(--bg-1); border: 1px solid var(--border);
+  border-radius: 999px; color: var(--text-2); cursor: pointer;
+  font-size: 0.8rem; font-weight: 500; padding: 4px 12px; transition: all 0.15s;
+}
+.radio-pill input:checked + span { background: var(--text); border-color: var(--text); color: var(--bg); }
+.radio-pill span:hover { border-color: var(--text-2); }
+
+.btn-dl {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--text); color: var(--bg); border: none; border-radius: 10px;
+  font-family: inherit; font-size: 0.9375rem; font-weight: 600; padding: 10px 20px;
+  cursor: pointer; transition: opacity 0.15s, transform 0.15s;
+}
+.btn-dl:hover:not(:disabled) { opacity: 0.82; transform: translateY(-1px); }
+.btn-dl:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.btn-dl:disabled { opacity: 0.4; cursor: wait; }
+.dl-note { color: var(--text-3); font-size: 0.77rem; line-height: 1.5; }
+
+/* ── ─────────────────────────────────────────────────────────── */
+/* ── Info sections ────────────────────────────────────────────── */
+/* ── ─────────────────────────────────────────────────────────── */
+
+.page-sections { max-width: 1100px; margin: 72px auto 0; padding: 0 24px; }
+
+/* Why section */
+.why-section { border-top: 1px solid var(--border-2); padding-top: 64px; margin-bottom: 64px; }
+.section-label {
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-3); margin-bottom: 20px;
+}
+.why-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
+@media (min-width: 680px) { .why-grid { grid-template-columns: 0.55fr 1fr; gap: 48px; } }
+
+.why-block h2 {
+  font-size: 1.5rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.2; margin-bottom: 16px;
+}
+.why-body p {
+  font-size: 0.95rem; color: var(--text-2); line-height: 1.7; margin-bottom: 14px;
+}
+.why-body p:last-child { margin-bottom: 0; }
+
+/* Features section */
+.features-section { margin-bottom: 64px; }
+.features-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 24px; }
+@media (min-width: 540px) { .features-grid { grid-template-columns: 1fr 1fr; } }
+
+.feature-card {
+  border: 1px solid var(--border); border-radius: 14px; padding: 22px 22px 24px;
+  background: var(--bg);
+}
+.feature-icon-wrap {
+  width: 44px; height: 44px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem; margin-bottom: 14px;
+}
+.feature-card h3 { font-size: 1rem; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 12px; }
+.feature-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.feature-list li {
+  font-size: 0.855rem; color: var(--text-2); line-height: 1.5;
+  display: flex; align-items: baseline; gap: 8px;
+}
+.feature-list li::before { content: ''; width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; margin-top: 0.4em; background: var(--dot, #ccc); }
+
+/* Use cases section */
+.usecases-section { margin-bottom: 72px; }
+.usecases-grid {
+  display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 24px;
+}
+@media (min-width: 480px) { .usecases-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 768px) { .usecases-grid { grid-template-columns: repeat(3, 1fr); } }
+
+.usecase-card {
+  border: 1px solid var(--border); border-radius: 12px; padding: 18px 18px 20px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.usecase-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
+.usecase-icon { font-size: 1.4rem; margin-bottom: 10px; display: block; }
+.usecase-card h4 { font-size: 0.9rem; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 4px; }
+.usecase-card p { font-size: 0.815rem; color: var(--text-3); line-height: 1.5; }
+
+/* Footer */
+.site-footer {
+  border-top: 1px solid var(--border-2);
+  text-align: center;
+  padding: 28px 24px;
+  color: var(--text-3);
+  font-size: 0.8rem;
+}
+.site-footer a { color: var(--text-3); text-decoration: none; }
+.site-footer a:hover { color: var(--text-2); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#">
+    <span class="nav-logo-badge">YT</span>
+    <span class="nav-logo-word">tool</span>
+  </a>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <h1>Get YouTube
+    <svg class="yt-icon" viewBox="0 0 24 17" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect width="24" height="17" rx="4" fill="#FF0000"/>
+      <polygon points="9.5,4 9.5,13 17,8.5" fill="#ffffff"/>
+    </svg>
+    Transcripts and Videos in Seconds
+  </h1>
+  <p class="subtitle">
+    <span id="hl-1">No signup.</span>&nbsp;
+    <span id="hl-2">No paywall.</span>&nbsp;
+    <span id="hl-3">No ads.</span>
+  </p>
+
+  <div class="input-section">
+    <div class="input-annotation">
+      <!-- Hand-drawn arrow pointing left toward the textarea -->
+      <svg class="hint-arrow" width="56" height="38" viewBox="0 0 56 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M52 19 C42 9 24 7 6 18" stroke="#333" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M6 18 L16 11" stroke="#333" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M6 18 L14 25" stroke="#333" stroke-width="2.5" stroke-linecap="round"/>
+      </svg>
+      <span class="hint-text">Paste YouTube URL here</span>
+    </div>
+    <textarea class="url-textarea" id="url-input" rows="1"
+      placeholder="youtube.com/watch?v=... (one per line for multiple)"
+      oninput="autoResize(this)"></textarea>
+  </div>
+  <div class="error-msg" id="fetch-error"></div>
+  <button class="btn-fetch" id="fetch-btn" onclick="fetchAll()">
+    <div class="btn-inner">
+      <div class="spin spin-dark" id="fetch-spin"></div>
+      <span id="fetch-label">Fetch</span>
+    </div>
+  </button>
+</section>
+
+<!-- Widgets go here -->
+<div id="results-container"></div>
+
+<!-- ── Info sections ─────────────────────────────────────────── -->
+<div class="page-sections">
+
+  <!-- Why this exists -->
+  <section class="why-section">
+    <div class="section-label">Why this exists</div>
+    <div class="why-grid">
+      <div class="why-block">
+        <h2>Built out of frustration with YouTube.</h2>
+      </div>
+      <div class="why-body">
+        <p>I watch a lot of YouTube. So do you. I also travel a lot and download videos for flights. It is often difficult to download, with videos being hidden behind paywalls or ads. This should work without the additional hassle.</p>
+        <p>You can also skim, search and review the transcripts, because often you are trying to find a quote, or feed content into an AI.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="features-section">
+    <div class="section-label">Features</div>
+    <div class="features-grid">
+
+      <div class="feature-card">
+        <div class="feature-icon-wrap" style="background:var(--p-blue)">📥</div>
+        <h3>Download Videos</h3>
+        <ul class="feature-list">
+          <li style="--dot:#2563eb"><span>Any public YouTube video</span></li>
+          <li style="--dot:#2563eb"><span>Choose quality up to 1080p</span></li>
+          <li style="--dot:#2563eb"><span>MP4 format, ready to play anywhere</span></li>
+          <li style="--dot:#2563eb"><span>Saves directly to your device</span></li>
+          <li style="--dot:#2563eb"><span>Works offline after download</span></li>
+        </ul>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon-wrap" style="background:var(--p-purple)">📝</div>
+        <h3>Convert Videos to Text</h3>
+        <ul class="feature-list">
+          <li style="--dot:#7c3aed"><span>Auto-transcripts, no API key needed</span></li>
+          <li style="--dot:#7c3aed"><span>Plain text or with timestamps</span></li>
+          <li style="--dot:#7c3aed"><span>30s / 60s chunks ready for RAG pipelines</span></li>
+          <li style="--dot:#7c3aed"><span>Export as .txt, .csv, or .json</span></li>
+          <li style="--dot:#7c3aed"><span>Click any line to jump to that moment</span></li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Use cases -->
+  <section class="usecases-section">
+    <div class="section-label">Use Cases</div>
+    <div class="usecases-grid">
+
+      <div class="usecase-card" style="border-color: var(--p-green); border-width:1.5px">
+        <span class="usecase-icon">🎓</span>
+        <h4>Students &amp; Note-takers</h4>
+        <p>Capture lectures, talks, and tutorials as searchable text. Never miss a point.</p>
+      </div>
+
+      <div class="usecase-card" style="border-color: var(--p-purple); border-width:1.5px">
+        <span class="usecase-icon">✍️</span>
+        <h4>Content Creators</h4>
+        <p>Repurpose video content for blogs, newsletters, and social posts in minutes.</p>
+      </div>
+
+      <div class="usecase-card" style="border-color: var(--p-blue); border-width:1.5px">
+        <span class="usecase-icon">🔬</span>
+        <h4>Researchers &amp; Learners</h4>
+        <p>Skim long videos to find what matters. Search across the full transcript instantly.</p>
+      </div>
+
+      <div class="usecase-card" style="border-color: var(--p-orange); border-width:1.5px">
+        <span class="usecase-icon">📊</span>
+        <h4>Marketers &amp; SEO</h4>
+        <p>Extract quotes, keywords, and talking points from any video or interview.</p>
+      </div>
+
+      <div class="usecase-card" style="border-color: var(--p-pink); border-width:1.5px">
+        <span class="usecase-icon">🎙️</span>
+        <h4>Podcast &amp; Interview Fans</h4>
+        <p>Get the full conversation in readable form. Find that one quote you half-remember.</p>
+      </div>
+
+      <div class="usecase-card" style="border-color: var(--p-teal); border-width:1.5px">
+        <span class="usecase-icon">🌍</span>
+        <h4>Multilingual Users</h4>
+        <p>Copy transcripts to translate, summarise, or feed into your AI tool of choice.</p>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+
+<!-- Footer -->
+<footer class="site-footer">
+  Built with a little help from <a href="https://claude.ai" target="_blank">Claude</a>. 2026.
+</footer>
+
+<script>
+/* ── Constants ──────────────────────────────────────────────── */
+const API         = '/api/yt';
+const EXAMPLE_URL = 'https://www.youtube.com/watch?v=qp0HIF3SfI4';
+
+/* ── Widget state ───────────────────────────────────────────── */
+let widgetCounter = 0;
+const widgets = new Map(); // wid -> { id, url, videoId, player, rawEntries, plainText, syncInterval }
+let exampleWidgetId = null;
+
+/* ── YouTube IFrame API ─────────────────────────────────────── */
+let ytReady = false;
+const ytQueue = [];
+
+(function() {
+  const tag = document.createElement('script');
+  tag.src = 'https://www.youtube.com/iframe_api';
+  document.head.appendChild(tag);
+})();
+
+window.onYouTubeIframeAPIReady = function() {
+  ytReady = true;
+  ytQueue.forEach(fn => fn());
+  ytQueue.length = 0;
+};
+
+function createPlayer(wid) {
+  const widget = widgets.get(wid);
+  if (!widget) return;
+  const fn = () => {
+    widget.player = new YT.Player(`player-${wid}`, {
+      videoId: widget.videoId,
+      playerVars: { playsinline: 1, rel: 0 },
+      events: { onStateChange: e => onPlayerState(e, widget) },
+    });
+  };
+  if (ytReady) fn(); else ytQueue.push(fn);
+}
+
+function onPlayerState(e, widget) {
+  clearInterval(widget.syncInterval);
+  if (e.data === YT.PlayerState.PLAYING) {
+    widget.syncInterval = setInterval(() => syncWidget(widget), 300);
+  }
+}
+
+function syncWidget(w) {
+  if (!w.player?.getCurrentTime) return;
+  const container = document.getElementById(`lines-${w.id}`);
+  if (!container) return;
+  const pane = document.getElementById(`tab-transcript-${w.id}`);
+  if (!pane?.classList.contains('active')) return;
+
+  const t     = w.player.getCurrentTime();
+  const items = container.querySelectorAll('[data-start]');
+  if (!items.length) return;
+
+  let active = items[0];
+  for (const item of items) {
+    if (parseFloat(item.dataset.start) <= t) active = item;
+    else break;
+  }
+
+  container.querySelectorAll('.now-playing').forEach(el => el.classList.remove('now-playing'));
+  active.classList.add('now-playing');
+
+  const scroll = document.getElementById(`scroll-${w.id}`);
+  if (!scroll) return;
+  const rel = active.offsetTop - scroll.offsetTop;
+  const vis = scroll.scrollTop;
+  const h   = scroll.clientHeight;
+  if (rel < vis + 40 || rel > vis + h - 80) scroll.scrollTop = rel - h / 3;
+}
+
+/* ── Helpers ────────────────────────────────────────────────── */
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 110) + 'px';
+}
+
+function parseUrls(text) {
+  const tokens = text.split(/[\s,\n]+/).filter(Boolean);
+  return [...new Set(tokens.filter(t => extractVideoId(t)))];
+}
+
+function extractVideoId(url) {
+  const m = url.match(/(?:v=|youtu\.be\/|shorts\/)([A-Za-z0-9_-]{11})/);
+  return m ? m[1] : null;
+}
+
+function formatTime(secs) {
+  const m = Math.floor(secs / 60);
+  const s = Math.floor(secs % 60);
+  return `[${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}]`;
+}
+
+function formatDuration(secs) {
+  if (!secs) return '';
+  const h = Math.floor(secs / 3600);
+  const m = Math.floor((secs % 3600) / 60);
+  const s = secs % 60;
+  return h > 0 ? `${h}:${pad(m)}:${pad(s)}` : `${m}:${pad(s)}`;
+}
+
+function pad(n) { return String(n).padStart(2, '0'); }
+
+function formatCount(n) {
+  if (!n && n !== 0) return '--';
+  if (n >= 1e9) return (n/1e9).toFixed(1).replace(/\.0$/,'') + 'B';
+  if (n >= 1e6) return (n/1e6).toFixed(1).replace(/\.0$/,'') + 'M';
+  if (n >= 1e3) return (n/1e3).toFixed(1).replace(/\.0$/,'') + 'K';
+  return n.toLocaleString();
+}
+
+function formatDate(d) {
+  if (!d || d.length !== 8) return '--';
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return `${parseInt(d.slice(6))} ${months[parseInt(d.slice(4,6))-1]} ${d.slice(0,4)}`;
+}
+
+function escapeHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function escapeRegex(s) {
+  return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+}
+
+function makeChunks(entries, size) {
+  if (!entries.length) return [];
+  const chunks = [];
+  let cur = null;
+  for (const e of entries) {
+    const cs = Math.floor(e.start / size) * size;
+    if (!cur || cur.start !== cs) {
+      if (cur) chunks.push(cur);
+      cur = { start: cs, texts: [] };
+    }
+    cur.texts.push(e.text);
+  }
+  if (cur) chunks.push(cur);
+  return chunks;
+}
+
+/* ── Widget builder ─────────────────────────────────────────── */
+function buildWidgetHtml(wid) {
+  return `
+  <div class="result-card" id="card-${wid}">
+    <button class="result-close" onclick="closeWidget('${wid}')" aria-label="Close">✕</button>
+
+    <div class="video-col">
+      <div class="embed-wrap"><div id="player-${wid}"></div></div>
+      <div>
+        <div class="video-title-text" id="title-${wid}">Loading...</div>
+        <div><span class="duration-pill" id="duration-${wid}"></span></div>
+        <div class="video-meta-grid">
+          <div class="meta-item">
+            <span class="meta-label">Channel</span>
+            <span class="meta-value" id="channel-${wid}">--</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Subscribers</span>
+            <span class="meta-value" id="subs-${wid}">--</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Views</span>
+            <span class="meta-value" id="views-${wid}">--</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Published</span>
+            <span class="meta-value" id="date-${wid}">--</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tabs-col">
+      <div class="tab-bar">
+        <button class="tab-btn active" id="tbtn-transcript-${wid}" onclick="switchTab('${wid}','transcript')">Transcript</button>
+        <button class="tab-btn" id="tbtn-download-${wid}" onclick="switchTab('${wid}','download')">Download Video</button>
+      </div>
+
+      <div class="tab-pane active" id="tab-transcript-${wid}">
+        <div class="transcript-toolbar">
+          <select class="format-select" id="fmt-${wid}" onchange="renderTranscript('${wid}')">
+            <option value="plain">Timestamps</option>
+            <option value="standard">With timestamps</option>
+            <option value="chunks30">30s Chunks (RAG)</option>
+            <option value="chunks60">60s Chunks (RAG)</option>
+          </select>
+          <div class="toolbar-right" id="t-actions-${wid}" style="display:none">
+            <select class="format-select" onchange="if(this.value){dlTranscript('${wid}',this.value);this.selectedIndex=0}">
+              <option value="">Download</option>
+              <option value="txt">.txt</option>
+              <option value="csv">.csv</option>
+              <option value="json">.json</option>
+            </select>
+            <button class="btn-outline" onclick="copyAll('${wid}')">Copy All</button>
+          </div>
+        </div>
+        <div class="search-wrap">
+          <input class="search-input" id="search-${wid}" type="text" placeholder="Search transcript..."
+            oninput="onWidgetSearch('${wid}')">
+          <button class="search-clear" id="sclear-${wid}" onclick="clearWidgetSearch('${wid}')">✕</button>
+        </div>
+        <div class="search-count" id="scount-${wid}"></div>
+        <div class="transcript-scroll" id="scroll-${wid}">
+          <div id="lines-${wid}">
+            <div class="t-loading"><div class="spin spin-light"></div><span>Loading transcript...</span></div>
+          </div>
+        </div>
+        <div class="error-msg" id="t-error-${wid}"></div>
+      </div>
+
+      <div class="tab-pane" id="tab-download-${wid}">
+        <div>
+          <div class="quality-label">Select quality</div>
+          <div class="radio-pills" id="quality-${wid}"></div>
+        </div>
+        <div>
+          <button class="btn-dl" id="dl-btn-${wid}" onclick="downloadVideo('${wid}')">
+            <div class="spin spin-dark" id="dl-spin-${wid}"></div>
+            <span id="dl-label-${wid}">Download MP4</span>
+          </button>
+        </div>
+        <div class="error-msg" id="dl-error-${wid}"></div>
+        <p class="dl-note">Large files may take a moment. ffmpeg required for 1080p+.</p>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ── Create widget ──────────────────────────────────────────── */
+async function createWidget(url) {
+  const videoId = extractVideoId(url);
+  if (!videoId) return;
+
+  // Skip duplicate videoIds
+  for (const [, w] of widgets) {
+    if (w.videoId === videoId) {
+      document.getElementById(`card-${w.id}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return;
+    }
+  }
+
+  const wid = `w${++widgetCounter}`;
+  const widget = { id: wid, url, videoId, player: null, rawEntries: [], plainText: '', syncInterval: null };
+  widgets.set(wid, widget);
+
+  const container = document.getElementById('results-container');
+  container.insertAdjacentHTML('beforeend', buildWidgetHtml(wid));
+
+  createPlayer(wid);
+  loadWidgetInfo(wid, url);
+  loadWidgetTranscript(wid, url);
+}
+
+function closeWidget(wid) {
+  const w = widgets.get(wid);
+  if (w) {
+    clearInterval(w.syncInterval);
+    if (w.player?.stopVideo) w.player.stopVideo();
+    if (w.player?.destroy) w.player.destroy();
+    widgets.delete(wid);
+  }
+  document.getElementById(`card-${wid}`)?.remove();
+}
+
+/* ── Fetch + populate ───────────────────────────────────────── */
+async function loadWidgetInfo(wid, url) {
+  try {
+    const res  = await fetch(`${API}/info`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({url}) });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+
+    document.getElementById(`title-${wid}`).textContent    = data.title    || '';
+    document.getElementById(`duration-${wid}`).textContent = formatDuration(data.duration);
+    document.getElementById(`channel-${wid}`).textContent  = data.channel  || '--';
+    document.getElementById(`subs-${wid}`).textContent     = formatCount(data.channel_follower_count);
+    document.getElementById(`views-${wid}`).textContent    = formatCount(data.view_count);
+    document.getElementById(`date-${wid}`).textContent     = formatDate(data.upload_date);
+
+    buildQualityPills(wid, data.formats || []);
+  } catch(err) {
+    document.getElementById(`title-${wid}`).textContent = 'Failed to load video info';
+  }
+}
+
+async function loadWidgetTranscript(wid, url) {
+  const w = widgets.get(wid);
+  if (!w) return;
+  document.getElementById(`t-actions-${wid}`).style.display = 'none';
+
+  try {
+    const res  = await fetch(`${API}/transcript`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({url, timestamps: false}) });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+
+    w.rawEntries = data.entries || [];
+    w.plainText  = data.transcript || '';
+    renderTranscript(wid);
+    document.getElementById(`t-actions-${wid}`).style.display = 'flex';
+  } catch(err) {
+    document.getElementById(`lines-${wid}`).innerHTML = '';
+    document.getElementById(`t-error-${wid}`).textContent = err.message;
+  }
+}
+
+/* ── Render transcript ──────────────────────────────────────── */
+function renderTranscript(wid) {
+  const w   = widgets.get(wid);
+  if (!w?.rawEntries.length) return;
+  const fmt = document.getElementById(`fmt-${wid}`)?.value || 'plain';
+  let   html = '';
+
+  if (fmt === 'plain') {
+    html = w.rawEntries.map(e =>
+      `<div class="tline" data-start="${e.start}" data-raw="${escapeHtml(e.text)}" onclick="seekTo('${wid}',${e.start})">${escapeHtml(e.text)}</div>`
+    ).join('');
+    document.getElementById(`lines-${wid}`).innerHTML = `<div class="transcript-lines">${html}</div>`;
+
+  } else if (fmt === 'standard') {
+    html = w.rawEntries.map(e =>
+      `<div class="tline" data-start="${e.start}" data-raw="${escapeHtml(e.text)}" onclick="seekTo('${wid}',${e.start})">` +
+      `<span class="ts">${formatTime(e.start)}</span>${escapeHtml(e.text)}</div>`
+    ).join('');
+    document.getElementById(`lines-${wid}`).innerHTML = `<div class="transcript-lines">${html}</div>`;
+
+  } else {
+    const size   = fmt === 'chunks30' ? 30 : 60;
+    const chunks = makeChunks(w.rawEntries, size);
+    html = chunks.map(c => {
+      const text = c.texts.join(' ');
+      return `<div class="chunk-block" data-start="${c.start}" data-raw="${escapeHtml(text)}" onclick="seekTo('${wid}',${c.start})">` +
+             `<div class="chunk-header">${formatTime(c.start)}</div>` +
+             `<div class="chunk-text">${escapeHtml(text)}</div></div>`;
+    }).join('');
+    document.getElementById(`lines-${wid}`).innerHTML = html;
+  }
+
+  const q = document.getElementById(`search-${wid}`)?.value;
+  if (q) onWidgetSearch(wid);
+}
+
+/* ── Seek ───────────────────────────────────────────────────── */
+function seekTo(wid, time) {
+  const w = widgets.get(wid);
+  if (w?.player?.seekTo) {
+    w.player.seekTo(time, true);
+    w.player.playVideo();
+  }
+}
+
+/* ── Search ─────────────────────────────────────────────────── */
+function onWidgetSearch(wid) {
+  const input = document.getElementById(`search-${wid}`);
+  const q     = input?.value || '';
+  document.getElementById(`sclear-${wid}`).style.display = q ? 'block' : 'none';
+
+  const container = document.getElementById(`lines-${wid}`);
+  const items     = container?.querySelectorAll('[data-raw]') || [];
+
+  if (!q.trim()) {
+    items.forEach(el => {
+      el.classList.remove('hidden');
+      const raw = el.dataset.raw;
+      if (el.classList.contains('chunk-block')) {
+        el.querySelector('.chunk-text').textContent = raw;
+      } else {
+        const ts = el.querySelector('.ts');
+        el.innerHTML = (ts ? ts.outerHTML : '') + escapeHtml(raw);
+      }
+    });
+    document.getElementById(`scount-${wid}`).textContent = '';
+    return;
+  }
+
+  let matches = 0;
+  const lower = q.toLowerCase();
+  items.forEach(el => {
+    const raw = el.dataset.raw;
+    if (raw.toLowerCase().includes(lower)) {
+      el.classList.remove('hidden');
+      matches++;
+      const hi = escapeHtml(raw).replace(
+        new RegExp(escapeRegex(escapeHtml(q)), 'gi'),
+        m => `<mark class="hit">${m}</mark>`
+      );
+      if (el.classList.contains('chunk-block')) {
+        el.querySelector('.chunk-text').innerHTML = hi;
+      } else {
+        const ts = el.querySelector('.ts');
+        el.innerHTML = (ts ? ts.outerHTML : '') + hi;
+      }
+    } else {
+      el.classList.add('hidden');
+    }
+  });
+
+  document.getElementById(`scount-${wid}`).textContent =
+    matches === 0 ? 'No matches' : `${matches} match${matches !== 1 ? 'es' : ''}`;
+}
+
+function clearWidgetSearch(wid) {
+  document.getElementById(`search-${wid}`).value = '';
+  document.getElementById(`sclear-${wid}`).style.display = 'none';
+  onWidgetSearch(wid);
+}
+
+/* ── Copy / download transcript ─────────────────────────────── */
+function getTranscriptText(wid) {
+  const w   = widgets.get(wid);
+  if (!w) return '';
+  const fmt = document.getElementById(`fmt-${wid}`)?.value || 'plain';
+  if (fmt === 'plain')    return w.plainText;
+  if (fmt === 'standard') return w.rawEntries.map(e => `${formatTime(e.start)} ${e.text}`).join('\n');
+  const size = fmt === 'chunks30' ? 30 : 60;
+  return makeChunks(w.rawEntries, size).map(c => `${formatTime(c.start)}\n${c.texts.join(' ')}`).join('\n\n');
+}
+
+function copyAll(wid) {
+  const text = getTranscriptText(wid);
+  navigator.clipboard.writeText(text).then(() => {
+    const btn  = event.target;
+    const orig = btn.textContent;
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = orig, 1500);
+  });
+}
+
+function dlBlob(content, filename, type) {
+  const blob = new Blob([content], { type });
+  const a    = document.createElement('a');
+  a.href     = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+function dlTranscript(wid, fmt) {
+  const w = widgets.get(wid);
+  if (!w) return;
+  const title = (document.getElementById(`title-${wid}`)?.textContent || 'transcript')
+    .replace(/[^a-z0-9]+/gi, '-').slice(0, 60).toLowerCase();
+
+  if (fmt === 'txt') {
+    dlBlob(getTranscriptText(wid), `${title}.txt`, 'text/plain');
+  } else if (fmt === 'csv') {
+    const rows = ['"timestamp","start_seconds","text"'];
+    w.rawEntries.forEach(e => {
+      rows.push(`"${formatTime(e.start)}","${e.start.toFixed(2)}","${e.text.replace(/"/g,'""')}"`);
+    });
+    dlBlob(rows.join('\n'), `${title}.csv`, 'text/csv');
+  } else if (fmt === 'json') {
+    const data = w.rawEntries.map(e => ({ timestamp: formatTime(e.start), start: e.start, text: e.text }));
+    dlBlob(JSON.stringify(data, null, 2), `${title}.json`, 'application/json');
+  }
+}
+
+/* ── Quality pills ──────────────────────────────────────────── */
+function buildQualityPills(wid, formats) {
+  const c = document.getElementById(`quality-${wid}`);
+  if (!c) return;
+  c.innerHTML = '';
+  formats.forEach((f, i) => {
+    const el = document.createElement('label');
+    el.className = 'radio-pill';
+    const size = f.filesize ? ` ~${Math.round(f.filesize/1048576)}MB` : '';
+    el.innerHTML = `<input type="radio" name="quality-${wid}" value="${f.format_id}" ${i===0?'checked':''}><span>${f.height}p${size}</span>`;
+    c.appendChild(el);
+  });
+}
+
+/* ── Download video ─────────────────────────────────────────── */
+async function downloadVideo(wid) {
+  const w        = widgets.get(wid);
+  const selected = document.querySelector(`input[name="quality-${wid}"]:checked`);
+  if (!w || !selected) return;
+
+  const btn  = document.getElementById(`dl-btn-${wid}`);
+  const spin = document.getElementById(`dl-spin-${wid}`);
+  const lbl  = document.getElementById(`dl-label-${wid}`);
+  document.getElementById(`dl-error-${wid}`).textContent = '';
+  btn.disabled = true; spin.style.display = 'block'; lbl.textContent = 'Downloading...';
+
+  try {
+    const res = await fetch(`${API}/download`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({url: w.url, format_id: selected.value}) });
+    if (!res.ok) { const d = await res.json(); throw new Error(d.error || 'Download failed'); }
+    const blob  = await res.blob();
+    const dispo = res.headers.get('Content-Disposition') || '';
+    const nameM = dispo.match(/filename\*?=(?:UTF-8'')?["']?([^"';\n]+)/i);
+    const fname = nameM ? decodeURIComponent(nameM[1]) : 'video.mp4';
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = fname; a.click();
+    URL.revokeObjectURL(a.href);
+  } catch(err) {
+    document.getElementById(`dl-error-${wid}`).textContent = err.message;
+  } finally {
+    btn.disabled = false; spin.style.display = 'none'; lbl.textContent = 'Download MP4';
+  }
+}
+
+/* ── Tab switching ──────────────────────────────────────────── */
+function switchTab(wid, tab) {
+  ['transcript','download'].forEach(t => {
+    document.getElementById(`tbtn-${t}-${wid}`)?.classList.toggle('active', t === tab);
+    document.getElementById(`tab-${t}-${wid}`)?.classList.toggle('active', t === tab);
+  });
+}
+
+/* ── Fetch all ──────────────────────────────────────────────── */
+async function fetchAll() {
+  const raw  = document.getElementById('url-input').value.trim();
+  const urls = parseUrls(raw);
+
+  if (!urls.length) {
+    document.getElementById('fetch-error').textContent = 'Please enter at least one valid YouTube URL.';
+    return;
+  }
+  document.getElementById('fetch-error').textContent = '';
+
+  const btn  = document.getElementById('fetch-btn');
+  const spin = document.getElementById('fetch-spin');
+  const lbl  = document.getElementById('fetch-label');
+  btn.disabled = true; spin.style.display = 'block'; lbl.textContent = 'Fetching...';
+
+  // Remove the default example widget on first user fetch
+  if (exampleWidgetId && widgets.has(exampleWidgetId)) {
+    closeWidget(exampleWidgetId);
+    exampleWidgetId = null;
+  }
+
+  await Promise.all(urls.map(url => createWidget(url)));
+
+  btn.disabled = false; spin.style.display = 'none'; lbl.textContent = 'Fetch';
+}
+
+/* ── Init ───────────────────────────────────────────────────── */
+window.addEventListener('DOMContentLoaded', () => {
+  // Rough notation highlights
+  const colors = ['#b9f0a0', '#fde68a', '#fca5a5'];
+  ['hl-1','hl-2','hl-3'].forEach((id, i) => {
+    const a = RoughNotation.annotate(document.getElementById(id), {
+      type: 'highlight', color: colors[i], animate: true, animationDuration: 600, padding: 3,
+    });
+    setTimeout(() => a.show(), 300 + i * 200);
+  });
+
+});
+
+// Keyboard: Enter in textarea triggers fetch
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('url-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); fetchAll(); }
+  });
+});
+</script>
+</body>
+</html>

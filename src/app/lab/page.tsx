@@ -4,6 +4,24 @@ import { useRouter } from "next/navigation";
 
 const labItems = [
   {
+    slug: "apex-legends",
+    title: "Apex Tracker",
+    tag: "Tools",
+    description:
+      "Player stats and ALGS esports tracker for Apex Legends. Live ranked stats, full tournament standings from Y3 to Y6, match breakdowns, and player career histories.",
+    accent: "#CC1A1A",
+    image: "/images/labs/apex-legends.png",
+  },
+  {
+    slug: "youtube-tool",
+    title: "YouTube Tool",
+    tag: "Tools",
+    description:
+      "A local browser UI for downloading YouTube videos and pulling transcripts. No signup, no paywall, no ads. Built with Flask and yt-dlp.",
+    accent: "#E11D48",
+    image: "/images/labs/youtube-tool.png",
+  },
+  {
     slug: "morphing-icons",
     title: "Morphing Icons",
     tag: "AI · Craft",
