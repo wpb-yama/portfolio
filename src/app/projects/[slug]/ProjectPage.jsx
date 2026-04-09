@@ -391,7 +391,7 @@ export default function ProjectPage() {
 
   const tocItems = [
     ...(project.context      ? [{ id: 'context',       text: 'Context',       level: 2 }] : []),
-    ...(project.opportunity  ? [{ id: 'opportunity',   text: 'Opportunity',   level: 2 }] : []),
+    ...(project.opportunity  ? [{ id: 'opportunity',   text: 'Initial Problem',   level: 2 }] : []),
     ...(project.sections?.map((s) => ({ id: slugify(s.title), text: s.title, level: 2 })) ?? []),
     ...(project.research     ? [{ id: 'research',      text: 'Research',      level: 2 }] : []),
     ...(project.development  ? [{ id: 'development',   text: 'Development',   level: 2 }] : []),
@@ -529,8 +529,10 @@ export default function ProjectPage() {
             {/* Opportunity */}
             {project.opportunity && (
               <div id="opportunity" style={mb40}>
-                <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#1C1C1C', marginBottom: 12, marginTop: 0 }}>Opportunity</h3>
-                <ContextParagraph text={project.opportunity} highlights={project.opportunityHighlights} style={sectionBody} />
+                <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#1C1C1C', marginBottom: 12, marginTop: 0 }}>Initial Problem</h3>
+                {project.opportunity.split('\n\n').map((para, i) => (
+                  <ContextParagraph key={i} text={para} highlights={i === 0 ? [] : project.opportunityHighlights} style={{ ...sectionBody, marginBottom: 12 }} />
+                ))}
               </div>
             )}
 

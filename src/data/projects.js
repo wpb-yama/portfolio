@@ -145,15 +145,11 @@ const projects = [
 
     context: "In iGaming, acquisition is expensive and loyalty is fragile. Most operators rely on financial incentives (free bets, free spins) to retain users. This attracts bonus hunters rather than genuine fans, inflating Customer Acquisition Costs while doing nothing for long-term Lifetime Value. Up to 40% of users disappear after their first session, long before any real value is captured.",
     contextHighlights: ["acquisition is expensive and loyalty is fragile", "inflating Customer Acquisition Costs"],
-    opportunity: "Mobile gaming had spent years perfecting daily engagement mechanics. Clash of Clans, TCG Pocket, FIFA Ultimate Team; these products had cracked habit formation through variable rewards, scarcity, and personalisation. Almost none of this thinking had crossed over into sports betting. The opportunity was to build a product that applied these mechanics to iGaming, using the natural probability structure of the Goalscorer market as its foundation.",
+    opportunity: "How do you change why users come back? Not with a better financial incentive, but with a mechanic compelling enough to build a daily habit around.\n\nMobile gaming had spent years perfecting daily engagement mechanics. Clash of Clans, TCG Pocket, FIFA Ultimate Team; these products had cracked habit formation through variable rewards, scarcity, and personalisation. Almost none of this thinking had crossed over into sports betting. The opportunity was to build a product that applied these mechanics to iGaming.",
     opportunityHighlights: ["habit formation through variable rewards, scarcity, and personalisation"],
     opportunityImages: ['/images/reveals/lootbox.jpg'],
 
     sections: [
-      {
-        title: 'Initial Problem',
-        body: "The high level problem the team initially focused on was: how do you change why users come back? Not with a better financial incentive, but with a mechanic compelling enough to build a daily habit around. To tackle this, I drew on cross-industry research and identified the gap independently, before conceiving the product from the ground up.",
-      },
       {
         title: 'Crafting the Experience Through Game Design',
         annotations: [
