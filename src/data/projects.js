@@ -120,8 +120,8 @@ const projects = [
     title: 'Reveals',
     description: "A free-to-play daily engagement product for sportsbooks, built around Gacha mechanics and an AI-powered personalisation loop.",
     category: ['B2B', 'AI'],
-    season: 'Q4 2025',
-    duration: '6 Months',
+    season: 'Q1 2026',
+    duration: '3 Months',
     featured: false,
     gradient: 'linear-gradient(135deg, #f7971e 0%, #e040fb 100%)',
     cardImage: '/images/reveals/reveals-thumb2.png',
@@ -196,9 +196,9 @@ const projects = [
     role: 'Product Manager',
     roleDescription: 'Conceived the product, designed the game mechanics, architected the AI feedback loop, built the commercial model, and led operator conversations.',
 
-    durationMonths: 6,
+    durationMonths: 3,
     durationDescription: 'Idea to delivered product in under six months. First operator going live.',
-    dateRange: 'Q4 2025 → Q1 2026',
+    dateRange: 'Q1 2026',
 
     timeline: [
       { phase: 'Research & Concept', date: 'Q4 2025', description: 'Cross-industry research into mobile gaming mechanics. Gap in iGaming identified. Internal concept signed off.', isLive: false },

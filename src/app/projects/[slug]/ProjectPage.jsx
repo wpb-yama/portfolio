@@ -501,10 +501,9 @@ export default function ProjectPage() {
                 {project.durationMonths && (
                   <div style={{ background: 'white', border: '1px solid #EBEBEB', borderRadius: 12, padding: 20 }}>
                     <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#AAA', marginBottom: 12, marginTop: 0 }}>Duration</p>
-                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, marginBottom: 8 }}>
-                      <span style={{ fontSize: '2.4rem', color: '#1C1C1C', lineHeight: 1 }}>{project.durationMonths}</span>
-                      <span style={{ fontSize: 13, color: '#888' }}>months</span>
-                    </div>
+                    <p style={{ fontSize: '1.2rem', color: '#1C1C1C', marginBottom: project.durationDescription ? 8 : 0, marginTop: 0 }}>
+                      {project.durationMonths} Months
+                    </p>
                     {project.durationDescription && (
                       <p style={{ fontSize: 12, color: '#888', lineHeight: 1.65, marginBottom: 12, marginTop: 0 }}>{project.durationDescription}</p>
                     )}
