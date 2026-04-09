@@ -305,7 +305,7 @@ const projects = [
     duration: '4 Months',
     featured: false,
     gradient: 'linear-gradient(135deg, #009c3b 0%, #002776 100%)',
-    cardImage: '/images/sigap/sigap-reporting-card.svg',
+    cardImage: '/images/sigap/sigap-reporting-card.jpeg',
 
     // ── Slug page fields ─────────────────────────────────────────────────────
     tags: ['Compliance', 'B2B', '2024'],
