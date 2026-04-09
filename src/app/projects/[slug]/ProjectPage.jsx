@@ -10,27 +10,43 @@ import ArticleTOC from '@/components/ArticleTOC';
 
 // ── Highlighted context paragraph ──────────────────────────────────────────────
 
-function ContextParagraph({ text, highlights, style }) {
-  const refs = useRef([]);
+function ContextParagraph({ text, highlights, underlines, style }) {
+  const highlightRefs = useRef([]);
+  const underlineRefs = useRef([]);
 
   useEffect(() => {
-    if (!highlights || highlights.length === 0) return;
+    const hasHighlights = highlights && highlights.length > 0;
+    const hasUnderlines = underlines && underlines.length > 0;
+    if (!hasHighlights && !hasUnderlines) return;
 
     let annotations = [];
 
     function init() {
       const RN = window.RoughNotation;
       if (!RN) return;
-      annotations = refs.current.map(el =>
-        el ? RN.annotate(el, {
-          type: 'highlight',
-          color: 'rgba(255,214,0,0.5)',
-          multiline: true,
-          animate: true,
-          animationDuration: 600,
-          padding: 2,
-        }) : null
-      );
+      if (hasHighlights) {
+        annotations.push(...highlightRefs.current.map(el =>
+          el ? RN.annotate(el, {
+            type: 'highlight',
+            color: 'rgba(255,214,0,0.5)',
+            multiline: true,
+            animate: true,
+            animationDuration: 600,
+            padding: 2,
+          }) : null
+        ));
+      }
+      if (hasUnderlines) {
+        annotations.push(...underlineRefs.current.map(el =>
+          el ? RN.annotate(el, {
+            type: 'underline',
+            color: '#F472B6',
+            strokeWidth: 2,
+            animate: true,
+            animationDuration: 600,
+          }) : null
+        ));
+      }
       setTimeout(() => annotations.forEach(a => a?.show()), 400);
     }
 
@@ -44,21 +60,34 @@ function ContextParagraph({ text, highlights, style }) {
     }
 
     return () => annotations.forEach(a => a?.hide());
-  }, [highlights]);
+  }, [highlights, underlines]);
 
-  if (!highlights || highlights.length === 0) {
+  const hasHighlights = highlights && highlights.length > 0;
+  const hasUnderlines = underlines && underlines.length > 0;
+  if (!hasHighlights && !hasUnderlines) {
     return <p style={style}>{text}</p>;
   }
 
-  // Split text into parts, wrapping highlight phrases in spans
-  let parts = [{ text, isHighlight: false }];
-  highlights.forEach((phrase, idx) => {
+  // Split text into annotated parts
+  let parts = [{ text, type: null }];
+  (highlights || []).forEach((phrase, idx) => {
     parts = parts.flatMap(part => {
-      if (part.isHighlight) return [part];
+      if (part.type) return [part];
       const pieces = part.text.split(phrase);
       return pieces.flatMap((piece, i) => {
-        const result = [{ text: piece, isHighlight: false }];
-        if (i < pieces.length - 1) result.push({ text: phrase, isHighlight: true, idx });
+        const result = [{ text: piece, type: null }];
+        if (i < pieces.length - 1) result.push({ text: phrase, type: 'highlight', idx });
+        return result;
+      });
+    });
+  });
+  (underlines || []).forEach((phrase, idx) => {
+    parts = parts.flatMap(part => {
+      if (part.type) return [part];
+      const pieces = part.text.split(phrase);
+      return pieces.flatMap((piece, i) => {
+        const result = [{ text: piece, type: null }];
+        if (i < pieces.length - 1) result.push({ text: phrase, type: 'underline', idx });
         return result;
       });
     });
@@ -67,8 +96,10 @@ function ContextParagraph({ text, highlights, style }) {
   return (
     <p style={style}>
       {parts.map((part, i) =>
-        part.isHighlight
-          ? <span key={i} ref={el => { refs.current[part.idx] = el; }}>{part.text}</span>
+        part.type === 'highlight'
+          ? <span key={i} ref={el => { highlightRefs.current[part.idx] = el; }}>{part.text}</span>
+          : part.type === 'underline'
+          ? <span key={i} ref={el => { underlineRefs.current[part.idx] = el; }}>{part.text}</span>
           : part.text
       )}
     </p>
@@ -531,7 +562,7 @@ export default function ProjectPage() {
               <div id="opportunity" style={mb40}>
                 <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#1C1C1C', marginBottom: 12, marginTop: 0 }}>Initial Problem</h3>
                 {project.opportunity.split('\n\n').map((para, i) => (
-                  <ContextParagraph key={i} text={para} highlights={i === 0 ? [] : project.opportunityHighlights} style={{ ...sectionBody, marginBottom: 12 }} />
+                  <ContextParagraph key={i} text={para} highlights={i === 0 ? [] : project.opportunityHighlights} underlines={i === 0 ? [] : project.opportunityUnderlines} style={{ ...sectionBody, marginBottom: 12 }} />
                 ))}
               </div>
             )}
