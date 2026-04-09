@@ -10,111 +10,97 @@ import ArticleTOC from '@/components/ArticleTOC';
 
 // ── Highlighted context paragraph ──────────────────────────────────────────────
 
-function ContextParagraph({ text, highlights, underlines, bracket, style }) {
-  const highlightRefs = useRef([]);
-  const underlineRefs = useRef([]);
-  const bracketRef = useRef(null);
+function loadRoughNotation(cb) {
+  if (window.RoughNotation) { cb(); return; }
+  const s = document.createElement('script');
+  s.src = 'https://unpkg.com/rough-notation/lib/rough-notation.iife.js';
+  s.onload = cb;
+  document.head.appendChild(s);
+}
 
+function RoughHighlight({ children }) {
+  const ref = useRef(null);
   useEffect(() => {
-    const hasHighlights = highlights && highlights.length > 0;
-    const hasUnderlines = underlines && underlines.length > 0;
-    if (!hasHighlights && !hasUnderlines && !bracket) return;
+    let ann;
+    loadRoughNotation(() => {
+      if (!ref.current) return;
+      ann = window.RoughNotation.annotate(ref.current, { type: 'highlight', color: 'rgba(255,214,0,0.5)', multiline: true, animate: true, animationDuration: 600, padding: 2 });
+      setTimeout(() => ann.show(), 400);
+    });
+    return () => ann?.hide();
+  }, []);
+  return <span ref={ref}>{children}</span>;
+}
 
-    let annotations = [];
+function RoughUnderline({ children }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    let ann;
+    loadRoughNotation(() => {
+      if (!ref.current) return;
+      ann = window.RoughNotation.annotate(ref.current, { type: 'underline', color: '#F472B6', strokeWidth: 2, animate: true, animationDuration: 600 });
+      setTimeout(() => ann.show(), 400);
+    });
+    return () => ann?.hide();
+  }, []);
+  return <span ref={ref}>{children}</span>;
+}
 
-    function init() {
-      const RN = window.RoughNotation;
-      if (!RN) return;
-      if (hasHighlights) {
-        annotations.push(...highlightRefs.current.map(el =>
-          el ? RN.annotate(el, {
-            type: 'highlight',
-            color: 'rgba(255,214,0,0.5)',
-            multiline: true,
-            animate: true,
-            animationDuration: 600,
-            padding: 2,
-          }) : null
-        ));
-      }
-      if (hasUnderlines) {
-        annotations.push(...underlineRefs.current.map(el =>
-          el ? RN.annotate(el, {
-            type: 'underline',
-            color: '#F472B6',
-            strokeWidth: 2,
-            animate: true,
-            animationDuration: 600,
-          }) : null
-        ));
-      }
-      if (bracket && bracketRef.current) {
-        annotations.push(RN.annotate(bracketRef.current, {
-          type: 'bracket',
-          brackets: ['left', 'right'],
-          color: '#1C1C1C',
-          strokeWidth: 1.5,
-          animate: true,
-          animationDuration: 600,
-        }));
-      }
-      setTimeout(() => annotations.forEach(a => a?.show()), 400);
-    }
+function RoughBracket({ children, style }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    let ann;
+    loadRoughNotation(() => {
+      if (!ref.current) return;
+      ann = window.RoughNotation.annotate(ref.current, { type: 'bracket', brackets: ['left', 'right'], color: '#1C1C1C', strokeWidth: 1.5, animate: true, animationDuration: 600 });
+      setTimeout(() => ann.show(), 400);
+    });
+    return () => ann?.hide();
+  }, []);
+  return <p ref={ref} style={style}>{children}</p>;
+}
 
-    if (window.RoughNotation) {
-      init();
-    } else {
-      const script = document.createElement('script');
-      script.src = 'https://unpkg.com/rough-notation/lib/rough-notation.iife.js';
-      script.onload = init;
-      document.head.appendChild(script);
-    }
-
-    return () => annotations.forEach(a => a?.hide());
-  }, [highlights, underlines, bracket]);
-
-  const hasHighlights = highlights && highlights.length > 0;
-  const hasUnderlines = underlines && underlines.length > 0;
-  if (!hasHighlights && !hasUnderlines && !bracket) {
-    return <p style={style}>{text}</p>;
-  }
-
-  // Split text into annotated parts
+function splitWithPhrases(text, highlights, underlines) {
   let parts = [{ text, type: null }];
-  (highlights || []).forEach((phrase, idx) => {
+  (highlights || []).forEach(phrase => {
     parts = parts.flatMap(part => {
       if (part.type) return [part];
       const pieces = part.text.split(phrase);
       return pieces.flatMap((piece, i) => {
         const result = [{ text: piece, type: null }];
-        if (i < pieces.length - 1) result.push({ text: phrase, type: 'highlight', idx });
+        if (i < pieces.length - 1) result.push({ text: phrase, type: 'highlight' });
         return result;
       });
     });
   });
-  (underlines || []).forEach((phrase, idx) => {
+  (underlines || []).forEach(phrase => {
     parts = parts.flatMap(part => {
       if (part.type) return [part];
       const pieces = part.text.split(phrase);
       return pieces.flatMap((piece, i) => {
         const result = [{ text: piece, type: null }];
-        if (i < pieces.length - 1) result.push({ text: phrase, type: 'underline', idx });
+        if (i < pieces.length - 1) result.push({ text: phrase, type: 'underline' });
         return result;
       });
     });
   });
+  return parts;
+}
 
-  return (
-    <p ref={bracketRef} style={style}>
-      {parts.map((part, i) =>
-        part.type === 'highlight'
-          ? <span key={i} ref={el => { highlightRefs.current[part.idx] = el; }}>{part.text}</span>
-          : part.type === 'underline'
-          ? <span key={i} ref={el => { underlineRefs.current[part.idx] = el; }}>{part.text}</span>
-          : part.text
-      )}
-    </p>
-  );
+function ContextParagraph({ text, highlights, underlines, bracket, style }) {
+  const hasAnnotations = (highlights?.length > 0) || (underlines?.length > 0);
+  const parts = hasAnnotations ? splitWithPhrases(text, highlights, underlines) : null;
+
+  const inner = parts
+    ? parts.map((part, i) =>
+        part.type === 'highlight' ? <RoughHighlight key={i}>{part.text}</RoughHighlight>
+        : part.type === 'underline' ? <RoughUnderline key={i}>{part.text}</RoughUnderline>
+        : part.text
+      )
+    : text;
+
+  if (bracket) return <RoughBracket style={style}>{inner}</RoughBracket>;
+  return <p style={style}>{inner}</p>;
 }
 
 // ── Annotated Section Body ─────────────────────────────────────────────────────
