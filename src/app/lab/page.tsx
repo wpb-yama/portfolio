@@ -86,13 +86,13 @@ function LabCard({ item }: { item: LabItem }) {
 
   return (
     <div
-      className="group bg-white rounded-[20px] border border-[#EBEBEB] overflow-hidden cursor-pointer transition-all duration-200 hover:-translate-y-[3px] hover:shadow-xl flex flex-col md:aspect-square"
+      className="group bg-white rounded-[20px] border border-[#EBEBEB] overflow-hidden cursor-pointer transition-all duration-200 hover:-translate-y-[3px] hover:shadow-xl flex flex-col"
       onClick={() => router.push(`/lab/${item.slug}`)}
     >
       {/* Visual block */}
-      <div className="h-48 md:h-auto md:flex-1 relative overflow-hidden">
+      <div className="h-40 relative overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={item.image} alt="" style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }} />
+        <img src={item.image} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
       </div>
 
       {/* Text content */}
