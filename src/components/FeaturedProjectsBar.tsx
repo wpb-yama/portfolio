@@ -181,7 +181,7 @@ function ProjectCard({
 
 export default function FeaturedProjectsBar() {
   return (
-    <section className="py-16 bg-[#FFFFFF]">
+    <section className="py-4 bg-[#FFFFFF]">
       <div className="max-w-5xl mx-auto px-6">
         {/* Section header */}
         <div className="flex items-start justify-between mb-8">

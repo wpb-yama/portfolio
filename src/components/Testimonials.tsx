@@ -205,7 +205,7 @@ function MarqueeRow({
 
 export default function Testimonials() {
   return (
-    <section className="py-16 bg-[#FFFFFF]">
+    <section className="py-4 bg-[#FFFFFF]">
       <div className="max-w-5xl mx-auto px-6 mb-10">
         <div className="flex items-center gap-2 mb-1">
 <h2 className="text-2xl font-bold text-[#1C1C1C] tracking-tight">

@@ -25,7 +25,7 @@ export default function SpeakingResearch() {
   const doubled = [...items, ...items];
 
   return (
-    <section className="py-16 bg-[#FFFFFF] overflow-hidden">
+    <section className="pt-4 pb-10 bg-[#FFFFFF] overflow-hidden">
       <style>{`
         @keyframes scroll-speaking {
           0%   { transform: translateX(0); }

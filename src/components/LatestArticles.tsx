@@ -16,7 +16,7 @@ const recent = [...articles]
 
 export default function LatestArticles() {
   return (
-    <section style={{ padding: "4rem 0", background: "#FFFFFF" }}>
+    <section style={{ padding: "1rem 0", background: "#FFFFFF" }}>
       <div style={{ maxWidth: "64rem", margin: "0 auto", padding: "0 1.5rem" }}>
 
         <div className="flex items-start justify-between mb-8">

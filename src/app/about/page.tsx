@@ -9,11 +9,10 @@ type Annotation = { show: () => void; hide: () => void };
 type RN = { annotate: (el: Element, opts: object) => Annotation };
 
 const funFacts = [
-  { label: "Miles hitchhiked",  value: "3,000", bg: "#EEEDFE", color: "#3C3489", emoji: "🛣️" },
-  { label: "Escape rooms",       value: "35+",   bg: "#E1F5EE", color: "#085041", emoji: "🔐" },
-  { label: "Board games won",   value: "∞",     bg: "#FAECE7", color: "#712B13", emoji: "🎲" },
-  { label: "Countries visited", value: "40",    bg: "#E6F1FB", color: "#0C447C", emoji: "🌍" },
-  { label: "Music (2024)",       value: "60d+",  bg: "#FAEEDA", color: "#633806", emoji: "🎧" },
+  { label: "Miles hitchhiked",  value: "3,000", emoji: "🛣️" },
+  { label: "Escape rooms",       value: "35+",   emoji: "🔐" },
+  { label: "Board games won",   value: "∞",     emoji: "🎲" },
+  { label: "Music (2024)",       value: "60d+",  emoji: "🎧" },
 ];
 
 
@@ -94,7 +93,7 @@ export default function AboutPage() {
           </p>
 
           <p className="text-[15px] text-[#555] leading-[1.8] mb-4">
-            I specialise in using <span ref={highlight2Ref}>AI to personalise user journeys, building agentic systems that keep teams efficient, and shipping API-driven products</span> built to scale. My work is focused on driving acquisition, boosting engagement and growing GGR. Recent focus areas include:
+            I specialise in using <span ref={highlight2Ref}>AI to personalise user journeys, building agentic systems that keep teams efficient, and shipping API-driven products</span> built to scale. Recent focus areas include:
           </p>
           <ul style={{ display: "flex", flexDirection: "column", gap: 4, marginBottom: 24 }}>
             {[
@@ -123,19 +122,19 @@ export default function AboutPage() {
             <div
               key={fact.label}
               style={{
-                background: fact.bg,
+                background: "#F5F5F5",
                 borderRadius: 16,
-                padding: "1.25rem 1.25rem",
+                padding: "1.25rem",
                 display: "flex",
                 flexDirection: "column",
                 gap: 8,
               }}
             >
-              <span style={{ fontSize: 28 }}>{fact.emoji}</span>
-              <span style={{ fontSize: 28, fontWeight: 700, color: fact.color, lineHeight: 1 }}>
+              <span style={{ fontSize: 26 }}>{fact.emoji}</span>
+              <span style={{ fontSize: 28, fontWeight: 700, color: "#1C1C1C", lineHeight: 1 }}>
                 {fact.value}
               </span>
-              <span style={{ fontSize: 13, fontWeight: 500, color: fact.color, opacity: 0.75 }}>{fact.label}</span>
+              <span style={{ fontSize: 13, fontWeight: 500, color: "#888" }}>{fact.label}</span>
             </div>
           ))}
         </div>
