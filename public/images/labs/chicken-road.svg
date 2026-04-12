@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="400" viewBox="0 0 800 400">
+  <!-- Background -->
+  <rect width="800" height="400" fill="#1a1a2a"/>
+
+  <!-- Road lanes -->
+  <rect x="100" y="0" width="90" height="400" fill="#3a3830"/>
+  <rect x="190" y="0" width="90" height="400" fill="#3a3830"/>
+  <rect x="280" y="0" width="90" height="400" fill="#3a3830"/>
+  <rect x="370" y="0" width="90" height="400" fill="#3a3830"/>
+  <rect x="460" y="0" width="90" height="400" fill="#3a3830"/>
+  <rect x="550" y="0" width="90" height="400" fill="#3a3830"/>
+  <rect x="640" y="0" width="90" height="400" fill="#3a3830"/>
+  <rect x="730" y="0" width="70" height="400" fill="#3a3830"/>
+
+  <!-- Lane dividers -->
+  <line x1="190" y1="0" x2="190" y2="400" stroke="#555" stroke-width="1" stroke-dasharray="20,12"/>
+  <line x1="280" y1="0" x2="280" y2="400" stroke="#555" stroke-width="1" stroke-dasharray="20,12"/>
+  <line x1="370" y1="0" x2="370" y2="400" stroke="#555" stroke-width="1" stroke-dasharray="20,12"/>
+  <line x1="460" y1="0" x2="460" y2="400" stroke="#555" stroke-width="1" stroke-dasharray="20,12"/>
+  <line x1="550" y1="0" x2="550" y2="400" stroke="#555" stroke-width="1" stroke-dasharray="20,12"/>
+  <line x1="640" y1="0" x2="640" y2="400" stroke="#555" stroke-width="1" stroke-dasharray="20,12"/>
+  <line x1="730" y1="0" x2="730" y2="400" stroke="#555" stroke-width="1" stroke-dasharray="20,12"/>
+
+  <!-- Left sidewalk -->
+  <rect x="0" y="0" width="100" height="400" fill="#2a2420"/>
+
+  <!-- Gold kerb -->
+  <rect x="98" y="0" width="4" height="400" fill="#f0c040" opacity="0.75"/>
+
+  <!-- Multiplier badges -->
+  <circle cx="145" cy="260" r="28" fill="#f0c040"/>
+  <text x="145" y="265" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="900" fill="#1a0e00">1.5x</text>
+
+  <circle cx="235" cy="260" r="28" fill="#f0c040"/>
+  <text x="235" y="265" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="900" fill="#1a0e00">2.0x</text>
+
+  <circle cx="325" cy="260" r="28" fill="#f0c040"/>
+  <text x="325" y="265" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="900" fill="#1a0e00">2.5x</text>
+
+  <circle cx="415" cy="260" r="28" fill="#f0c040"/>
+  <text x="415" y="265" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="900" fill="#1a0e00">3.0x</text>
+
+  <!-- Cars -->
+  <rect x="152" y="60" width="36" height="64" rx="8" fill="#e84040"/>
+  <rect x="242" y="120" width="36" height="64" rx="8" fill="#4080e8"/>
+  <rect x="332" y="40" width="36" height="64" rx="8" fill="#40c840"/>
+  <rect x="422" y="90" width="36" height="64" rx="8" fill="#e8a040"/>
+
+  <!-- Chicken (simple emoji-style) -->
+  <circle cx="50" cy="260" r="22" fill="#fff8dc"/>
+  <circle cx="50" cy="248" r="14" fill="#fff8dc"/>
+  <circle cx="56" cy="245" r="3" fill="#333"/>
+  <polygon points="62,248 70,252 62,256" fill="#e8a040"/>
+  <rect x="40" y="270" width="8" height="16" rx="2" fill="#e8a040"/>
+  <rect x="52" y="270" width="8" height="16" rx="2" fill="#e8a040"/>
+
+  <!-- Title overlay -->
+  <rect x="0" y="320" width="800" height="80" fill="rgba(0,0,0,0.55)"/>
+  <text x="40" y="352" font-family="sans-serif" font-size="11" font-weight="700" fill="#aaa" letter-spacing="2" text-transform="uppercase">GAMES · CASINO</text>
+  <text x="40" y="382" font-family="sans-serif" font-size="26" font-weight="900" fill="#ffffff">Chicken Road</text>
+</svg>

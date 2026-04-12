@@ -66,6 +66,15 @@ const labItems = [
     accent: "#22C55E",
     image: "/images/labs/sudoku-solver.png",
   },
+  {
+    slug: "chicken-road",
+    title: "Chicken Road",
+    tag: "Games · Casino",
+    description:
+      "A casino-style Chicken Road game built with React and PixiJS. Cross 8 lanes of traffic, cash out before you get hit, and watch your multiplier climb.",
+    accent: "#f0c040",
+    image: "/images/labs/chicken-road.svg",
+  },
 ];
 
 type LabItem = (typeof labItems)[number];
