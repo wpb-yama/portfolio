@@ -19,6 +19,7 @@ const projects = [
       '/images/pickem/pickem.png',
       '/images/pickem/main3.png',
     ],
+    heroImagesFit: ['contain', 'contain', 'contain'],
     polaroidImages: [],
     images: [],
     beforeAfterImages: [],
@@ -39,7 +40,7 @@ const projects = [
     opportunityImageWidth: 100,
 
     context: "Most sportsbooks were built for a different era; designed for desktop, for experienced bettors, and for markets measured in fractional odds. The younger and modern fan that follows individual players (LeBron or Messi) rather than a team, was largely ignored.\n\nB2C disruptors like Underdog Fantasy and PrizePicks had proven that simplifying betting into a binary \"More or Less\" choice could unlock an entirely new audience. No B2B equivalent existed. The opportunity was to build the first white-label Pick'em engine that any operator could plug in and own.",
-    contextHighlights: ["was largely ignored"],
+    contextHighlights: ["sportsbooks were built for a different era", "younger and modern fan", "was largely ignored"],
     opportunity: "How do you make a Sportsbook feel effortless and tailored to a younger audience?",
 
     sections: [
