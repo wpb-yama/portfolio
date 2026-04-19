@@ -161,7 +161,7 @@ export default function Navbar() {
         <Link href="/" className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0" style={{ border: '2px solid #1a1a1a' }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/images/about_carousel/will2.jpg" alt="Will Booth" style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }} />
+            <img src="/images/about_carousel/will2.jpg" alt="Will Booth" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "20% 65%", display: "block" }} />
           </div>
           <span className="font-bold text-[#1C1C1C] text-sm">Will Booth</span>
         </Link>
