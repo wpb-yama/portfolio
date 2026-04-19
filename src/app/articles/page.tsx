@@ -2,6 +2,7 @@
 
 import articles from "@/data/articles";
 import ArticleCard from "@/components/ArticleCard";
+import BackButton from "@/components/BackButton";
 
 function parseDate(dateStr: string): Date {
   const parts = dateStr.trim().split(" ");
@@ -21,6 +22,7 @@ export default function ArticlesPage() {
 
         {/* Header */}
         <div style={{ paddingTop: 64 }}>
+          <BackButton href="/" label="Home" />
           <div className="flex items-end justify-between mb-3">
             <div>
               <p className="text-[11px] tracking-widest text-[#AAA] uppercase mb-2">

@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import projects from '@/data/projects';
+import BackButton from '@/components/BackButton';
 
 const DiagonalArrow = ({ className = '' }) => (
   <svg
@@ -64,6 +65,7 @@ export default function ProjectsPage() {
 
         {/* Header */}
         <div style={{ paddingTop: 64 }}>
+          <BackButton href="/" label="Home" />
           <div className="flex items-end justify-between mb-3">
             <div>
               <p className="text-[11px] tracking-widest text-[#AAA] uppercase mb-2">

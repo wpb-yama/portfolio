@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import BackButton from "@/components/BackButton";
 
 const labItems = [
   {
@@ -136,6 +137,7 @@ export default function LabPage() {
 
         {/* Header */}
         <div style={{ paddingTop: 64 }}>
+          <BackButton href="/" label="Home" />
           <div className="flex items-end justify-between mb-3">
             <div>
               <p className="text-[11px] tracking-widest text-[#AAA] uppercase mb-2">
