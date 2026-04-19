@@ -195,20 +195,22 @@ function TrophyIcon() {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <img
-        src="/trophy.png"
-        alt="Award trophy"
+      <svg
+        width="72"
+        height="72"
+        viewBox="0 0 32 32"
+        fill="none"
         style={{
-          width: 90,
-          height: 90,
-          objectFit: "contain",
-          mixBlendMode: "multiply",
           transform: hovered ? "rotate(5deg)" : "rotate(0deg)",
           transition: "transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)",
           cursor: "pointer",
           display: "block",
         }}
-      />
+      >
+        <circle cx="16" cy="19" r="10" fill="#F5F0D8" stroke="#C9A800" strokeWidth="1.5" />
+        <polygon points="16,13 17.5,17 22,17 18.5,19.5 19.8,24 16,21.5 12.2,24 13.5,19.5 10,17 14.5,17" fill="#C9A800" />
+        <path d="M12 10 L10 4 L16 7 L22 4 L20 10" fill="none" stroke="#C9A800" strokeWidth="1.5" strokeLinejoin="round" />
+      </svg>
       {hovered && (
         <div style={{
           position: "absolute",

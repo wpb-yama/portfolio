@@ -92,16 +92,22 @@ const DiagonalArrow = ({ className = "" }) => (
 
 function LabCard({ item }: { item: LabItem }) {
   const router = useRouter();
+  const isComingSoon = item.slug === "chicken-road";
 
   return (
     <div
-      className="group bg-white rounded-[20px] border border-[#EBEBEB] overflow-hidden cursor-pointer transition-all duration-200 hover:-translate-y-[3px] hover:shadow-xl flex flex-col"
-      onClick={() => router.push(`/lab/${item.slug}`)}
+      className={`group bg-white rounded-[20px] border border-[#EBEBEB] overflow-hidden flex flex-col transition-all duration-200 ${isComingSoon ? "cursor-default opacity-75" : "cursor-pointer hover:-translate-y-[3px] hover:shadow-xl"}`}
+      onClick={() => { if (!isComingSoon) router.push(`/lab/${item.slug}`); }}
     >
       {/* Visual block */}
       <div className="h-40 relative overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={item.image} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+        {isComingSoon && (
+          <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.45)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#fff", background: "rgba(28,28,28,0.7)", padding: "5px 12px", borderRadius: 20 }}>Coming Soon</span>
+          </div>
+        )}
       </div>
 
       {/* Text content */}

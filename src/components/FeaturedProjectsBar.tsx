@@ -26,15 +26,6 @@ const projects = [
     image: "/images/reveals/reveals-thumb2.png",
     trophy: false,
   },
-  {
-    slug: "predict-6",
-    title: "Predict 6",
-    tag: "Free-to-Play",
-    description: "A weekly free-to-play game designed as an acquisition funnel with a 6-figure jackpot.",
-    accent: "#1A3A6B",
-    image: "/images/predict6/predict6-thumb3.png",
-    trophy: false,
-  },
 ];
 
 
@@ -167,8 +158,11 @@ function ProjectCard({
     {/* Award label below card */}
     {award && (
       <div className="flex items-center gap-1.5 mt-3 px-1">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/trophy.png" alt="" style={{ width: 45, height: 45, objectFit: "contain", mixBlendMode: "multiply", flexShrink: 0 }} />
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" style={{ flexShrink: 0, display: "block" }}>
+          <circle cx="16" cy="19" r="10" fill="#F5F0D8" stroke="#C9A800" strokeWidth="1.5" />
+          <polygon points="16,13 17.5,17 22,17 18.5,19.5 19.8,24 16,21.5 12.2,24 13.5,19.5 10,17 14.5,17" fill="#C9A800" />
+          <path d="M12 10 L10 4 L16 7 L22 4 L20 10" fill="none" stroke="#C9A800" strokeWidth="1.5" strokeLinejoin="round" />
+        </svg>
         <div className="text-[11px] text-[#888] leading-snug">
           <div className="font-semibold"><span ref={winnerRef}>Winner 2025</span></div>
           <div>Sportsbook Innovation (Supplier)</div>

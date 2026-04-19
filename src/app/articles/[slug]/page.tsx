@@ -142,10 +142,6 @@ export default async function ArticlePage({
           <h1 className={`text-[2.4rem] leading-[1.2] text-[#1C1C1C] mb-5 max-w-2xl`}>
             {article.title}
           </h1>
-
-          <p className="text-[15px] text-[#888] leading-relaxed max-w-xl">
-            {article.excerpt}
-          </p>
         </div>
 
         <div className="h-[2px] bg-[#1C1C1C] w-full mb-10" />
@@ -156,6 +152,12 @@ export default async function ArticlePage({
           {/* Main content */}
           <div className="flex-1 min-w-0">
             {bullets.length > 0 && <TLDRWidget bullets={bullets} />}
+            {article.excerpt && (
+              <>
+                <h2 className="text-[1.15rem] font-bold text-[#1C1C1C] mt-12 mb-4 leading-snug">Context</h2>
+                <p className="text-[15px] text-[#444] leading-[1.8] mb-5">{article.excerpt}</p>
+              </>
+            )}
             {article.body.map((block, i) => renderBlock(block, i))}
             <p className="text-[15px] text-[#888] leading-[1.8] mt-10 pt-8 border-t border-[#EBEBEB]">
               Thanks for reading.<br />—Will

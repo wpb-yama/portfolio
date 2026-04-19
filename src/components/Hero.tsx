@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { buildLabel } from "@/lib/greeting";
 
 export default function Hero() {
-  const [showSticker, setShowSticker] = useState(false);
   const [label, setLabel] = useState<{ text: string; time: string; city: string } | null>(null);
 
   useEffect(() => {
@@ -42,24 +41,18 @@ export default function Hero() {
           {/* Middle: circle image */}
           <div className="flex justify-start md:justify-center self-start order-first md:order-none">
             <div
-              onClick={() => setShowSticker(s => !s)}
               className="w-[110px] h-[110px] md:w-[200px] md:h-[200px]"
               style={{
                 flexShrink: 0,
                 borderRadius: "50%", overflow: "hidden",
                 border: "3px solid #1a1a1a",
                 boxShadow: "0 4px 20px rgba(0,0,0,0.15)",
-                background: "#f0f0f0", cursor: "pointer",
+                background: "#f0f0f0",
               }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              {showSticker ? (
-                <img src="/sticker-will.png" alt="" draggable={false}
-                  style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }} />
-              ) : (
-                <img src="/images/about_carousel/will2.jpg" alt="Will Booth"
-                  style={{ width: "120%", height: "120%", objectFit: "cover", objectPosition: "20% 65%", display: "block", marginLeft: "0%", marginTop: "-10%" }} />
-              )}
+              <img src="/images/about_carousel/will2.jpg" alt="Will Booth"
+                style={{ width: "120%", height: "120%", objectFit: "cover", objectPosition: "20% 65%", display: "block", marginLeft: "0%", marginTop: "-10%" }} />
             </div>
           </div>
 

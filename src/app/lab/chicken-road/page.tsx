@@ -4,8 +4,51 @@ import BackButton from "@/components/BackButton";
 export const metadata: Metadata = {
   title: "Chicken Road | Will Booth",
   description:
-    "A casino-style Chicken Road game — guide a chicken across 8 lanes of traffic, cash out at any time, and watch your multiplier grow with every lane safely crossed.",
+    "An experiment: could Claude one-shot a casino game? The logic — yes. Everything else needed work.",
 };
+
+const logItems = [
+  {
+    status: "worked",
+    note: "Game logic one-shotted — useGameState hook, board generation, multiplier, cashout all correct first time",
+  },
+  {
+    status: "worked",
+    note: "PixiJS SceneManager scaffolded correctly — WebGL canvas, ticker loop, z-ordering",
+  },
+  {
+    status: "problem",
+    note: "Car sprites faced the wrong direction — took three rounds of back-and-forth to get orientation right",
+  },
+  {
+    status: "problem",
+    note: "Cars continued past the barrier line after a lane was cleared — needed explicit lane-clearing logic",
+  },
+  {
+    status: "problem",
+    note: "The chicken animation didn't work as intended — movement states (idle, walk, dead) needed significant iteration",
+  },
+  {
+    status: "problem",
+    note: "On death, the car that killed the chicken kept moving over it — then froze too early — took multiple passes to get right",
+  },
+  {
+    status: "problem",
+    note: "The end zone image was squished — aspect ratio handling needed a manual fix",
+  },
+  {
+    status: "problem",
+    note: "Bet panel moved on game start as status text was injected above controls — fixed with a fixed-height slot",
+  },
+  {
+    status: "worked",
+    note: "Difficulty system (Easy / Medium / Difficult) and multiplier steps added cleanly in one pass",
+  },
+  {
+    status: "worked",
+    note: "Total Win banner, car speed boost on death, and greyed-out idle badges all one-shotted",
+  },
+];
 
 const techStack = [
   { label: "Frontend", value: "React + Vite" },
@@ -13,50 +56,7 @@ const techStack = [
   { label: "Game Logic", value: "Custom hooks + pure JS" },
   { label: "Sprites", value: "Spritesheet animation (192px frames)" },
   { label: "Physics", value: "Tween-based movement, no engine" },
-  { label: "Styling", value: "CSS Modules + BEM" },
-];
-
-const features = [
-  {
-    heading: "Casino Mechanics",
-    items: [
-      "Bet any amount before each round",
-      "Multiplier grows 0.5x per lane safely crossed",
-      "Cash out at any time after crossing lane 1",
-      "Hit a car and lose your full stake",
-      "One hidden car per lane — random on game start",
-    ],
-  },
-  {
-    heading: "Game Feel",
-    items: [
-      "Animated chicken sprite with idle, walk, and death states",
-      "Cars spawn in lanes ahead, stop at cleared barriers",
-      "Yellow/black barrier drops behind each crossed lane",
-      "Camera follows the chicken as it progresses",
-      "Auto-reset to start after death animation completes",
-    ],
-  },
-  {
-    heading: "Scene Design",
-    items: [
-      "8-lane scrollable world rendered in PixiJS",
-      "Custom start and end zone art",
-      "Manhole cover multiplier badges per lane",
-      "6 custom car sprite variants",
-      "Parallax-style drag pan for the road view",
-    ],
-  },
-  {
-    heading: "Architecture",
-    items: [
-      "Game logic entirely in useGameState hook",
-      "SceneManager class owns all PixiJS state",
-      "React drives game state; Pixi drives visuals",
-      "No game engine dependency — pure PixiJS + React",
-      "Designed to be embedded in a casino platform",
-    ],
-  },
+  { label: "Styling", value: "CSS BEM" },
 ];
 
 export default function ChickenRoadPage() {
@@ -64,67 +64,88 @@ export default function ChickenRoadPage() {
     <div className="min-h-screen bg-white">
       <div className="max-w-5xl mx-auto px-6" style={{ paddingTop: 64 }}>
 
-        {/* Back link */}
         <BackButton href="/lab" label="Lab" />
 
-        {/* Header */}
         <p className="text-[11px] tracking-widest text-[#AAA] uppercase mb-2">
-          Games · Casino
+          Games · Casino · Experiment
         </p>
-        <h1 className="text-3xl md:text-5xl text-[#1C1C1C] mb-8">
-          Chicken Road
+        <h1 className="text-3xl md:text-5xl text-[#1C1C1C] mb-3">
+          Could it one-shot a casino game?
         </h1>
+        <p className="text-[15px] text-[#AAA] mb-8">Chicken Road — built with Claude</p>
 
         <div className="h-[2px] bg-[#1C1C1C] w-full mb-10" />
 
-        {/* Intro */}
+        {/* The question */}
         <div className="mb-10">
           <p className="text-[15px] text-[#444] leading-relaxed mb-4">
-            Chicken Road is a casino-style game built from scratch with React and PixiJS. Guide a chicken across 8 lanes of oncoming traffic. Each lane you safely cross raises your multiplier — but one wrong step and you lose your stake. Cash out any time you like.
+            I wanted to understand what the limitations were of building a casino game entirely through Claude. The motivation was practical — not to ship a real game, but to stress-test where AI-assisted development breaks down in a domain I know well. I was not overly concerned with getting the maths exactly right or setting a precise RTP. I just wanted to see how far it could get.
           </p>
-          <p className="text-[15px] text-[#444] leading-relaxed mb-6">
-            The game mechanic is a take on the &ldquo;Chicken Road&rdquo; genre found across iGaming providers — a risk-ladder format where players self-select their risk tolerance by deciding when to walk away. The format is intuitive, requires no prior betting knowledge, and creates natural tension as multipliers climb.
-          </p>
-          <p className="text-[15px] text-[#444] leading-relaxed mb-8">
-            This version is a fully playable prototype built to explore how the game could be implemented natively within a B2B casino platform, with custom art, smooth animations, and a clean betting UI.
-          </p>
-        </div>
-
-        {/* How it works */}
-        <div className="mb-10">
-          <h2 className="text-[1.15rem] font-bold text-[#1C1C1C] mb-3 mt-0">
-            How it works
-          </h2>
           <p className="text-[15px] text-[#444] leading-relaxed mb-4">
-            At the start of each round a board of 8 lanes is generated. Each lane has one car hidden in a random column — unknown to the player. When you press Play, the chicken automatically steps into the first lane. Survive and your multiplier ticks up. The board is only revealed when you hit a car or cash out.
+            The short answer: it could one-shot the logic. The game rules, board generation, multiplier progression, and cashout mechanics were all correct first time. What you see below — the playable result — is representative of the images and references it was fed.
           </p>
           <p className="text-[15px] text-[#444] leading-relaxed">
-            React handles all game state via a custom <code className="text-[13px] bg-[#F5F5F5] px-1.5 py-0.5 rounded">useGameState</code> hook. PixiJS handles all rendering via a <code className="text-[13px] bg-[#F5F5F5] px-1.5 py-0.5 rounded">SceneManager</code> class — the two are decoupled, so game logic never touches the canvas and the renderer never touches state.
+            However, there were problems. Several things didn&rsquo;t work as initially intended, and some aspects of the game — particularly the chicken — required a lot of back-and-forth to get right.
           </p>
         </div>
 
-        {/* Features */}
+        {/* One-shot video */}
         <div className="mb-12">
-          <h2 className="text-[1.15rem] font-bold text-[#1C1C1C] mb-6 mt-0">
-            Features
+          <h2 className="text-[1.15rem] font-bold text-[#1C1C1C] mb-1 mt-0">
+            The initial attempt
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-8">
-            {features.map(({ heading, items }) => (
-              <div key={heading}>
-                <p className="text-[12px] font-semibold tracking-[0.08em] uppercase text-[#1C1C1C] mb-3">
-                  {heading}
-                </p>
-                <ul className="flex flex-col gap-2.5">
-                  {items.map((item) => (
-                    <li key={item} className="flex items-start gap-3 text-[14px] text-[#555] leading-snug">
-                      <span className="mt-[5px] w-[5px] h-[5px] rounded-full bg-[#f0c040] flex-shrink-0" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
+          <p className="text-[13px] text-[#AAA] mb-4">
+            This is what came out of the first prompt — unedited.
+          </p>
+          <video
+            src="/videos/chicken-road-oneshot.mp4"
+            controls
+            playsInline
+            className="w-full rounded-xl border border-[#EBEBEB]"
+          />
+        </div>
+
+        {/* Build log */}
+        <div className="mb-12">
+          <h2 className="text-[1.15rem] font-bold text-[#1C1C1C] mb-1 mt-0">
+            Build log
+          </h2>
+          <p className="text-[13px] text-[#AAA] mb-6">
+            Documented throughout the process — what worked first time and what didn&rsquo;t.
+          </p>
+          <div className="flex flex-col gap-3">
+            {logItems.map(({ status, note }) => (
+              <div
+                key={note}
+                className="flex items-start gap-4 px-4 py-3 rounded-xl border border-[#EBEBEB]"
+              >
+                <span
+                  className={[
+                    "mt-[3px] flex-shrink-0 text-[10px] font-bold tracking-widest uppercase px-2 py-0.5 rounded",
+                    status === "worked"
+                      ? "bg-[#EDFAF4] text-[#1a7a4a]"
+                      : "bg-[#FFF0F0] text-[#b03030]",
+                  ].join(" ")}
+                >
+                  {status === "worked" ? "Worked" : "Problem"}
+                </span>
+                <span className="text-[14px] text-[#444] leading-snug">{note}</span>
               </div>
             ))}
           </div>
+        </div>
+
+        {/* Verdict */}
+        <div className="mb-12">
+          <h2 className="text-[1.15rem] font-bold text-[#1C1C1C] mb-3 mt-0">
+            Verdict
+          </h2>
+          <p className="text-[15px] text-[#444] leading-relaxed mb-4">
+            Pure game logic — state machines, RNG, multipliers — is well within what Claude can one-shot. It understands the domain. The gaps show up in visual and physical behaviour: sprite orientation, collision feel, animation timing. These require human judgement calls that are hard to communicate through prompts alone.
+          </p>
+          <p className="text-[15px] text-[#444] leading-relaxed">
+            The overall impression is that you could get a representative, playable prototype built quickly — but you&rsquo;d still need to iterate on anything that relies on feel rather than logic.
+          </p>
         </div>
 
         {/* Tech stack */}

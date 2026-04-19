@@ -117,27 +117,14 @@ export default function AboutPage() {
         <p className="text-[15px] text-[#555] leading-[1.8] mb-6">
           Outside of work you&apos;ll find me at a board game table, on the golf course, out hiking, or studying Japanese.
         </p>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", gap: 12 }}>
+        <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 10 }}>
           {funFacts.map((fact) => (
-            <div
-              key={fact.label}
-              style={{
-                background: "#F5F5F5",
-                borderRadius: 16,
-                padding: "1.25rem",
-                display: "flex",
-                flexDirection: "column",
-                gap: 8,
-              }}
-            >
-              <span style={{ fontSize: 26 }}>{fact.emoji}</span>
-              <span style={{ fontSize: 28, fontWeight: 700, color: "#1C1C1C", lineHeight: 1 }}>
-                {fact.value}
-              </span>
-              <span style={{ fontSize: 13, fontWeight: 500, color: "#888" }}>{fact.label}</span>
-            </div>
+            <li key={fact.label} style={{ display: "flex", alignItems: "baseline", gap: 10, fontSize: 14, color: "#555", lineHeight: 1.75 }}>
+              <span style={{ fontSize: 16, flexShrink: 0 }}>{fact.emoji}</span>
+              <span><span style={{ fontWeight: 600, color: "#1C1C1C" }}>{fact.value}</span> {fact.label}</span>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
 
 

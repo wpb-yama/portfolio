@@ -68,9 +68,9 @@ function SidebarContent({
         <Link href="/" className="mb-4 flex-shrink-0 block">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/sticker-will.png"
+            src="/images/about_carousel/will2.jpg"
             alt="Home"
-            style={{ width: 72, height: 72, objectFit: 'contain', display: 'block' }}
+            style={{ width: 72, height: 72, objectFit: 'cover', objectPosition: '20% 65%', display: 'block', borderRadius: '50%', border: '2px solid #1a1a1a' }}
           />
         </Link>
         <p className="font-bold text-[#1C1C1C] text-base leading-tight">Will Booth</p>
@@ -159,9 +159,9 @@ export default function Navbar() {
       {/* ── Mobile top bar ── */}
       <header className="lg:hidden fixed top-0 left-0 right-0 h-14 bg-[#FFFFFF] flex items-center justify-between px-4 z-40">
         <Link href="/" className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
+          <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0" style={{ border: '2px solid #1a1a1a' }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/sticker-will.png" alt="Will Booth" style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }} />
+            <img src="/images/about_carousel/will2.jpg" alt="Will Booth" style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }} />
           </div>
           <span className="font-bold text-[#1C1C1C] text-sm">Will Booth</span>
         </Link>
