@@ -2,6 +2,14 @@ import Link from "next/link";
 
 const projects = [
   {
+    slug: "chicken-road",
+    title: "Chicken Road",
+    tag: "Games · Casino",
+    description:
+      "A casino-style Chicken Road game built with React and PixiJS. Cross 8 lanes of traffic, cash out before you get hit, and watch your multiplier climb.",
+    image: "/images/labs/chicken-road.png",
+  },
+  {
     slug: "apex-legends",
     title: "Apex Tracker",
     tag: "Tools",
