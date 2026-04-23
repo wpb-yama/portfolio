@@ -98,8 +98,7 @@ export default function ChickenRoadPage() {
             </div>
             <div style={{ position: "relative", height: 400 }}>
               {[
-                { src: "/images/labs/chicken-road1.png", top: 0,   left: "32%", rotate: 1.5,  zIndex: 5, width: 120 },
-                { src: "/images/labs/chicken-road2.jpg", top: 60,  left: "2%",  rotate: -2,   zIndex: 4, width: 130 },
+                { src: "/images/labs/chicken-road1.png", top: 0,   left: "32%", rotate: 1.5,  zIndex: 4, width: 120 },
                 { src: "/images/labs/chicken-road4.webp",top: 20,  left: "60%", rotate: 2,    zIndex: 3, width: 115 },
                 { src: "/images/labs/chicken-road3.jpg", top: 190, left: "36%", rotate: 1,    zIndex: 2, width: 120 },
                 { src: "/images/labs/chicken-road5.webp",top: 170, left: "4%",  rotate: -1.5, zIndex: 1, width: 125 },
