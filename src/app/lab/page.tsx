@@ -5,6 +5,15 @@ import BackButton from "@/components/BackButton";
 
 const labItems = [
   {
+    slug: "chicken-road",
+    title: "Chicken Road",
+    tag: "Games · Casino",
+    description:
+      "A casino-style Chicken Road game built with React and PixiJS. Cross 8 lanes of traffic, cash out before you get hit, and watch your multiplier climb.",
+    accent: "#f0c040",
+    image: "/images/labs/chicken-road.png",
+  },
+  {
     slug: "apex-legends",
     title: "Apex Tracker",
     tag: "Tools",
@@ -67,15 +76,6 @@ const labItems = [
     accent: "#22C55E",
     image: "/images/labs/sudoku-solver.png",
   },
-  {
-    slug: "chicken-road",
-    title: "Chicken Road",
-    tag: "Games · Casino",
-    description:
-      "A casino-style Chicken Road game built with React and PixiJS. Cross 8 lanes of traffic, cash out before you get hit, and watch your multiplier climb.",
-    accent: "#f0c040",
-    image: "/images/labs/chicken-road.svg",
-  },
 ];
 
 type LabItem = (typeof labItems)[number];
@@ -93,22 +93,16 @@ const DiagonalArrow = ({ className = "" }) => (
 
 function LabCard({ item }: { item: LabItem }) {
   const router = useRouter();
-  const isComingSoon = item.slug === "chicken-road";
 
   return (
     <div
-      className={`group bg-white rounded-[20px] border border-[#EBEBEB] overflow-hidden flex flex-col transition-all duration-200 ${isComingSoon ? "cursor-default opacity-75" : "cursor-pointer hover:-translate-y-[3px] hover:shadow-xl"}`}
-      onClick={() => { if (!isComingSoon) router.push(`/lab/${item.slug}`); }}
+      className="group bg-white rounded-[20px] border border-[#EBEBEB] overflow-hidden flex flex-col transition-all duration-200 cursor-pointer hover:-translate-y-[3px] hover:shadow-xl"
+      onClick={() => router.push(`/lab/${item.slug}`)}
     >
       {/* Visual block */}
       <div className="h-40 relative overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={item.image} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
-        {isComingSoon && (
-          <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.45)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#fff", background: "rgba(28,28,28,0.7)", padding: "5px 12px", borderRadius: 20 }}>Coming Soon</span>
-          </div>
-        )}
       </div>
 
       {/* Text content */}

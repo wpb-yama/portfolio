@@ -86,7 +86,7 @@ export default function ChickenRoadPage() {
         {/* Casino Game */}
         <section style={{ marginBottom: 64 }}>
           <p style={sectionLabel}>Casino Game</p>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "start" }}>
+          <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: 48, alignItems: "start" }}>
             <div>
               <h2 style={{ ...sectionTitle, marginBottom: 20 }}>What is Chicken Road?</h2>
               <p style={bodyText}>
@@ -131,7 +131,7 @@ export default function ChickenRoadPage() {
               Build me a browser-based casino game called Chicken Road using React and PixiJS. A chicken starts at the bottom of the screen and must cross 8 lanes of moving traffic. Each lane the chicken survives increases a multiplier. The player can cash out at any point or lose everything if a car hits them. The chicken should be animated with idle, walk, and death states using a spritesheet. Cars should spawn from the top of the screen at varying speeds. Include a bet input, a cash out button, a difficulty selector (Easy / Medium / Hard), and a total win display. Style it like a polished casino game: dark background, neon accents, clear UI hierarchy.
             </p>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40, alignItems: "start", marginBottom: 24 }}>
+          <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: 40, alignItems: "start", marginBottom: 24 }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
               {/* Positives */}
               <div>
@@ -189,7 +189,7 @@ export default function ChickenRoadPage() {
         <section style={{ marginBottom: 64 }}>
           <p style={sectionLabel}>Iterating</p>
           <h2 style={{ ...sectionTitle, marginBottom: 20 }}>Attempt 1: Fixing the chicken</h2>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40, alignItems: "start", marginBottom: 24 }}>
+          <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: 40, alignItems: "start", marginBottom: 24 }}>
             <div>
               <p style={bodyText}>
                 I was unhappy with the chicken sprite delivered by Claude. I therefore attempted to generate a proper chicken sprite using a chain of AI tools.
@@ -254,7 +254,7 @@ export default function ChickenRoadPage() {
           <p style={{ ...bodyText, marginBottom: 24 }}>
             The second attempt bypassed image generation entirely. Claude guided the process of building the sprite directly inside Unity -- a tool I had never opened. The output was a markedly higher quality character with distinct, usable animation states. The idle state is below.
           </p>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40, alignItems: "start" }}>
+          <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: 40, alignItems: "start" }}>
             <div>
               <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#1a7a4a", marginBottom: 10, marginTop: 0 }}>Positive</p>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
@@ -291,7 +291,7 @@ export default function ChickenRoadPage() {
             Unlike the chicken, cars are static images -- no animation states, no spritesheet pipeline. I was initially optimistic that this would be more straightforward. The same quality issues reappeared, and a new category of problem emerged: one specific to how AI models understand spatial context.
           </p>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40, marginBottom: 32, alignItems: "start" }}>
+          <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: 40, marginBottom: 32, alignItems: "start" }}>
             <div>
               <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#b03030", marginBottom: 10, marginTop: 0 }}>Negative</p>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
