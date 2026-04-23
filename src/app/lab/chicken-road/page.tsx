@@ -325,7 +325,7 @@ export default function ChickenRoadPage() {
                 ))}
               </div>
             </div>
-            <div style={{ position: "relative", height: 280 }}>
+            <div className="car-stack-container" style={{ position: "relative", height: 280 }}>
               {[
                 { src: "/images/labs/car1.png", top: 0,   left: "28%", rotate: 2,   zIndex: 3, width: 100 },
                 { src: "/images/labs/car2.png", top: 90,  left: "2%",  rotate: -2,  zIndex: 2, width: 110 },
@@ -346,6 +346,16 @@ export default function ChickenRoadPage() {
                 }} />
               ))}
             </div>
+            <style>{`
+              @media (max-width: 768px) {
+                .car-stack-container {
+                  left: 50%;
+                  transform: translateX(-50%);
+                  width: 280px;
+                  margin-bottom: 16px;
+                }
+              }
+            `}</style>
           </div>
 
           <p style={bodyText}>
@@ -360,9 +370,17 @@ export default function ChickenRoadPage() {
           <p style={bodyText}>
             Claude got the game working in a single pass. State management, multipliers, cashout logic -- all correct first time. The problems started the moment the output needed to be judged by feel rather than correctness. Sprite orientation, animation states, art style coherence -- these are not things you can fully specify in a prompt. You only know how to describe them after you have already seen how the model gets them wrong.
           </p>
-          <p style={{ ...bodyText, marginBottom: 0 }}>
+          <p style={{ ...bodyText, marginBottom: 24 }}>
             The gap between a working game and one that feels like a game is where the real work lives.
           </p>
+          <a
+            href="/lab/chicken-road/app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ display: "inline-block", fontSize: 13, fontWeight: 500, padding: "10px 24px", borderRadius: 10, background: "#1C1C1C", color: "white", textDecoration: "none" }}
+          >
+            Play game ↗
+          </a>
         </section>
 
         {/* Tech stack */}
