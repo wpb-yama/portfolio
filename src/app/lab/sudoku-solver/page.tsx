@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import BackButton from "@/components/BackButton";
 import IntroAnnotation from "./IntroAnnotation";
 import IdeaAnnotation from "./IdeaAnnotation";
 import ResultsAnnotation from "./ResultsAnnotation";
@@ -27,15 +26,13 @@ export default function SudokuSolverPage() {
     <div className="min-h-screen bg-white">
       <div className="max-w-5xl mx-auto px-6" style={{ paddingTop: 64 }}>
 
-        <BackButton href="/lab" label="Lab" />
-
         <p className="text-[11px] tracking-widest text-[#AAA] uppercase mb-2">
           AI · Research
         </p>
-        <h1 className="text-3xl md:text-5xl text-[#1C1C1C] mb-8">
+        <h1 className="text-3xl md:text-5xl text-[#1C1C1C] mb-4">
           Sudoku Solver
         </h1>
-        <div className="h-[2px] bg-[#1C1C1C] w-full mb-10" />
+
 
         {/* Intro */}
         <div className="mb-10">

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import BackButton from "@/components/BackButton";
 import SpritePreview from "./SpritePreview";
 
 export const metadata: Metadata = {
@@ -49,8 +48,6 @@ export default function ChickenRoadPage() {
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-5xl mx-auto px-6" style={{ paddingTop: 64 }}>
-
-        <BackButton href="/lab" label="Lab" />
 
         {/* Header */}
         <div style={{ marginBottom: 40 }}>

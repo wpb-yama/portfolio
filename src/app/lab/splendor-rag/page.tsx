@@ -1,6 +1,4 @@
-import Link from "next/link";
 import type { Metadata } from "next";
-import BackButton from "@/components/BackButton";
 import IntroParagraph from "./IntroParagraph";
 import ProblemParagraph from "./ProblemParagraph";
 import ApproachParagraph from "./ApproachParagraph";
@@ -26,18 +24,15 @@ export default function SplendorRagPage() {
     <div className="min-h-screen bg-white">
       <div className="max-w-5xl mx-auto px-6" style={{ paddingTop: 64 }}>
 
-        {/* Back link */}
-        <BackButton href="/lab" label="Lab" />
-
         {/* Header */}
         <p className="text-[11px] tracking-widest text-[#AAA] uppercase mb-2">
           AI · Tools
         </p>
-        <h1 className="text-3xl md:text-5xl text-[#1C1C1C] mb-8">
+        <h1 className="text-3xl md:text-5xl text-[#1C1C1C] mb-4">
           RAG Splendor
         </h1>
 
-        <div className="h-[2px] bg-[#1C1C1C] w-full mb-10" />
+
 
         {/* Intro */}
         <div className="mb-10">

@@ -1,21 +1,23 @@
-import Testimonials from "@/components/Testimonials";
-import LatestArticles from "@/components/LatestArticles";
-import SpeakingResearch from "@/components/SpeakingResearch";
-import Labs from "@/components/Labs";
 import Hero from "@/components/Hero";
 import FeaturedProjectsBar from "@/components/FeaturedProjectsBar";
-import TechStack from "@/components/TechStack";
+import Labs from "@/components/Labs";
+import LatestArticles from "@/components/LatestArticles";
+import HomeCarousel from "@/components/HomeCarousel";
 
 export default function Home() {
   return (
     <main>
       <Hero />
-      <FeaturedProjectsBar />
-      <Labs />
-      <LatestArticles />
-      <Testimonials />
-      <TechStack />
-      <SpeakingResearch />
+      {/* Desktop: stacked sections */}
+      <div className="hidden md:block">
+        <FeaturedProjectsBar />
+        <Labs />
+        <LatestArticles />
+      </div>
+      {/* Mobile: horizontal carousel */}
+      <div className="md:hidden">
+        <HomeCarousel />
+      </div>
     </main>
   );
 }

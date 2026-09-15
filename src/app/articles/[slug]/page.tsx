@@ -1,16 +1,13 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ChevronLeft } from "lucide-react";
-import BackButton from "@/components/BackButton";
 import articles, { type BodyBlock } from "@/data/articles";
 import summaries from "@/data/summaries.json";
 import TLDRWidget from "@/components/TLDRWidget";
-import ArticleTOC, { type TOCItem } from "@/components/ArticleTOC";
 
 // ── Static params ──────────────────────────────────────────────────────────────
 
 export function generateStaticParams() {
-  return articles.map((a) => ({ slug: a.slug }));
+  return articles.filter((a) => !a.hidden).map((a) => ({ slug: a.slug }));
 }
 
 export async function generateMetadata({
@@ -107,29 +104,26 @@ export default async function ArticlePage({
 }) {
   const { slug } = await params;
   const article = articles.find((a) => a.slug === slug);
-  if (!article) notFound();
+  if (!article || article.hidden) notFound();
 
   const bullets: string[] =
     (summaries as Record<string, string[]>)[slug] ?? [];
 
-  const tocItems: TOCItem[] = article.body
-    .filter((b): b is Extract<BodyBlock, { type: "h2" | "h3" }> =>
-      b.type === "h2" || b.type === "h3"
-    )
-    .map((b) => ({ id: b.id, text: b.text, level: b.type === "h2" ? 2 : 3 }));
-
-  const related = articles.filter((a) => article.relatedSlugs?.includes(a.slug));
+  const related = articles.filter((a) => !a.hidden && article.relatedSlugs?.includes(a.slug));
 
   return (
     <div className={`min-h-screen bg-[#FFFFFF]`}>
-      <div className="max-w-5xl mx-auto px-6 py-16">
-
-        {/* ── Back link ─────────────────────────────────────────────────────── */}
-        <BackButton href="/articles" label="All articles" />
+      <div className="max-w-2xl mx-auto px-6 py-16">
 
         {/* ── Article header ────────────────────────────────────────────────── */}
-        <div className="mb-10">
-          <div className="flex items-center gap-2 mb-4">
+        <div className="pb-12">
+          <h1 style={{ fontSize: "clamp(1.8rem, 4vw, 2.6rem)", lineHeight: 1.15, color: "#1C1C1C", margin: "0 0 16px 0" }}>
+            {article.title}
+          </h1>
+          <p style={{ fontSize: 15, color: "#666", lineHeight: 1.75, margin: "0 0 14px 0" }}>
+            {article.excerpt}
+          </p>
+          <div className="flex items-center gap-2">
             <span className="text-[11px] font-semibold uppercase tracking-widest text-[#888]">
               {article.category}
             </span>
@@ -138,39 +132,15 @@ export default async function ArticlePage({
             <span className="text-[#DDD]">·</span>
             <span className="text-[11px] text-[#AAA]">{article.readTime}</span>
           </div>
-
-          <h1 className={`text-[2.4rem] leading-[1.2] text-[#1C1C1C] mb-5 max-w-2xl`}>
-            {article.title}
-          </h1>
         </div>
 
-        <div className="h-[2px] bg-[#1C1C1C] w-full mb-10" />
-
-        {/* ── Content + TOC ─────────────────────────────────────────────────── */}
-        <div className="flex gap-16 items-start">
-
-          {/* Main content */}
-          <div className="flex-1 min-w-0">
-            {bullets.length > 0 && <TLDRWidget bullets={bullets} />}
-            {article.excerpt && (
-              <>
-                <h2 className="text-[1.15rem] font-bold text-[#1C1C1C] mt-12 mb-4 leading-snug">Context</h2>
-                <p className="text-[15px] text-[#444] leading-[1.8] mb-5">{article.excerpt}</p>
-              </>
-            )}
-            {article.body.map((block, i) => renderBlock(block, i))}
-            <p className="text-[15px] text-[#888] leading-[1.8] mt-10 pt-8 border-t border-[#EBEBEB]">
-              Thanks for reading.<br />—Will
-            </p>
-          </div>
-
-          {/* Sticky TOC */}
-          {tocItems.length > 0 && (
-            <div className="hidden lg:block w-[200px] flex-shrink-0 sticky top-8 self-start">
-              <ArticleTOC items={tocItems} />
-            </div>
-          )}
-
+        {/* ── Content ───────────────────────────────────────────────────────── */}
+        <div>
+          {bullets.length > 0 && <TLDRWidget bullets={bullets} />}
+          {article.body.map((block, i) => renderBlock(block, i))}
+          <p className="text-[15px] text-[#888] leading-[1.8] mt-10 pt-8 border-t border-[#EBEBEB]">
+            Thanks for reading.<br />—Will
+          </p>
         </div>
 
         {/* ── Related articles ──────────────────────────────────────────────── */}

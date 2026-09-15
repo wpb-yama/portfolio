@@ -108,8 +108,8 @@ const LOOP_MS = {
 
 function TestimonialCard({ quote, name, role, company, avatar }: Testimonial) {
   return (
-    <div className="w-80 flex-shrink-0 bg-white rounded-2xl shadow-sm p-6 flex flex-col gap-4 select-none">
-      <p className="text-[#1C1C1C] text-sm leading-relaxed flex-1">
+    <div className="w-[340px] flex-shrink-0 bg-white rounded-2xl shadow-sm p-5 flex flex-col gap-3 select-none">
+      <p className="text-[#1C1C1C] text-[12px] leading-relaxed flex-1">
         &ldquo;{quote}&rdquo;
       </p>
       <div className="flex items-center gap-3">
@@ -118,18 +118,18 @@ function TestimonialCard({ quote, name, role, company, avatar }: Testimonial) {
           <img
             src={avatar}
             alt={name}
-            className="w-9 h-9 rounded-full object-cover flex-shrink-0"
+            className="w-8 h-8 rounded-full object-cover flex-shrink-0"
           />
         ) : (
-          <div className="w-9 h-9 rounded-full bg-[#F0F0F0] flex items-center justify-center flex-shrink-0">
-            <span className="text-[13px] font-semibold text-[#AAA]">
+          <div className="w-8 h-8 rounded-full bg-[#F0F0F0] flex items-center justify-center flex-shrink-0">
+            <span className="text-[11px] font-semibold text-[#AAA]">
               {name.charAt(0)}
             </span>
           </div>
         )}
         <div>
-          <p className="text-[#1C1C1C] text-sm font-semibold">{name}</p>
-          <p className="text-[#888888] text-xs mt-0.5">
+          <p className="text-[#1C1C1C] text-[12px] font-semibold">{name}</p>
+          <p className="text-[#888888] text-[10px] mt-0.5">
             {role} &middot; {company}
           </p>
         </div>

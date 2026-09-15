@@ -1,79 +1,70 @@
 "use client";
 
-
-
-const row1 = [
-  { label: "Claude",    icon: "https://cdn.simpleicons.org/claude/D97757",         color: "#D97757" },
-  { label: "Anthropic", icon: "https://cdn.simpleicons.org/anthropic/191919",       color: "#191919" },
-  { label: "JIRA",      icon: "https://cdn.simpleicons.org/jira/0052CC",            color: "#0052CC" },
-  { label: "OpenAI",    icon: "/images/openai-logo.webp",                           color: "#10A37F", iconSize: 26 },
-  { label: "React",     icon: "https://cdn.simpleicons.org/react/61DAFB",           color: "#61DAFB" },
+const tools = [
+  {
+    label: "Claude AI",
+    icon: "https://cdn.simpleicons.org/claude/000000",
+    description: "Spec drafting, discovery synthesis, and product decision support",
+  },
+  {
+    label: "Jira",
+    icon: "https://cdn.simpleicons.org/jira/000000",
+    description: "Sprint planning, backlog management, and delivery tracking",
+  },
+  {
+    label: "v0",
+    icon: "https://cdn.simpleicons.org/v0/000000",
+    description: "Fast UI exploration from structured prompts",
+  },
+  {
+    label: "Figma",
+    icon: "https://cdn.simpleicons.org/figma/000000",
+    description: "Interface design, components, and prototyping",
+  },
+  {
+    label: "NotebookLM",
+    icon: "https://cdn.simpleicons.org/googlegemini/000000",
+    description: "Research synthesis and interview distillation",
+  },
+  {
+    label: "GitHub",
+    icon: "https://cdn.simpleicons.org/github/000000",
+    description: "Version control, PR reviews, and issue tracking",
+  },
 ];
 
-const row2 = [
-  { label: "Cursor",           icon: "https://cdn.simpleicons.org/cursor/000000",           color: "#000000" },
-  { label: "Python",           icon: "https://cdn.simpleicons.org/python/3776AB",           color: "#3776AB" },
-  { label: "Google Analytics", icon: "https://cdn.simpleicons.org/googleanalytics/E37400", color: "#E37400" },
-  { label: "AWS",              icon: "/images/logos/aws.svg",                               color: "#FF9900" },
-  { label: "MongoDB",          icon: "https://cdn.simpleicons.org/mongodb/47A248",           color: "#47A248" },
-];
-
-function Pill({ label, icon, color, iconSize = 19 }: { label: string; icon: string; color: string; iconSize?: number }) {
+function ToolCard({ label, icon, description }: { label: string; icon: string; description: string }) {
   return (
     <div
       style={{
-        display: "inline-flex",
-        alignItems: "center",
-        gap: 9,
-        height: 42,
-        padding: "0 16px 0 11px",
-        borderRadius: 999,
-        border: "1.5px solid #E0E0E0",
-        background: "white",
+        borderRadius: 16,
+        padding: "18px 20px",
+        background: "#ffffff",
+        boxShadow: "0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)",
+        display: "flex",
+        flexDirection: "column",
+        gap: 10,
       }}
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={icon}
-        alt=""
-        width={iconSize}
-        height={iconSize}
-        style={{ width: iconSize, height: iconSize, objectFit: "contain", display: "block", flexShrink: 0 }}
-        onError={(e) => {
-          const img = e.currentTarget;
-          img.style.display = "none";
-          const fb = img.nextElementSibling as HTMLElement | null;
-          if (fb) fb.style.display = "inline-flex";
-        }}
-      />
-      {/* Fallback letter */}
-      <span
-        style={{
-          display: "none",
-          width: iconSize,
-          height: iconSize,
-          alignItems: "center",
-          justifyContent: "center",
-          fontSize: 13,
-          fontWeight: 700,
-          color,
-          flexShrink: 0,
-        }}
-      >
-        {label.charAt(0)}
-      </span>
-
-      <span
-        style={{
-          fontSize: 14,
-          fontWeight: 500,
-          color: "#1C1C1C",
-          letterSpacing: 0,
-          whiteSpace: "nowrap",
-        }}
-      >
-        {label}
-      </span>
+      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={icon}
+          alt=""
+          width={28}
+          height={28}
+          style={{ width: 28, height: 28, objectFit: "contain", flexShrink: 0 }}
+          onError={(e) => {
+            (e.currentTarget as HTMLImageElement).style.display = "none";
+          }}
+        />
+        <span style={{ fontSize: 15, fontWeight: 700, color: "#1C1C1C", letterSpacing: "-0.01em" }}>
+          {label}
+        </span>
+      </div>
+      <p style={{ fontSize: 13, color: "#888", lineHeight: 1.55, margin: 0 }}>
+        {description}
+      </p>
     </div>
   );
 }
@@ -82,21 +73,22 @@ export default function TechStack() {
   return (
     <section className="py-4 bg-white">
       <div className="max-w-5xl mx-auto px-6">
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold text-[#1C1C1C] tracking-tight">Tools</h2>
+        <div className="mb-6">
+          <h2 className="text-2xl font-bold text-[#1C1C1C] tracking-tight mb-1">Tools</h2>
+          <p className="text-sm text-[#888888]">Tools I use daily to design, prototype, and ship.</p>
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: 12, alignItems: "center" }}>
-          <div style={{ display: "flex", justifyContent: "center", gap: 12, flexWrap: "wrap" }}>
-            {row1.map((p) => (
-              <Pill key={p.label} {...p} />
-            ))}
-          </div>
-          <div style={{ display: "flex", justifyContent: "center", gap: 12, flexWrap: "wrap" }}>
-            {row2.map((p) => (
-              <Pill key={p.label} {...p} />
-            ))}
-          </div>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            gap: 12,
+          }}
+          className="grid-cols-1 sm:grid-cols-2 md:grid-cols-3"
+        >
+          {tools.map((tool) => (
+            <ToolCard key={tool.label} {...tool} />
+          ))}
         </div>
       </div>
     </section>

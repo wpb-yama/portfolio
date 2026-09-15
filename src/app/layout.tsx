@@ -25,7 +25,7 @@ export default function RootLayout({
       >
         <Navbar />
         {/* Offset content so it isn't hidden behind the sidebar / top bar */}
-        <div className="lg:pl-52 pt-14 lg:pt-0">
+        <div className="pt-20">
           {children}
         </div>
         <Analytics />

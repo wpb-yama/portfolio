@@ -2,7 +2,6 @@
 
 import articles from "@/data/articles";
 import ArticleCard from "@/components/ArticleCard";
-import BackButton from "@/components/BackButton";
 
 function parseDate(dateStr: string): Date {
   const parts = dateStr.trim().split(" ");
@@ -12,31 +11,24 @@ function parseDate(dateStr: string): Date {
 }
 
 export default function ArticlesPage() {
-  const sorted = [...articles].sort(
-    (a, b) => parseDate(b.date).getTime() - parseDate(a.date).getTime()
-  );
+  const sorted = [...articles]
+    .filter((a) => !a.hidden)
+    .sort((a, b) => parseDate(b.date).getTime() - parseDate(a.date).getTime());
 
   return (
     <div className="min-h-screen bg-white">
+
+      {/* Dark banner header */}
+      <div style={{ background: '#FFFFFF', padding: '80px 24px 72px', textAlign: 'center' }}>
+        <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#AAA', marginBottom: 20 }}>Articles.</p>
+        <h1 style={{ fontSize: '2.75rem', fontWeight: 700, color: '#1C1C1C', letterSpacing: '-1px', lineHeight: 1, margin: '0 0 20px 0' }}>Writing &amp; Thinking</h1>
+        <p style={{ fontSize: 15, color: '#888', maxWidth: 480, margin: '0 auto' }}>Thoughts on product, technology, and building things.</p>
+      </div>
+
       <div className="max-w-5xl mx-auto px-6">
 
-        {/* Header */}
-        <div style={{ paddingTop: 64 }}>
-          <BackButton href="/" label="Home" />
-          <div className="flex items-end justify-between mb-3">
-            <div>
-              <p className="text-[11px] tracking-widest text-[#AAA] uppercase mb-2">
-                Writing &amp; Thinking
-              </p>
-              <h1 className="text-3xl md:text-5xl text-[#1C1C1C]">Articles</h1>
-            </div>
-            <p className="text-[12px] text-[#888] pb-1">{articles.length} articles</p>
-          </div>
-          <div className="h-[2px] bg-[#1C1C1C] w-full mb-8" />
-        </div>
-
         {/* Article grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-[14px] pb-20">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-[14px] pb-20">
           {sorted.map((article) => (
             <ArticleCard key={article.slug} article={article} heroHeight={160} />
           ))}

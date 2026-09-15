@@ -15,6 +15,7 @@ export type Article = {
   date: string;
   readTime: string;
   featured: boolean;
+  hidden?: boolean;
   featuredImage?: string;
   thumbnailFit?: "cover" | "contain";
   thumbnailBg?: string;
@@ -23,6 +24,40 @@ export type Article = {
 };
 
 const articles: Article[] = [
+  {
+    slug: "ai-pm-2026",
+    title: "How I Use AI as a Product Manager in 2026",
+    featuredImage: "/images/articles/post-code-era.png",
+    thumbnailFit: "cover",
+    excerpt:
+      "This isn't a piece about AI tools being useful. It's an honest account of what it looks like when they're actually embedded in the work — connected to the systems, not sitting alongside them.",
+    category: "AI & Tech",
+    date: "September 2026",
+    readTime: "5 min",
+    featured: true,
+    relatedSlugs: ["stop-being-helpful", "art-of-the-kill"],
+    body: [
+      { type: "p", text: "Most people using AI at work are using it the way they'd use a better search engine. Ask a question, get an answer, move on. That's not what I mean when I say AI is central to how I work." },
+      { type: "p", text: "I'm a Product Manager. In 2026, AI tools aren't a productivity add-on — they're infrastructure." },
+
+      { type: "h2", id: "the-foundation", text: "The Foundation" },
+      { type: "p", text: "The shift happened when I stopped treating AI as a standalone assistant and started connecting it to the tools my job actually runs on. Via MCP servers, Claude Code has direct access to Jira, Confluence, Gmail, and my meeting notes. The difference between asking an AI to help you write a ticket and asking it to write one that's already connected to your backlog, your project conventions, and the context of last week's sprint is not incremental. It's categorical." },
+
+      { type: "h2", id: "the-workflows", text: "What the Workflows Actually Look Like" },
+      { type: "p", text: "After every significant call, meeting notes are summarised into structured outputs — decisions, actions, open questions. What used to be a 20-minute follow-up task is now something I review and approve, not produce from scratch." },
+      { type: "p", text: "Jira tickets take disproportionate time for their actual value. Describe the problem, name the acceptance criteria, write it clearly enough that engineering doesn't have to reverse-engineer your intent. With direct MCP access to Jira and full project context, I can draft a well-structured ticket — linked to the right epic, written in plain language — in a fraction of the time. The bottleneck is now my judgment on priority, not the writing." },
+      { type: "p", text: "Product specs are the same. They still need a clear problem statement, a reasoned approach, and a definition of success that engineering and leadership can align on. What's changed is the distance between thinking and first draft. I sketch a rough idea and have a working structure back in minutes. My time goes on editing and pressure-testing, not formatting." },
+
+      { type: "h2", id: "harder-to-explain", text: "Where It Gets Harder to Explain" },
+      { type: "p", text: "The data work is where this becomes difficult to describe to someone who hasn't done it. I pull frontend usage data after releases to understand how features are actually being used. Where users drop off. Where support volume spikes. Where the friction sits. I've used this to identify resource stretch before it became a missed deadline — spotting early signals in the data that a particular area was overloaded before the team felt it. No data team request. No Metabase login. The pipeline is just there." },
+      { type: "p", text: "Competitive research follows the same logic. A structured sweep used to mean a half-day of tabs and note-taking. Now it's a directed agent run — specific questions, consolidated output. I still read it. I still make the call. The information-gathering is just not where my hours go." },
+
+      { type: "h2", id: "what-it-actually-does", text: "What It Actually Does" },
+      { type: "p", text: "The compounding effect is real and harder to quantify than I expected. You don't save a fixed number of hours per week. What happens is that the ceiling on what a single PM can stay on top of quietly rises. Tasks that used to represent a choice — do I have time to analyse that data, or do I prioritise the tickets — stop being a choice. You can do both." },
+      { type: "blockquote", text: "The outcome is product work done at a quality and depth that wasn't available to one person before. That's worth documenting." },
+    ],
+  },
+
   {
     slug: "acquire-churn-repeat",
     title: "Acquire. Churn. Repeat. The cycle that breaks businesses.",
@@ -368,6 +403,7 @@ const articles: Article[] = [
 
   {
     slug: "autodream",
+    hidden: true,
     title: "AutoDream: Claude Code's Sleep Feature Explained",
     featuredImage: "/images/articles/autodream.png",
     excerpt: "A complete guide to automatic memory consolidation in Claude Code — what it does, how it works, and how to turn it on.",

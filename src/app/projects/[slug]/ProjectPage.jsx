@@ -561,15 +561,8 @@ export default function ProjectPage() {
     <div className={`min-h-screen bg-white`} style={{ overflowX: 'hidden' }}>
 
       {/* ── Page header ───────────────────────────────────────────────────── */}
-      <div style={{ background: 'linear-gradient(rgb(254, 252, 225) -2%, rgb(255, 255, 243) 3%, rgba(255, 255, 255, 0.96) 13%, rgb(255, 255, 255) 23%)' }}>
+      <div style={{ background: 'white' }}>
         <div className="max-w-5xl mx-auto px-6 pt-16 pb-12">
-          <Link
-            href="/projects"
-            className="inline-flex items-center gap-1.5 text-[12px] font-medium text-[#888] border border-[#E0DDD6] rounded-full px-3.5 py-1.5 hover:border-[#1C1C1C] hover:text-[#1C1C1C] transition-all duration-150 mb-10"
-          >
-            <ChevronLeft size={13} strokeWidth={2.5} />
-            All Projects
-          </Link>
 
           <div style={{ display: 'flex', gap: isMobile ? 20 : 24, alignItems: 'flex-start', flexDirection: isMobile ? 'column' : undefined }}>
             {/* Left: title + description */}
@@ -643,7 +636,6 @@ export default function ProjectPage() {
           {(project.overviewStatement || project.impactStats?.length > 0) && (
             <div style={{ paddingBottom: 40, marginBottom: 40 }}>
               {(project.overviewStatement || project.impactStats?.length > 0) && (() => {
-                const hasMetadata = project.role || project.dateRange;
                 return (
                   <div style={{ display: 'flex', gap: isMobile ? 32 : 48, alignItems: 'stretch', flexDirection: isMobile ? 'column' : undefined }}>
                     {/* Left: overview + impact */}
@@ -679,34 +671,6 @@ export default function ProjectPage() {
                         </>
                       )}
                     </div>
-
-                    {/* Right: Role + Year */}
-                    {hasMetadata && (
-                      <div style={{ display: 'flex', flexDirection: isMobile ? 'row' : 'column', gap: 20, flexShrink: 0, width: isMobile ? '100%' : 170, paddingTop: isMobile ? 0 : 30, flexWrap: isMobile ? 'wrap' : undefined }}>
-                        {project.role && (
-                          <div>
-                            <p style={{ ...sLabel, margin: '0 0 4px 0' }}>Role</p>
-                            <p style={{ fontSize: 13, color: '#555', margin: 0, lineHeight: 1.4 }}>{project.role}</p>
-                          </div>
-                        )}
-                        {project.services?.length > 0 && (
-                          <div>
-                            <p style={{ ...sLabel, margin: '0 0 6px 0' }}>Services</p>
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-                              {project.services.map((s, i) => (
-                                <p key={i} style={{ fontSize: 13, color: '#555', margin: 0, lineHeight: 1.4 }}>{s}</p>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-                        {project.dateRange && (
-                          <div>
-                            <p style={{ ...sLabel, margin: '0 0 4px 0' }}>Year</p>
-                            <p style={{ fontSize: 13, color: '#555', margin: 0 }}>{project.dateRange}</p>
-                          </div>
-                        )}
-                      </div>
-                    )}
                   </div>
                 );
               })()}
@@ -1393,40 +1357,6 @@ export default function ProjectPage() {
             {tldrBullets.length > 0 && (
               <div style={{ marginBottom: 24 }}>
                 <TLDRWidget bullets={tldrBullets} />
-              </div>
-            )}
-
-            {/* Role + Duration */}
-            {!project.hideRoleWidget && (project.role || project.durationMonths) && (
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 24 }}>
-                {project.role && (
-                  <div style={{ background: 'white', border: '1px solid #EBEBEB', borderRadius: 12, padding: 20 }}>
-                    <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#AAA', marginBottom: 12, marginTop: 0 }}>My Role</p>
-                    <p style={{ fontSize: '1.2rem', color: '#1C1C1C', marginBottom: project.roleDescription ? 8 : 0, marginTop: 0 }}>
-                      {project.role}
-                    </p>
-                    {project.roleDescription && (
-                      <p style={{ fontSize: 12, color: '#888', lineHeight: 1.65, margin: 0 }}>{project.roleDescription}</p>
-                    )}
-                  </div>
-                )}
-                {project.durationMonths && (
-                  <div style={{ background: 'white', border: '1px solid #EBEBEB', borderRadius: 12, padding: 20 }}>
-                    <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#AAA', marginBottom: 12, marginTop: 0 }}>Duration</p>
-                    <p style={{ fontSize: '1.2rem', color: '#1C1C1C', marginBottom: project.durationDescription ? 8 : 0, marginTop: 0 }}>
-                      {project.durationMonths} Months
-                    </p>
-                    {project.durationDescription && (
-                      <p style={{ fontSize: 12, color: '#888', lineHeight: 1.65, marginBottom: 12, marginTop: 0 }}>{project.durationDescription}</p>
-                    )}
-                    {project.dateRange && (
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                        <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e', flexShrink: 0 }} />
-                        <span style={{ fontSize: 11, color: '#888' }}>{project.dateRange}</span>
-                      </div>
-                    )}
-                  </div>
-                )}
               </div>
             )}
 

@@ -1,65 +1,157 @@
 "use client";
-import { useEffect, useState } from "react";
-
-import { buildLabel } from "@/lib/greeting";
 
 export default function Hero() {
-  const [label, setLabel] = useState<{ text: string; time: string; city: string } | null>(null);
-
-  useEffect(() => {
-    setLabel(buildLabel());
-    const id = setInterval(() => setLabel(buildLabel()), 60_000);
-    return () => clearInterval(id);
-  }, []);
-
   return (
-    <section className="flex items-center py-0">
-      <div className="flex flex-col justify-center max-w-5xl mx-auto w-full px-6 py-10 md:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-[1fr_1fr_0.15fr] md:items-center gap-8">
+    <section style={{ padding: "1rem 0" }}>
+      <div style={{ maxWidth: "64rem", margin: "0 auto", padding: "0 1.5rem" }}>
 
-          {/* Left: name + taglines + greeting */}
-          <div className="flex flex-col" style={{ gap: 6 }}>
-            <span className="text-[36px] md:text-[44px]" style={{ fontWeight: 700, letterSpacing: -1, color: "#1c1c1c", lineHeight: 1 }}>
-              Will Booth
-            </span>
-            <div style={{ fontSize: 14, fontWeight: 400, letterSpacing: 0.1, color: "#aaa", lineHeight: 1.15 }}>
-              Senior Product Manager
-            </div>
-            <div className="text-[24px] md:text-[32px]" style={{ fontWeight: 400, letterSpacing: -0.5, color: "#1c1c1c", lineHeight: 1.15, marginTop: 24 }}>
-              Leading with AI.
-            </div>
-            <div className="text-[24px] md:text-[32px]" style={{ fontWeight: 400, letterSpacing: -0.5, color: "#1c1c1c", lineHeight: 1.15 }}>
-              Building products people love.
-            </div>
-            {label && (
-              <div style={{ marginTop: 24, fontSize: 12, color: "#aaa", letterSpacing: 0.1 }}>
-                {label.text}&nbsp;&nbsp;·&nbsp;&nbsp;{label.time}{label.city ? ` in ${label.city}` : ""}
-              </div>
-            )}
-          </div>
+        {/* Contained hero box */}
+        <div
+          style={{
+            position: "relative",
+            width: "100%",
+            height: "clamp(320px, 55vw, 720px)",
+            borderRadius: 20,
+            overflow: "hidden",
+            background: "#0a0a0a",
+          }}
+          className="h-[55vw] min-h-[300px] max-h-[720px] md:h-[68vh]"
+        >
+          {/* Video background */}
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            style={{
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              display: "block",
+            }}
+          >
+            <source src="/videos/hero.mp4" type="video/mp4" />
+          </video>
 
-          {/* Middle: circle image */}
-          <div className="flex justify-start md:justify-center self-start order-first md:order-none">
-            <div
-              className="w-[110px] h-[110px] md:w-[200px] md:h-[200px]"
+          {/* Gradient overlay */}
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background:
+                "linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.70) 100%)",
+              pointerEvents: "none",
+            }}
+          />
+
+          {/* Watermark cover — bottom-right corner */}
+          <div
+            style={{
+              position: "absolute",
+              bottom: 0,
+              right: 0,
+              width: 220,
+              height: 60,
+              background: "linear-gradient(to top left, rgba(0,0,0,0.85) 0%, transparent 100%)",
+              pointerEvents: "none",
+            }}
+          />
+
+          {/* Bottom content row */}
+          <div
+            className="px-5 pb-7 md:px-9 md:pb-9"
+            style={{
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              right: 0,
+              display: "flex",
+              alignItems: "flex-end",
+              justifyContent: "space-between",
+              gap: 24,
+            }}
+          >
+            {/* Left: big name */}
+            <h1
               style={{
-                flexShrink: 0,
-                borderRadius: "50%", overflow: "hidden",
-                border: "3px solid #1a1a1a",
-                boxShadow: "0 4px 20px rgba(0,0,0,0.15)",
-                background: "#f0f0f0",
+                fontFamily: "'Manrope', ui-sans-serif, system-ui, sans-serif",
+                fontSize: "clamp(48px, 7.5vw, 116px)",
+                fontWeight: 800,
+                color: "#f0ece3",
+                lineHeight: 1,
+                letterSpacing: "-0.03em",
+                margin: 0,
               }}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/images/about_carousel/will2.jpg" alt="Will Booth"
-                style={{ width: "120%", height: "120%", objectFit: "cover", objectPosition: "20% 65%", display: "block", marginLeft: "0%", marginTop: "-10%" }} />
+              Will<br />Booth
+            </h1>
+
+            {/* Right: tagline + CTA (desktop only) */}
+            <div
+              className="hidden md:flex"
+              style={{
+                flexDirection: "column",
+                alignItems: "flex-start",
+                gap: 18,
+                maxWidth: 260,
+                flexShrink: 0,
+              }}
+            >
+              <p
+                style={{
+                  fontFamily: "'Manrope', ui-sans-serif, system-ui, sans-serif",
+                  fontSize: 14,
+                  fontWeight: 400,
+                  color: "rgba(255,255,255,0.78)",
+                  lineHeight: 1.9,
+                  margin: 0,
+                }}
+              >
+                Senior Product Manager. Leading with AI. Building products people love.
+              </p>
+              <a
+                href="https://mail.google.com/mail/?view=cm&to=wpb665@gmail.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 8,
+                  fontFamily: "'Manrope', ui-sans-serif, system-ui, sans-serif",
+                  fontSize: 13,
+                  fontWeight: 600,
+                  color: "#1c1c1e",
+                  background: "#f0ece3",
+                  borderRadius: 9999,
+                  padding: "10px 20px",
+                  textDecoration: "none",
+                  letterSpacing: "-0.01em",
+                  transition: "opacity 150ms",
+                }}
+                className="hover:opacity-80"
+              >
+                Get in touch <span style={{ fontSize: 15 }}>→</span>
+              </a>
             </div>
           </div>
-
-          {/* Right: empty */}
-          <div />
-
         </div>
+
+        {/* Mobile tagline — outside the clipped box */}
+        <p
+          className="md:hidden"
+          style={{
+            fontFamily: "'Manrope', ui-sans-serif, system-ui, sans-serif",
+            fontSize: 13,
+            color: "#888",
+            lineHeight: 1.6,
+            margin: "10px 4px 0",
+          }}
+        >
+          Senior Product Manager. Leading with AI. Building products people love.
+        </p>
+
       </div>
     </section>
   );
