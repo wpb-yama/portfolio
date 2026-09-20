@@ -10,12 +10,11 @@ export default function Hero() {
           style={{
             position: "relative",
             width: "100%",
-            height: "clamp(320px, 55vw, 720px)",
+            height: "calc(100vh - 14rem)",
             borderRadius: 20,
             overflow: "hidden",
             background: "#0a0a0a",
           }}
-          className="h-[55vw] min-h-[300px] max-h-[720px] md:h-[68vh]"
         >
           {/* Video background */}
           <video
