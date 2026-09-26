@@ -1,8 +1,9 @@
 import Link from "next/link";
 
 const projects = [
-  { slug: "chicken-road", title: "Chicken Road", image: "/images/labs/chicken-road.png" },
-  { slug: "apex-legends", title: "Apex Tracker", image: "/images/labs/apex-legends.png" },
+  { slug: "chicken-road", title: "Chicken Road", image: "/images/labs/chicken-road.png", summary: "A browser-based arcade game built with vanilla JS and a custom sprite engine." },
+  { slug: "apex-legends", title: "Apex Tracker", image: "/images/labs/apex-legends.png", summary: "Live stat tracking for Apex Legends — kill stats, rank history, and legend breakdown." },
+  { slug: "youtube-tool", title: "YouTube Tool", image: "/images/labs/youtube-tool.png", summary: "Download videos and pull transcripts locally. No paywall, no ads, no account." },
 ];
 
 export default function Labs() {
@@ -42,7 +43,7 @@ export default function Labs() {
         <div style={{ display: "flex", gap: 8, height: 340 }}>
 
           {/* Video column */}
-          <div style={{ flexShrink: 0, width: "26%", borderRadius: 14, overflow: "hidden", position: "relative" }}>
+          <div style={{ flex: 1, borderRadius: 14, overflow: "hidden", position: "relative" }}>
             <video
               autoPlay
               muted
@@ -70,7 +71,7 @@ export default function Labs() {
                 textDecoration: "none",
                 border: "1px solid #EBEBEB",
               }}
-              className="group hover:bg-[#F5F5F5] hover:border-[#D0D0D0] transition-all"
+              className="group hover:bg-[#F5F5F5] hover:border-[#D0D0D0] hover:-translate-y-[3px] hover:shadow-xl transition-all duration-200"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -80,18 +81,14 @@ export default function Labs() {
               />
               <div style={{ padding: "0.9rem 1rem", display: "flex", flexDirection: "column", justifyContent: "space-between", flex: 1 }}>
                 <div>
-                  <p style={{ fontSize: 10, color: "#AAA", fontWeight: 600, letterSpacing: "0.05em", margin: "0 0 6px" }}>
-                    {String(i + 1).padStart(2, "0")}
-                  </p>
-                  <p style={{ fontSize: 13, fontWeight: 700, color: "#1C1C1C", lineHeight: 1.3, margin: 0, fontFamily: "'Manrope', sans-serif" }}
+                  <p style={{ fontSize: 15, fontWeight: 700, color: "#1C1C1C", lineHeight: 1.3, margin: "0 0 5px", fontFamily: "'Manrope', sans-serif" }}
                     className="group-hover:text-[#444] transition-colors">
                     {project.title}
                   </p>
+                  <p style={{ fontSize: 12, color: "#888", lineHeight: 1.4, margin: 0 }}>
+                    {project.summary}
+                  </p>
                 </div>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#CCC" strokeWidth="2" className="group-hover:stroke-[#888] transition-colors" style={{ marginTop: 10 }}>
-                  <polyline points="7,17 17,7" />
-                  <polyline points="7,7 17,7 17,17" />
-                </svg>
               </div>
             </Link>
           ))}

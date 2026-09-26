@@ -17,7 +17,7 @@ export default function AboutPage() {
       <AboutHero />
 
       {/* ── Experience ────────────────────────────────────────────────────── */}
-      <section style={{ background: "#FFFFFF", padding: "0rem 0" }}>
+      <section style={{ background: "#FFFFFF", padding: "3rem 0" }}>
         <div className="max-w-5xl mx-auto px-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-2xl font-bold text-[#1C1C1C] tracking-tight">Experience</h2>

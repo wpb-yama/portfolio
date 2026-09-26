@@ -23,11 +23,10 @@ const projects = [
 ];
 
 const labs = [
-  { slug: "chicken-road",   title: "Chicken Road",    tag: "Games · Casino",  image: "/images/labs/chicken-road.png" },
-  { slug: "apex-legends",   title: "Apex Tracker",    tag: "Tools",           image: "/images/labs/apex-legends.png" },
-  { slug: "morphing-icons", title: "Morphing Icons",  tag: "AI · Craft",      image: "/images/labs/morphing-icons.png" },
-  { slug: "netflix-casino", title: "Netflix Casino",  tag: "Entertainment",   image: "/images/labs/netflix-casino.png" },
-  { slug: "splendor-rag",   title: "Boardgame RAG",   tag: "AI · Tools",      image: "/images/labs/splendor-rag.png" },
+  { slug: null,             title: "",                tag: "",                video: "/videos/dream.mp4" },
+  { slug: "chicken-road",   title: "Chicken Road",    tag: "Games · Casino",  image: "/images/labs/chicken-road.png",  summary: "A browser-based arcade game built with vanilla JS and a custom sprite engine." },
+  { slug: "apex-legends",   title: "Apex Tracker",    tag: "Tools",           image: "/images/labs/apex-legends.png",  summary: "Live stat tracking for Apex Legends — kill stats, rank history, and legend breakdown." },
+  { slug: "youtube-tool",   title: "YouTube Tool",    tag: "Tools",           image: "/images/labs/youtube-tool.png",  summary: "Download videos and pull transcripts locally. No paywall, no ads, no account." },
 ];
 
 function parseDate(dateStr: string): Date {
@@ -136,18 +135,36 @@ function ArticleCarouselCard({ article }: { article: (typeof recentArticles)[num
 
 // ── Section wrapper ───────────────────────────────────────────────────────────
 
-function CarouselSection({ title, href, children }: {
-  title: string; href: string; children: React.ReactNode;
+function CarouselSection({ title, subtitle, href, children }: {
+  title: string; subtitle?: string; href: string; children: React.ReactNode;
 }) {
   return (
     <div style={{ padding: "1.25rem 0 0.5rem" }}>
       {/* Header */}
-      <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", padding: "0 1.5rem", marginBottom: 14 }}>
-        <h2 style={{ fontFamily: "'Manrope', ui-sans-serif, system-ui, sans-serif", fontSize: 18, fontWeight: 700, color: "#1C1C1C", margin: 0, letterSpacing: "-0.02em" }}>
-          {title}
-        </h2>
-        <Link href={href} style={{ fontSize: 12, fontWeight: 500, color: "#888", textDecoration: "none" }}>
-          See all →
+      <div style={{ display: "flex", alignItems: subtitle ? "flex-start" : "baseline", justifyContent: "space-between", padding: "0 1.5rem", marginBottom: 14 }}>
+        <div>
+          <h2 style={{ fontFamily: "'Manrope', ui-sans-serif, system-ui, sans-serif", fontSize: 18, fontWeight: 700, color: "#1C1C1C", margin: 0, letterSpacing: "-0.02em" }}>
+            {title}
+          </h2>
+          {subtitle && (
+            <p style={{ fontSize: 12, color: "#888", margin: "2px 0 0" }}>{subtitle}</p>
+          )}
+        </div>
+        <Link
+          href={href}
+          style={{
+            fontSize: 12,
+            fontWeight: 500,
+            color: "#888",
+            border: "1px solid #EBEBEB",
+            borderRadius: 9999,
+            padding: "6px 14px",
+            textDecoration: "none",
+            flexShrink: 0,
+            marginLeft: 12,
+          }}
+        >
+          See All
         </Link>
       </div>
       {/* Scroll track */}
@@ -156,15 +173,16 @@ function CarouselSection({ title, href, children }: {
         gap: 10,
         overflowX: "auto",
         scrollSnapType: "x mandatory",
+        scrollPaddingLeft: "1.5rem",
         WebkitOverflowScrolling: "touch",
+        paddingLeft: "1.5rem",
+        paddingRight: "1.5rem",
         paddingBottom: 8,
         scrollbarWidth: "none",
       }}
         className="[&::-webkit-scrollbar]:hidden"
       >
-        <div style={{ flexShrink: 0, width: "1.5rem" }} />
         {children}
-        <div style={{ flexShrink: 0, width: "0.5rem" }} />
       </div>
     </div>
   );
@@ -175,19 +193,37 @@ function CarouselSection({ title, href, children }: {
 export default function HomeCarousel() {
   return (
     <div>
-      <CarouselSection title="Featured Projects" href="/projects">
+      <CarouselSection title="Featured Projects" subtitle="A selection of product work" href="/projects">
         {projects.map((p) => (
           <DarkCard key={p.slug} href={`/projects/${p.slug}`} image={p.image} tag={p.tag} title={p.title} award={p.award} />
         ))}
       </CarouselSection>
 
-      <CarouselSection title="Labs" href="/lab">
-        {labs.map((l) => (
-          <DarkCard key={l.slug} href={`/lab/${l.slug}`} image={l.image} tag={l.tag} title={l.title} />
-        ))}
+      <CarouselSection title="Labs" subtitle="Experiments, prototypes, and side projects" href="/lab">
+        {labs.map((l, i) =>
+          l.slug === null ? (
+            <div
+              key={i}
+              style={{
+                flexShrink: 0,
+                width: CARD_W,
+                height: CARD_H,
+                borderRadius: 14,
+                overflow: "hidden",
+                position: "relative",
+                scrollSnapAlign: "start",
+              }}
+            >
+              <video src={l.video} autoPlay loop muted playsInline
+                style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+            </div>
+          ) : (
+            <DarkCard key={l.slug} href={`/lab/${l.slug}`} image={l.image!} tag={l.tag} title={l.title} />
+          )
+        )}
       </CarouselSection>
 
-      <CarouselSection title="Articles" href="/articles">
+      <CarouselSection title="Articles" subtitle="Thoughts on product, technology, and building things" href="/articles">
         {recentArticles.map((a) => (
           <ArticleCarouselCard key={a.slug} article={a} />
         ))}

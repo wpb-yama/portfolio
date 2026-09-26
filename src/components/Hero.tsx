@@ -87,69 +87,56 @@ export default function Hero() {
               Will<br />Booth
             </h1>
 
-            {/* Right: tagline + CTA (desktop only) */}
+            {/* Right: tagline + CTA */}
             <div
-              className="hidden md:flex"
+              className="flex"
               style={{
                 flexDirection: "column",
                 alignItems: "flex-start",
-                gap: 18,
+                gap: 12,
                 maxWidth: 260,
                 flexShrink: 0,
               }}
             >
               <p
+                className="text-[11px] md:text-sm"
                 style={{
                   fontFamily: "'Manrope', ui-sans-serif, system-ui, sans-serif",
-                  fontSize: 14,
                   fontWeight: 400,
                   color: "rgba(255,255,255,0.78)",
-                  lineHeight: 1.9,
+                  lineHeight: 1.7,
                   margin: 0,
                 }}
               >
-                Senior Product Manager. Leading with AI. Building products people love.
+                Senior Product Manager.<br />Leading with AI. Building products people love.
               </p>
               <a
                 href="https://mail.google.com/mail/?view=cm&to=wpb665@gmail.com"
                 target="_blank"
                 rel="noopener noreferrer"
+                className="hover:opacity-80 text-[11px] md:text-[13px]"
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
-                  gap: 8,
+                  gap: 6,
                   fontFamily: "'Manrope', ui-sans-serif, system-ui, sans-serif",
-                  fontSize: 13,
                   fontWeight: 600,
                   color: "#1c1c1e",
                   background: "#f0ece3",
                   borderRadius: 9999,
-                  padding: "10px 20px",
+                  padding: "8px 14px",
                   textDecoration: "none",
                   letterSpacing: "-0.01em",
                   transition: "opacity 150ms",
+                  whiteSpace: "nowrap",
                 }}
-                className="hover:opacity-80"
               >
-                Get in touch <span style={{ fontSize: 15 }}>→</span>
+                Get in touch <span style={{ fontSize: 13 }}>→</span>
               </a>
             </div>
           </div>
         </div>
 
-        {/* Mobile tagline — outside the clipped box */}
-        <p
-          className="md:hidden"
-          style={{
-            fontFamily: "'Manrope', ui-sans-serif, system-ui, sans-serif",
-            fontSize: 13,
-            color: "#888",
-            lineHeight: 1.6,
-            margin: "10px 4px 0",
-          }}
-        >
-          Senior Product Manager. Leading with AI. Building products people love.
-        </p>
 
       </div>
     </section>

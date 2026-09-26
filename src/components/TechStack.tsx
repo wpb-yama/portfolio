@@ -4,7 +4,7 @@ const tools = [
   {
     label: "Claude AI",
     icon: "https://cdn.simpleicons.org/claude/000000",
-    description: "Spec drafting, discovery synthesis, and product decision support",
+    description: "Thinking partner for discovery, PRD drafting, and stakeholder comms",
   },
   {
     label: "Jira",
@@ -71,11 +71,11 @@ function ToolCard({ label, icon, description }: { label: string; icon: string; d
 
 export default function TechStack() {
   return (
-    <section className="py-4 bg-white">
+    <section className="py-12 bg-white">
       <div className="max-w-5xl mx-auto px-6">
         <div className="mb-6">
           <h2 className="text-2xl font-bold text-[#1C1C1C] tracking-tight mb-1">Tools</h2>
-          <p className="text-sm text-[#888888]">Tools I use daily to design, prototype, and ship.</p>
+          <p className="text-sm text-[#888888]">Tools I use daily to discover, prioritise, and deliver.</p>
         </div>
 
         <div
